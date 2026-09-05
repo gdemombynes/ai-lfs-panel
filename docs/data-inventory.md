@@ -7,7 +7,7 @@ using any new raw file.
 | Status | File(s) | Source | Retrieved | Licence / terms | Used for |
 |---|---|---|---|---|---|
 | HAVE | `bra/pnadc/2025Q1/PNADC_012025.zip` (212 MB) | IBGE FTP, PNAD Contínua trimestral, 2025 Q1 (Census-2022 weights vintage, posted 2025-08-15) | 2026-09-05 | Public, IBGE open data | Brazil harmonization, validation |
-| HAVE (in progress) | `bra/pnadc/{2022Q1..2026Q2}/PNADC_QQYYYY.zip` | same | 2026-09-05 | same | Brazil panel 2022Q1-2026Q2 |
+| HAVE | `bra/pnadc/{2022Q1..2026Q2}/PNADC_QQYYYY[_YYYYMMDD].zip` (18 files, 3.9 GB) | same; 2022-2024 files carry the 2025-08-15 release suffix, 2024Q2 re-issued 2026-03-24 | 2026-09-05 | same | Brazil panel 2022Q1-2026Q2, all quarters validated (90/90 checks) |
 | HAVE | `bra/pnadc/docs/*` (dictionary, SAS input, COD and CNAE structures, deflators) | IBGE FTP `Documentacao/` | 2026-09-05 | Public | Layout parsing, classification notes |
 | HAVE (resource) | `resources/crosswalks/isco08_structure.csv` | ILO, "ISCO-08 EN Structure and definitions.xlsx" | 2026-09-05 | ILO, free reuse with attribution | ISCO code validation |
 | HAVE (resource) | `resources/official/bra_headline.csv` | IBGE SIDRA API table 4092 | 2026-09-05 | Public | Validation |

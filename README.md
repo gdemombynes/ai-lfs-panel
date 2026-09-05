@@ -17,7 +17,7 @@ Companion inventory of where LFS microdata are published:
 
 | Country | Fetch | Read | Harmonize | Validated vs official |
 |---|---|---|---|---|
-| Brazil (PNAD Contínua) | open FTP | fixed-width via IBGE layout | yes | see `output/tables/validation_official_bra.csv` |
+| Brazil (PNAD Contínua) | open FTP | fixed-width via IBGE layout | 2022Q1-2026Q2, 18 quarters | 90/90 checks pass, max gap 0.005 pp (`output/tables/validation_official_bra.csv`) |
 | Mexico, Colombia, Argentina, Ecuador, Peru | planned | | | |
 | South Africa, India | planned | | | |
 
