@@ -29,3 +29,10 @@ data/raw/*
 data/processed/*
 data/external/*
 !data/*/.gitkeep
+
+# lfspanel
+!data/raw/manifest.csv
+data/processed/*.duckdb
+data/processed/*.duckdb.wal
+.env
+*.part

@@ -1,0 +1,37 @@
+# PNAD Contínua quarterly: raw variables retained by read.bra.read_raw
+Ano        # reference year
+Trimestre  # reference quarter
+UF         # state code
+UPA        # primary sampling unit (first two digits = UF)
+Estrato
+V1008      # dwelling selection number
+V1014      # panel (rotation group)
+V1016      # interview number within the panel (1-5)
+V1022      # 1 urban, 2 rural
+V1028      # calibrated quarterly person weight
+V2003      # person order number within household
+V2007      # sex: 1 male, 2 female
+V2009      # age in years
+V3009A     # highest course attended (for VD3004 cross-check)
+VD3004     # derived education level (7 levels)
+V4010      # occupation code, main job (COD, ISCO-08 based)
+V4012      # employment position category in main job
+V4013      # activity code, main job (CNAE-Domiciliar 2.0)
+V4018      # firm size band, main job
+V40181     # number of workers if band 1
+V40182     # if band 2
+V40183     # if band 3
+V4032      # contributes to social security in main job (1 yes, 2 no)
+V4039      # hours usually worked per week, main job
+V4040      # time in current main job (band)
+V40401     # months if band 2
+V40402     # years if band 3
+V40403     # years if band 4
+V403412    # monthly earnings usually received, main job, cash
+VD4001     # labor force condition (1 in LF, 2 not)
+VD4002     # occupation condition (1 employed, 2 unemployed)
+VD4003     # potential labor force (1 yes, 2 no)
+VD4004A    # time-related underemployment (1 yes)
+VD4008     # position in main job (5 groups)
+VD4009     # position and formality in main job (11 groups)
+VD4030     # reason not searching / not available

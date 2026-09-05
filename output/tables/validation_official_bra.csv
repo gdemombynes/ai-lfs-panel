@@ -1,0 +1,6 @@
+period,indicator,computed,official,diff,tolerance,status,source
+2025Q1,participation_rate,62.199,62.2,-0.001,0.06,PASS,https://apisidra.ibge.gov.br/values/t/4092/n1/all/v/all/p/202501/c629/all?formato=json
+2025Q1,unemployment_rate,7.001,7.0,0.001,0.06,PASS,https://apisidra.ibge.gov.br/values/t/4092/n1/all/v/all/p/202501/c629/all?formato=json
+2025Q1,employment_rate,57.844,57.84,0.004,0.06,PASS,https://apisidra.ibge.gov.br/values/t/4092/n1/all/v/all/p/202501/c629/all?formato=json
+2025Q1,population,173761222.002,173761000.0,222.002,868805.0,PASS,https://apisidra.ibge.gov.br/values/t/4092/n1/all/v/all/p/202501/c629/all?formato=json
+2025Q1,employed,100510786.435,100511000.0,-213.565,502555.0,PASS,https://apisidra.ibge.gov.br/values/t/4092/n1/all/v/all/p/202501/c629/all?formato=json
