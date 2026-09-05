@@ -69,3 +69,10 @@ def test_weight_and_geography(out):
     assert out["urban"].isin([0, 1]).all()
     assert out["subnatid1"].str.match(r"^\d{2} - ").all()
     assert out["male"].isin([0, 1]).all()
+
+
+def test_normalize_columns_handles_bom_and_renames():
+    from lfspanel.read.mex import normalize_columns
+
+    assert normalize_columns(["﻿r_def", "CVE_ENT ", "p3"]) == ["r_def", "ent", "p3"]
+    assert normalize_columns(["ï»¿cd_a"]) == ["cd_a"]

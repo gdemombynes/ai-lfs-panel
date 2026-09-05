@@ -1,4 +1,11 @@
-"""Read ENOE quarterly CSV tables (SDEM, COE1, COE2) and merge them per person."""
+"""Read ENOE quarterly CSV tables (SDEM, COE1, COE2) and merge them per person.
+
+Header quirks handled here: a UTF-8 byte-order mark on the first column in
+some 2022 files, the 2025 Q3 rename of geography codes (``ent`` -> ``cve_ent``),
+and questionnaire items that exist only in the first-quarter extended
+questionnaire (``p3j``, ``p3r``, ``p3r_anio``, ``p3r_mes``), which are added
+as blank columns in other quarters.
+"""
 
 from __future__ import annotations
 
@@ -16,6 +23,17 @@ from lfspanel.periods import Period
 # Person-level merge keys shared by SDEM, COE1 and COE2 (GLD MEX ENOE).
 KEYS = ["cd_a", "ent", "con", "v_sel", "tipo", "mes_cal", "n_hog", "h_mud", "n_ren"]
 TABLES = {"sdem": "*SDEM*.csv", "coe1": "*COE1*.csv", "coe2": "*COE2*.csv"}
+RENAMES = {"cve_ent": "ent", "cve_mun": "mun", "cve_loc": "loc", "cve_ageb": "ageb"}
+OPTIONAL = {"p3j", "p3r", "p3r_anio", "p3r_mes"}  # extended questionnaire (Q1) only
+
+
+def normalize_columns(cols: List[str]) -> List[str]:
+    """Lower-case, strip BOM and whitespace, apply known renames."""
+    out = []
+    for c in cols:
+        c = c.replace("﻿", "").replace("ï»¿", "").strip().lower()
+        out.append(RENAMES.get(c, c))
+    return out
 
 
 def _keep(table: str) -> List[str]:
@@ -40,23 +58,27 @@ def _read(
     z: zipfile.ZipFile, member: str, cols: List[str], nrows: Optional[int]
 ) -> pd.DataFrame:
     with z.open(member) as fh:
-        header = pd.read_csv(fh, nrows=0, encoding="latin-1").columns
-    header = [c.strip().lower() for c in header]
-    missing = [c for c in cols if c not in header]
+        raw_header = list(pd.read_csv(fh, nrows=0, encoding="latin-1").columns)
+    header = normalize_columns(raw_header)
+    wanted = {raw for raw, norm in zip(raw_header, header) if norm in set(cols)}
+    missing = [c for c in cols if c not in header and c not in OPTIONAL]
     if missing:
         raise KeyError(f"{member}: missing columns {missing}")
     with z.open(member) as fh:
         df = pd.read_csv(
             fh,
             dtype=str,
-            usecols=lambda c: c.strip().lower() in set(cols),
+            usecols=lambda c: c in wanted,
             keep_default_na=False,
             encoding="latin-1",
             nrows=nrows,
         )
-    df.columns = [c.strip().lower() for c in df.columns]
+    df.columns = normalize_columns(list(df.columns))
     for c in df.columns:
         df[c] = df[c].str.strip()
+    for c in cols:
+        if c not in df.columns:
+            df[c] = ""
     return df
 
 

@@ -37,8 +37,8 @@ Universe: complete interviews (`r_def == 0`) of usual residents
 | whours | hrsocup | hours worked in the reference week, NA if 0 |
 | contract | p3j in Q1 (extended questionnaire), p3i otherwise | written contract 1 yes 2 -> 0; only asked of subordinate workers |
 | socialsec | imssissste | 1 IMSS, 2 ISSSTE, 3 other -> 1; 4 none -> 0 (GLD leaves NA) |
-| tenure_months * | p3r, p3r_anio, p3r_mes | job started this year (1) / last year (2) with month, or earlier (3) with year; unknown month set to June |
-| tenure_lt12 * | same | 1 if under 12 months; 0 for p3r = 3 |
+| tenure_months * | p3r, p3r_anio, p3r_mes | **first quarters only** (extended questionnaire): job started this year (1) / last year (2) with month, or earlier (3) with year; unknown month set to June; NA in Q2-Q4 |
+| tenure_lt12 * | same | 1 if under 12 months; 0 for p3r = 3; NA outside Q1, so the hiring proxy for Mexico is annual |
 | firmsize | | not filled yet (p3g_tot bands available) |
 
 Validation: INEGI quarterly bulletin (population 15+): 2025 Q1 participation
@@ -47,4 +47,8 @@ Validation: INEGI quarterly bulletin (population 15+): 2025 Q1 participation
 
 Known limits: INEGI's SINCO-ISCO correspondence is coarse; use
 `occup_isco_digits` before pooling with 4-digit countries. Firm size not yet
-harmonized.
+harmonized. Tenure exists only in first quarters. From 2025 Q3 the geography
+codes are named `cve_ent`, `cve_mun`, `cve_loc`, `cve_ageb` (reader renames
+them); some 2022 files carry a UTF-8 byte-order mark on the first column.
+Quarterly bulletins for 2022 Q1 to 2023 Q3 and 2024 Q2 to Q3 have not been
+located, so those quarters are validated only through the GLD comparison.
