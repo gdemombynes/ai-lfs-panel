@@ -1,8 +1,16 @@
-"""Read GEIH monthly CSV modules and stack the three months of a quarter."""
+"""Read GEIH monthly modules and stack the three months of a quarter.
+
+DANE's monthly archives vary: comma- or semicolon-separated CSVs, a ``CSV``
+(or ``CVS``) folder either at the top level, under a month folder, or zipped
+inside the archive as ``CSV.zip``; non-breaking spaces in file names; and,
+from December 2025, months that ship only Stata (``DTA``) and SPSS files. The
+reader prefers CSV and falls back to the Stata files.
+"""
 
 from __future__ import annotations
 
 import io
+import tempfile
 import zipfile
 from importlib.resources import files
 from pathlib import Path
@@ -14,15 +22,14 @@ from lfspanel.fetch.col import find_zip
 from lfspanel.periods import Period
 
 KEYS = ["DIRECTORIO", "SECUENCIA_P", "ORDEN"]
-# module -> CSV file-name prefix inside the zip. Archives nest the CSV folder at
-# different depths by year and mangle accents, so members are matched by
-# basename prefix inside any ".../CSV/" folder, case-insensitively.
+# module -> file-name prefix (matched on the basename, case-insensitively)
 MODULES = {
     "cg": "Caracter",
     "ft": "Fuerza de trabajo",
-    "oc": "Ocupado",  # 'Ocupados.CSV'; never matches 'No ocupado(s)'
-    "no": "No ocupado",  # 'No ocupados.CSV' or 'No ocupado.CSV' (2024M03)
+    "oc": "Ocupado",  # 'Ocupados'; never matches 'No ocupado(s)'
+    "no": "No ocupado",  # 'No ocupados' or 'No ocupado' (2024M03)
 }
+FORMATS = (".CSV", ".DTA")
 
 
 def _keep(module: str) -> List[str]:
@@ -36,17 +43,43 @@ def _keep(module: str) -> List[str]:
     ]
 
 
-def _member(z: zipfile.ZipFile, prefix: str) -> str:
-    """CSV member whose basename starts with ``prefix`` (any folder, any case).
+def _basename(name: str) -> str:
+    return name.replace("\\", "/").split("/")[-1].replace("\xa0", " ").strip()
 
-    Folder names vary (``CSV``, ``CVS``, nested month folders), so only the
-    basename and the ``.csv`` extension are matched.
-    """
+
+def _find(z: zipfile.ZipFile, prefix: str, ext: str) -> Optional[str]:
     for name in z.namelist():
-        base = name.replace("\\", "/").split("/")[-1]
-        if base.upper().startswith(prefix.upper()) and base.upper().endswith(".CSV"):
+        base = _basename(name).upper()
+        if base.startswith(prefix.upper()) and base.endswith(ext):
             return name
-    raise FileNotFoundError(f"No CSV member starting with {prefix!r} in {z.filename}")
+    return None
+
+
+def _member(z: zipfile.ZipFile, prefix: str, ext: str = ".CSV") -> str:
+    name = _find(z, prefix, ext)
+    if name is None:
+        raise FileNotFoundError(
+            f"No {ext} member starting with {prefix!r} in {z.filename}"
+        )
+    return name
+
+
+def _module_archive(outer: zipfile.ZipFile) -> tuple:
+    """(archive, extension) holding the modules; CSV preferred, then Stata.
+
+    Looks in the archive itself, then in nested ``CSV.zip`` / ``DTA.zip``.
+    """
+    for ext in FORMATS:
+        if _find(outer, MODULES["cg"], ext):
+            return outer, ext
+    for ext in FORMATS:
+        for name in outer.namelist():
+            base = _basename(name).lower()
+            if base.endswith(".zip") and ext.lower().strip(".") in base:
+                inner = zipfile.ZipFile(io.BytesIO(outer.read(name)))
+                if _find(inner, MODULES["cg"], ext):
+                    return inner, ext
+    raise FileNotFoundError(f"No CSV or DTA modules in {outer.filename}")
 
 
 def _separator(z: zipfile.ZipFile, member: str) -> str:
@@ -56,7 +89,7 @@ def _separator(z: zipfile.ZipFile, member: str) -> str:
     return ";" if header.count(";") >= header.count(",") else ","
 
 
-def _read(
+def _read_csv(
     z: zipfile.ZipFile, member: str, cols: List[str], nrows: Optional[int]
 ) -> pd.DataFrame:
     sep = _separator(z, member)
@@ -71,27 +104,55 @@ def _read(
             nrows=nrows,
         )
     df.columns = [c.strip().upper() for c in df.columns]
+    return df
+
+
+def _read_dta(
+    z: zipfile.ZipFile, member: str, cols: List[str], nrows: Optional[int]
+) -> pd.DataFrame:
+    """Stata module as strings, integers rendered without a decimal part."""
+    import pyreadstat
+
+    with tempfile.NamedTemporaryFile(suffix=".dta", delete=True) as tmp:
+        with z.open(member) as src:
+            for block in iter(lambda: src.read(1 << 22), b""):
+                tmp.write(block)
+        tmp.flush()
+        _, meta = pyreadstat.read_dta(tmp.name, metadataonly=True)
+        actual = {c.upper(): c for c in meta.column_names}
+        usecols = [actual[c] for c in cols if c in actual]
+        df, _ = pyreadstat.read_dta(
+            tmp.name,
+            usecols=usecols,
+            row_limit=nrows or 0,
+            disable_datetime_conversion=True,
+        )
+    df.columns = [c.upper() for c in df.columns]
+    for c in df.columns:
+        s = df[c]
+        if pd.api.types.is_numeric_dtype(s):
+            whole = s.dropna().astype(float)
+            if len(whole) and (whole == whole.round()).all():
+                df[c] = s.map(lambda v: "" if pd.isna(v) else str(int(v)))
+            else:
+                df[c] = s.map(lambda v: "" if pd.isna(v) else repr(float(v)))
+        else:
+            df[c] = s.fillna("").astype(str).str.strip()
+    return df
+
+
+def _read(
+    z: zipfile.ZipFile, member: str, cols: List[str], nrows: Optional[int], ext: str
+) -> pd.DataFrame:
+    df = (
+        _read_csv(z, member, cols, nrows)
+        if ext == ".CSV"
+        else _read_dta(z, member, cols, nrows)
+    )
     missing = [c for c in cols if c not in df.columns]
     if missing:
         raise KeyError(f"{member}: missing columns {missing}")
     return df
-
-
-def _csv_archive(outer: zipfile.ZipFile) -> zipfile.ZipFile:
-    """The archive holding the CSV modules: ``outer`` itself or a nested CSV.zip.
-
-    Several 2022 monthly archives wrap the CSV folder in an inner ``CSV.zip``.
-    """
-    try:
-        _member(outer, MODULES["cg"])
-        return outer
-    except FileNotFoundError:
-        pass
-    for name in outer.namelist():
-        base = Path(name).name.lower()
-        if base.endswith(".zip") and "csv" in base:
-            return zipfile.ZipFile(io.BytesIO(outer.read(name)))
-    raise FileNotFoundError(f"No CSV modules (direct or nested) in {outer.filename}")
 
 
 def read_month(
@@ -99,18 +160,18 @@ def read_month(
 ) -> pd.DataFrame:
     src = path or find_zip(month)
     with zipfile.ZipFile(src) as outer:
-        z = _csv_archive(outer)
-        cg = _read(z, _member(z, MODULES["cg"]), _keep("cg"), nrows)
-        ft = _read(z, _member(z, MODULES["ft"]), _keep("ft"), None)
-        oc = _read(z, _member(z, MODULES["oc"]), _keep("oc"), None)
-        no = _read(z, _member(z, MODULES["no"]), _keep("no"), None)
+        z, ext = _module_archive(outer)
+        cg = _read(z, _member(z, MODULES["cg"], ext), _keep("cg"), nrows, ext)
+        ft = _read(z, _member(z, MODULES["ft"], ext), _keep("ft"), None, ext)
+        oc = _read(z, _member(z, MODULES["oc"], ext), _keep("oc"), None, ext)
+        no = _read(z, _member(z, MODULES["no"], ext), _keep("no"), None, ext)
     for name, t in (("ft", ft), ("oc", oc), ("no", no)):
         if t.duplicated(KEYS).any():
             raise ValueError(f"{name}: duplicate person keys in {src.name}")
     df = cg.merge(ft, on=KEYS, how="left", validate="1:1")
     df = df.merge(oc, on=KEYS, how="left", validate="1:1")
     df = df.merge(no, on=KEYS, how="left", validate="1:1", suffixes=("", "_no"))
-    df["source_file"] = src.name
+    df["source_file"] = f"{src.name}:{ext.lower()}"
     return df
 
 

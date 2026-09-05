@@ -38,3 +38,14 @@ Validation: DANE "anexo GEIH" workbook, sheet "Total nacional Trim"
 (months). January 2025 harmonized: participation 64.12, unemployment 11.64,
 employment 56.66, PET 40,424,866, employed 22,902,835, identical to DANE's
 published month.
+
+
+Archive layouts seen (all handled by `read/col.py`): comma-separated CSVs
+(Jan-Apr 2022), semicolon CSVs, `CSV`/`CVS` folders at the top level or under
+a month folder, CSV modules zipped inside the archive (`CSV.zip`),
+non-breaking spaces in file names (2026), a singular `No ocupado.CSV`
+(Mar 2024), and months with only Stata and SPSS files (some late-2025 and
+2026 months), read from the `.DTA` files.
+
+Full-panel validation: 18 quarters, 90 of 90 checks pass; participation,
+unemployment and employment rates match the anexo to three decimals.

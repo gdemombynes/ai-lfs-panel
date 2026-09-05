@@ -19,7 +19,7 @@ Companion inventory of where LFS microdata are published:
 |---|---|---|---|---|
 | Brazil (PNAD Contínua) | open FTP | fixed-width via IBGE layout | 2022Q1-2026Q2, 18 quarters | 90/90 checks pass, max gap 0.005 pp (`output/tables/validation_official_bra.csv`) |
 | Mexico (ENOE) | INEGI zips, name resolver | SDEM+COE1+COE2 CSV merge | 2022Q1-2026Q2, 18 quarters | 18/18 checks pass on the 9 quarters with located bulletins, max gap 0.05 pp (`output/tables/validation_official_mex.csv`) |
-| Colombia (GEIH) | DANE catalogue, monthly zips | 4 CSV modules, 3 months stacked | 2022Q1-2026Q2 | DANE anexo, exact on Jan 2025 |
+| Colombia (GEIH) | DANE catalogue, monthly zips | 4 modules (CSV, Stata fallback), 3 months stacked | 2022Q1-2026Q2, 18 quarters | 90/90 checks pass, rates identical to DANE's anexo to 3 decimals (`output/tables/validation_official_col.csv`) |
 | Argentina, Ecuador, Peru | planned | | | |
 | South Africa, India | planned | | | |
 
