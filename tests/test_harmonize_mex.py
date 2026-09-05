@@ -76,3 +76,15 @@ def test_normalize_columns_handles_bom_and_renames():
 
     assert normalize_columns(["﻿r_def", "CVE_ENT ", "p3"]) == ["r_def", "ent", "p3"]
     assert normalize_columns(["ï»¿cd_a"]) == ["cd_a"]
+
+
+def test_tenure_missing_outside_first_quarter(raw):
+    """Q2-Q4 files lack p3r; tenure must be NA, never 0."""
+    q2 = raw.copy()
+    for col in ("p3r", "p3r_anio", "p3r_mes", "p3j"):
+        q2[col] = ""
+    out = harmonize(q2, Period("2025Q2"))
+    emp = out[out["lstatus"] == 1]
+    assert emp["tenure_lt12"].isna().all()
+    assert emp["tenure_months"].isna().all()
+    assert emp.loc[emp["empstat"] == 1, "contract"].notna().mean() > 0.9

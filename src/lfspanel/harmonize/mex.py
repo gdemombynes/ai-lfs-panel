@@ -88,7 +88,9 @@ def _tenure(raw: pd.DataFrame, period: Period, int_month: pd.Series) -> tuple:
     lt12 = lt12.mask(months.notna() & (months < 12), 1).mask(
         months.notna() & (months >= 12), 0
     )
-    lt12 = lt12.mask(p3r == 3, 0)  # started before last year: at least a year ago
+    # started before last year: at least a year ago. The comparison is NA
+    # outside first quarters (question not asked); NA must stay NA, not 0.
+    lt12 = lt12.mask((p3r == 3).fillna(False), 0)
     return months, lt12.astype("Int8")
 
 
