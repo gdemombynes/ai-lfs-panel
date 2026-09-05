@@ -30,6 +30,9 @@ python scripts/10_harmonize.py --country bra --periods 2025Q1:2025Q4
 python scripts/11_build_duckdb.py
 python scripts/03_fetch_official.py --country bra --periods 2022Q1:2026Q2
 python scripts/20_validate_official.py --country bra
+python scripts/04_fetch_external.py                 # ILO exposure scores
+python scripts/30_attach_exposure.py && python scripts/40_build_cells.py
+python scripts/41_event_study.py --outcome log_emp && python scripts/42_figures.py
 ```
 
 ## Conventions

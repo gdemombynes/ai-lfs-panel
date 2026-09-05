@@ -23,7 +23,16 @@ Companion inventory of where LFS microdata are published:
 | Argentina (EPH) | INDEC zips, release check | usu_individual text file | 2022Q1-2026Q1, 17 quarters (urban) | 85/85 checks pass, max gap 0.005 pp on the all-ages base INDEC uses (`output/tables/validation_official_arg.csv`) |
 | Ecuador (ENEMDU) | INEC zips, folder-name variants | person .sav | 2022Q1-2026Q1, 17 quarters | 85/85 checks pass, rates identical to INEC's tabulados to 3 decimals (`output/tables/validation_official_ecu.csv`) |
 | Peru (EPEN) | INEI zips by survey code | national .dta | 2022Q1-2026Q2, 18 quarters | 90/90 checks pass, max gap 0.001 pp vs INEI's quarterly reports (`output/tables/validation_official_per.csv`) |
-| South Africa, India | planned | | | |
+| South Africa, India | blocked on DataFirst login / MoSPI API key | | | |
+
+## Analysis (milestone 4, first pass)
+
+`scripts/30_attach_exposure.py` builds ISCO-08 exposure from the ILO 2025
+GenAI task scores, `40_build_cells.py` aggregates the employed view into
+country x quarter x occupation x age x sex cells, `41_event_study.py`
+estimates event-study and difference-in-differences effects of high exposure
+(cell and country x age x sex x quarter fixed effects), and `42_figures.py`
+draws them. Results and caveats: `docs/findings.md`.
 
 ## Layout
 

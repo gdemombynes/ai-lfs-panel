@@ -11,7 +11,7 @@ using any new raw file.
 | HAVE | `bra/pnadc/docs/*` (dictionary, SAS input, COD and CNAE structures, deflators) | IBGE FTP `Documentacao/` | 2026-09-05 | Public | Layout parsing, classification notes |
 | HAVE (resource) | `resources/crosswalks/isco08_structure.csv` | ILO, "ISCO-08 EN Structure and definitions.xlsx" | 2026-09-05 | ILO, free reuse with attribution | ISCO code validation |
 | HAVE (resource) | `resources/official/bra_headline.csv` | IBGE SIDRA API table 4092 | 2026-09-05 | Public | Validation |
-| NEED | ILO GenAI exposure scores (`Final_Scores_ISCO08_Gmyrek_et_al_2025.xlsx`) | github.com/pgmyrek/2025_GenAI_scores_ISCO08 | | ILO WP140, cite Gmyrek et al. 2025 | Exposure layer (M4) |
+| HAVE | `external/exposure/Final_Scores_ISCO08_Gmyrek_et_al_2025.xlsx`, `4digits_with_tasks.xlsx` (task-level scores and ILO exposure categories, 427 unit groups) | github.com/pgmyrek/2025_GenAI_scores_ISCO08 | 2026-09-05 | ILO WP 140, cite Gmyrek et al. 2025 | Exposure layer (`lfspanel.exposure`) |
 | HAVE | `mex/enoe/{2022Q1..2026Q2}/enoe[_n]_YYYY_trimN_csv.zip` (18 files, 0.7 GB) | INEGI ENOE microdatos; `_n_` naming through 2022, members ENOEN_/ENOE_ | 2026-09-05 | Open (INEGI open data) | Mexico panel |
 | HAVE | `mex/enoe/docs/bulletins/*.pdf` | INEGI quarterly ENOE press bulletins (2023Q4 onward located) | 2026-09-05 | Public | Mexico validation |
 | HAVE (resource) | `resources/crosswalks/sinco2019_to_isco08.csv`, `scian2018_to_isic4.csv` | World Bank GLD MEX ENOE utilities (converted from .dta) | 2026-09-05 | MIT (GLD) | Mexico occupation and industry |
