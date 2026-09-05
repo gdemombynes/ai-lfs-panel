@@ -118,8 +118,8 @@ COUNTRIES = {
     ),
     "per": Country(
         ccc="PER",
-        survey="enaho",
-        survey_name="ENAHO trimestral, módulo 500",
+        survey="epen",
+        survey_name="EPEN nacional trimestral, módulo 76",
         agency="INEI",
         freq="Q",
         minlaborage=14,

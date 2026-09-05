@@ -3,6 +3,9 @@
     python scripts/90_make_fixtures.py --country bra --period 2025Q1 --n 60
     python scripts/90_make_fixtures.py --country mex --period 2025Q1 --n 400
     python scripts/90_make_fixtures.py --country col --period 2025M01 --n 500
+    python scripts/90_make_fixtures.py --country arg --period 2025Q1 --n 400
+    python scripts/90_make_fixtures.py --country ecu --period 2025Q1 --n 400
+    python scripts/90_make_fixtures.py --country per --period 2025Q1 --n 400
 
 Fixtures are random samples of public microdata rows in the original file
 layout, so reader and harmonizer tests exercise the real formats.
@@ -116,7 +119,88 @@ def make_col(month: Period, n: int, seed: int = 11) -> Path:
     return out
 
 
-BUILDERS = {"bra": make_bra, "mex": make_mex, "col": make_col}
+def make_arg(period: Period, n: int, seed: int = 11) -> Path:
+    """Sample whole households from the EPH usu_individual text file."""
+    from lfspanel.fetch.arg import find_zip
+
+    src = zipfile.ZipFile(find_zip(period))
+    member = next(m for m in src.namelist() if "individual" in m.lower())
+    t = pd.read_csv(
+        src.open(member), sep=";", dtype=str, keep_default_na=False, encoding="latin-1"
+    )
+    hh = t["CODUSU"].drop_duplicates().sample(frac=1, random_state=seed)
+    keep = set(hh.head(max(1, n // 3)))
+    sample = t[t["CODUSU"].isin(keep)].head(n)
+    out = FIXTURES / "arg" / f"EPH_usu_{period.quarter}_Trim_{period.year}_txt.zip"
+    out.parent.mkdir(parents=True, exist_ok=True)
+    with zipfile.ZipFile(out, "w", zipfile.ZIP_DEFLATED) as z:
+        z.writestr(
+            f"usu_individual_T{period.quarter}{str(period.year)[2:]}.txt",
+            sample.to_csv(index=False, sep=";", lineterminator="\n").encode("latin-1"),
+        )
+    return out
+
+
+def _sample_stata_like(
+    src_zip: Path, member: str, reader, writer, n: int, seed: int, suffix: str
+) -> bytes:
+    """Read a .sav/.dta member, sample n rows, write back in the same format."""
+    import tempfile
+
+    with zipfile.ZipFile(src_zip) as z, tempfile.TemporaryDirectory() as tmp:
+        path = Path(tmp) / f"in{suffix}"
+        path.write_bytes(z.read(member))
+        df, meta = reader(str(path))
+        sample = df.sample(min(n, len(df)), random_state=seed)
+        out = Path(tmp) / f"out{suffix}"
+        writer(sample, str(out), variable_value_labels=meta.variable_value_labels)
+        return out.read_bytes()
+
+
+def make_ecu(period: Period, n: int, seed: int = 11) -> Path:
+    import pyreadstat
+
+    from lfspanel.fetch.ecu import find_zip
+
+    src = find_zip(period)
+    with zipfile.ZipFile(src) as z:
+        member = next(
+            m
+            for m in z.namelist()
+            if "persona" in m.lower() and m.lower().endswith(".sav")
+        )
+    data = _sample_stata_like(
+        src, member, pyreadstat.read_sav, pyreadstat.write_sav, n, seed, ".sav"
+    )
+    out = FIXTURES / "ecu" / src.name
+    out.parent.mkdir(parents=True, exist_ok=True)
+    with zipfile.ZipFile(out, "w", zipfile.ZIP_DEFLATED) as z:
+        z.writestr(f"enemdu_persona_{period.year}_{period.roman}_sample.sav", data)
+    return out
+
+
+def make_per(period: Period, n: int, seed: int = 11) -> Path:
+    import pyreadstat
+
+    from lfspanel.fetch.per import find_zip
+
+    src = find_zip(period)
+    with zipfile.ZipFile(src) as z:
+        member = next(m for m in z.namelist() if m.lower().endswith(".dta"))
+    data = _sample_stata_like(
+        src, member, pyreadstat.read_dta, pyreadstat.write_dta, n, seed, ".dta"
+    )
+    out = FIXTURES / "per" / src.name
+    out.parent.mkdir(parents=True, exist_ok=True)
+    with zipfile.ZipFile(out, "w", zipfile.ZIP_DEFLATED) as z:
+        z.writestr("Nacional EPEN Trim. sample.dta", data)
+    return out
+
+
+BUILDERS = {
+    "bra": make_bra, "mex": make_mex, "col": make_col,
+    "arg": make_arg, "ecu": make_ecu, "per": make_per,
+}  # fmt: skip
 
 
 def main() -> None:

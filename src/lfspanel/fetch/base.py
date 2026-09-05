@@ -106,15 +106,31 @@ def fetch_text(
 
 
 def url_exists(
-    url: str, session: Optional[requests.Session] = None, timeout: int = 60
+    url: str,
+    session: Optional[requests.Session] = None,
+    timeout: int = 60,
+    require_zip: bool = False,
 ) -> bool:
-    """HEAD a URL (curl fallback); True on HTTP 200."""
+    """HEAD a URL (curl fallback); True on HTTP 200.
+
+    With ``require_zip`` the first bytes are fetched and must be a zip
+    signature, for servers that answer 200 with an HTML page for missing files.
+    """
     s = session or make_session()
     try:
-        return s.head(url, allow_redirects=True, timeout=timeout).status_code == 200
+        ok = s.head(url, allow_redirects=True, timeout=timeout).status_code == 200
+        if not ok or not require_zip:
+            return ok
+        with s.get(url, stream=True, timeout=timeout) as r:
+            return r.status_code == 200 and next(r.iter_content(4), b"")[:2] == b"PK"
     except requests.exceptions.SSLError:
         proc = _curl(["-I", "-o", "/dev/null", "-w", "%{http_code}", url], timeout)
-        return proc.returncode == 0 and proc.stdout.decode().strip() == "200"
+        if proc.returncode != 0 or proc.stdout.decode().strip() != "200":
+            return False
+        if not require_zip:
+            return True
+        proc = _curl(["-r", "0-3", url], timeout)
+        return proc.returncode == 0 and proc.stdout[:2] == b"PK"
 
 
 def check_remote(url: str, session: Optional[requests.Session] = None) -> dict:

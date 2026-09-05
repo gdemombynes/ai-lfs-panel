@@ -20,7 +20,9 @@ Companion inventory of where LFS microdata are published:
 | Brazil (PNAD Contínua) | open FTP | fixed-width via IBGE layout | 2022Q1-2026Q2, 18 quarters | 90/90 checks pass, max gap 0.005 pp (`output/tables/validation_official_bra.csv`) |
 | Mexico (ENOE) | INEGI zips, name resolver | SDEM+COE1+COE2 CSV merge | 2022Q1-2026Q2, 18 quarters | 18/18 checks pass on the 9 quarters with located bulletins, max gap 0.05 pp (`output/tables/validation_official_mex.csv`) |
 | Colombia (GEIH) | DANE catalogue, monthly zips | 4 modules (CSV, Stata fallback), 3 months stacked | 2022Q1-2026Q2, 18 quarters | 90/90 checks pass, rates identical to DANE's anexo to 3 decimals (`output/tables/validation_official_col.csv`) |
-| Argentina, Ecuador, Peru | planned | | | |
+| Argentina (EPH) | INDEC zips, release check | usu_individual text file | 2022Q1-2026Q1, 17 quarters (urban) | 85/85 checks pass, max gap 0.005 pp on the all-ages base INDEC uses (`output/tables/validation_official_arg.csv`) |
+| Ecuador (ENEMDU) | INEC zips, folder-name variants | person .sav | 2022Q1-2026Q1, 17 quarters | 85/85 checks pass, rates identical to INEC's tabulados to 3 decimals (`output/tables/validation_official_ecu.csv`) |
+| Peru (EPEN) | INEI zips by survey code | national .dta | 2022Q1-2026Q2, 18 quarters | 90/90 checks pass, max gap 0.001 pp vs INEI's quarterly reports (`output/tables/validation_official_per.csv`) |
 | South Africa, India | planned | | | |
 
 ## Layout

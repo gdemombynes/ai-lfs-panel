@@ -1,0 +1,31 @@
+# EPEN national quarterly person file (Stata, module 76): raw variables retained
+ANIO
+MES
+CONGLOMERADO   # primary sampling unit
+SELVIV         # dwelling selection number
+HOGAR          # household number
+C201           # person number
+LLAVE_PANEL    # panel key
+ESTRATO        # size stratum of the PSU
+CODciudad      # code of the main city (blank outside the 27 cities)
+NOMCIUDAD      # name of the main city
+AREA           # 1 urban, 2 rural
+C207           # sex: 1 male, 2 female
+C208           # age in years
+C308_COD       # main occupation, CNO 2015 (ISCO-08 based, 4 digits)
+C309_COD       # main activity, CIIU Rev.4 (4 digits)
+C310           # status in employment
+C311           # employer type: 1 armed forces/police, 2 public admin, 3 public firm, 4-6 private
+C317           # workplace size band
+C317A          # workplace size, exact (band 1 only)
+C318_T         # hours worked last week, main job
+C353           # activity last week (not employed)
+C366           # highest level of education completed
+OCUP300        # 1 employed, 2 open unemployment, 3 hidden unemployment, 4 inactive
+C364_1         # affiliated to a private pension fund (SPP): 1 yes, 2 no
+C364_2         # affiliated to the national pension system (SNP, DL 19990)
+C364_3         # affiliated to the national pension system (DL 20530)
+P209H          # wanted and was available to work more hours: 1 yes, 2 no
+RESIDENT       # habitual resident: 1 yes
+FAC_T300       # quarterly employment weight (persons 14+ in the labour module)
+INGTOTP        # monthly income, main job (imputed, soles)

@@ -38,7 +38,9 @@ def main() -> None:
             print(f"{period}: no partition at {path}")
             continue
         df = read_partition(path)
-        results.append(compare_official(headline_rates(df), official, period))
+        pop = str(official.loc[official["period"] == period, "population"].iloc[0])
+        min_age = 0 if pop.strip().lower() == "all" else None
+        results.append(compare_official(headline_rates(df, min_age), official, period))
     if not results:
         return
     out = pd.concat(results, ignore_index=True)

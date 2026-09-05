@@ -17,9 +17,13 @@ using any new raw file.
 | HAVE (resource) | `resources/crosswalks/sinco2019_to_isco08.csv`, `scian2018_to_isic4.csv` | World Bank GLD MEX ENOE utilities (converted from .dta) | 2026-09-05 | MIT (GLD) | Mexico occupation and industry |
 | HAVE | `col/geih/{2022M01..2026M06}/*.zip` (54 files, 3.7 GB, CSV+DTA+SAV; three archive layouts) | DANE microdata catalogue entries 771/782/819/853/900, download/<resource> | 2026-09-05 | Open (DANE) | Colombia panel |
 | HAVE | `col/geih/docs/anex-GEIH-<mmm><yyyy>.xlsx` | DANE anexo GEIH, national monthly and quarterly series | 2026-09-05 | Public | Colombia validation |
-| NEED | Argentina EPH quarterly zips | INDEC | | Open | M2 |
-| NEED | Ecuador ENEMDU quarterly SPSS zips | INEC | | Open | M2 |
-| NEED | Peru ENAHO quarterly module 500 (+02, 03) | INEI | | Open | M2 |
+| HAVE | `arg/eph/{2022Q1..2026Q1}/EPH_usu_{q}_Trim_{yyyy}_txt.zip` (17 files, 54 MB) | INDEC `ftp/cuadros/menusuperior/eph/`; 2026Q2 not yet released | 2026-09-05 | Open (INDEC) | Argentina panel |
+| HAVE (resource) | `resources/official/arg_headline.csv` | datos.gob.ar series API (INDEC EPH series 49.2_TAEP_0_0_37/25, 49.2_TAEO_0_0_30) | 2026-09-05 | Public | Argentina validation |
+| HAVE (resource) | `resources/crosswalks/cno2017_to_isco08_2d.csv` | occupationcross (`data-raw/cross/cno17-isco08.xlsx`), CNO 2017 to ISCO-08 2 digits | 2026-09-05 | Open source | Argentina occupations |
+| HAVE | `ecu/enemdu/{2022Q1..2026Q1}/1_BDD_ENEMDU_{yyyy}_{roman}_TRIMESTRE_SPSS.zip` (17 files, 125 MB) | INEC `documentos/web-inec/EMPLEO/{yyyy}/<quarter folder>/`; 2026Q2 not yet published | 2026-09-05 | Open (INEC) | Ecuador panel |
+| HAVE | `ecu/enemdu/docs/{yyyy}_{roman}_trimestre_Tabulados_Mercado_Laboral.xlsx` | INEC tabulados, newest quarter (all quarters since 2007 in one sheet) | 2026-09-05 | Public | Ecuador validation |
+| HAVE | `per/epen/{2022Q1..2026Q2}/{code}-Modulo76.zip` (18 files, 130 MB) | INEI srienaho, EPEN "Nacional-Trim" module 76; survey codes in `fetch/per.py` | 2026-09-05 | Open (INEI) | Peru panel |
+| HAVE | `per/epen/docs/informe_{period}.pdf` (2023Q1-2026Q2) | INEI quarterly reports via gob.pe publication pages (CDN links resolved at run time) | 2026-09-05 | Public | Peru validation (each report also covers the year-earlier quarter) |
 | MANUAL | South Africa QLFS quarterly Stata files | DataFirst (account + access form) | | CC-BY, cite Stats SA and DataFirst | M3 |
 | NEED | India PLFS quarterly unit-level files | MoSPI microdata API (key in `.env`) | | MoSPI terms | M3 |
 | MANUAL | GLD harmonized `.dta` for BRA, MEX, COL, ZAF, IND | World Bank GLD server / datalibweb (staff access) | | World Bank internal; do not redistribute | Backfill 2018-2021, validation |

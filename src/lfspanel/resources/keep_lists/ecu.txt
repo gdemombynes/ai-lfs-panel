@@ -1,0 +1,25 @@
+# ENEMDU quarterly person file (SPSS): raw variables retained
+area        # 1 urban, 2 rural
+ciudad      # locality code; first two digits = province
+id_vivienda
+id_hogar
+id_persona
+panelm      # rotation panel
+mes         # calendar month of interview
+p02         # sex: 1 male, 2 female
+p03         # age
+p10a        # highest level attended
+p10b        # highest grade approved within that level
+p20         # worked last week
+p24         # hours worked last week
+p40         # industry, CIIU Rev.4 (4 digits, leading zero dropped)
+p41         # occupation, CIUO-08 (4 digits, leading zero dropped)
+p42         # category of employment
+p43         # type of contract (employees)
+p45         # years in the current job
+p47a        # establishment size band (1 under 100, 2 100+)
+p47b        # persons in the establishment when under 100
+p05a        # social security affiliation
+p66         # monthly income of employees
+condact     # INEC activity condition 0-9
+fexp        # expansion factor

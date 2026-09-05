@@ -1,0 +1,25 @@
+# EPH continua, usuarios individual file: raw variables retained
+CODUSU      # household/dwelling key (panel id)
+NRO_HOGAR
+COMPONENTE  # person number
+ANO4
+TRIMESTRE
+REGION      # 1 GBA, 40 NOA, 41 NEA, 42 Cuyo, 43 Pampeana, 44 Patagonia
+AGLOMERADO
+PONDERA     # person weight
+CH04        # sex: 1 male, 2 female
+CH06        # age (-1 under 1 year)
+NIVEL_ED    # education level 1-7, 9 unknown
+ESTADO      # 1 employed, 2 unemployed, 3 inactive, 4 under 10
+CAT_OCUP    # 1 employer, 2 own account, 3 employee, 4 unpaid family, 9 unknown
+CAT_INAC    # inactivity reason
+INTENSI     # 1 over-employed, 2 full, 3 underemployed seeking, 4 underemployed not seeking
+PP04A       # sector: 1 state, 2 private, 3 other
+PP04B_COD   # industry, CAES Mercosur 1.0 (4 digits)
+PP04C       # establishment size band
+PP04D_COD   # occupation, CNO 2017 (5 digits)
+PP05H       # time in the business, self-employed and employers (bands)
+PP07A       # time in the job, employees (bands)
+PP07H       # pension contribution deducted (employees): 1 yes, 2 no
+PP3E_TOT    # hours worked last week, main job (999 unknown)
+P21         # monthly income from the main job (0 none, -9 no answer)
