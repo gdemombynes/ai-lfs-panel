@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.venv/
+venv/
+
+# Tooling caches
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Editors and OS
+.idea/
+.vscode/
+.DS_Store
+
+# Secrets
+.env
+
+# Data: keep the folders, ignore the contents
+data/raw/*
+data/processed/*
+data/external/*
+!data/*/.gitkeep
