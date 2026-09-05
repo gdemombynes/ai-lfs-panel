@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import io
 import zipfile
 from importlib.resources import files
 from pathlib import Path
@@ -19,8 +20,8 @@ KEYS = ["DIRECTORIO", "SECUENCIA_P", "ORDEN"]
 MODULES = {
     "cg": "Caracter",
     "ft": "Fuerza de trabajo",
-    "oc": "Ocupados",
-    "no": "No ocupados",
+    "oc": "Ocupado",  # 'Ocupados.CSV'; never matches 'No ocupado(s)'
+    "no": "No ocupado",  # 'No ocupados.CSV' or 'No ocupado.CSV' (2024M03)
 }
 
 
@@ -36,27 +37,33 @@ def _keep(module: str) -> List[str]:
 
 
 def _member(z: zipfile.ZipFile, prefix: str) -> str:
-    """CSV member whose basename starts with ``prefix`` inside a CSV folder."""
+    """CSV member whose basename starts with ``prefix`` (any folder, any case).
+
+    Folder names vary (``CSV``, ``CVS``, nested month folders), so only the
+    basename and the ``.csv`` extension are matched.
+    """
     for name in z.namelist():
-        parts = name.replace("\\", "/").split("/")
-        base = parts[-1]
-        in_csv = any(p.upper() == "CSV" for p in parts[:-1])
-        if (
-            in_csv
-            and base.upper().startswith(prefix.upper())
-            and base.upper().endswith(".CSV")
-        ):
+        base = name.replace("\\", "/").split("/")[-1]
+        if base.upper().startswith(prefix.upper()) and base.upper().endswith(".CSV"):
             return name
     raise FileNotFoundError(f"No CSV member starting with {prefix!r} in {z.filename}")
+
+
+def _separator(z: zipfile.ZipFile, member: str) -> str:
+    """DANE switched from comma- to semicolon-separated CSVs during 2022."""
+    with z.open(member) as fh:
+        header = fh.readline().decode("latin-1")
+    return ";" if header.count(";") >= header.count(",") else ","
 
 
 def _read(
     z: zipfile.ZipFile, member: str, cols: List[str], nrows: Optional[int]
 ) -> pd.DataFrame:
+    sep = _separator(z, member)
     with z.open(member) as fh:
         df = pd.read_csv(
             fh,
-            sep=";",
+            sep=sep,
             dtype=str,
             usecols=lambda c: c.strip().upper() in set(cols),
             keep_default_na=False,
@@ -70,11 +77,29 @@ def _read(
     return df
 
 
+def _csv_archive(outer: zipfile.ZipFile) -> zipfile.ZipFile:
+    """The archive holding the CSV modules: ``outer`` itself or a nested CSV.zip.
+
+    Several 2022 monthly archives wrap the CSV folder in an inner ``CSV.zip``.
+    """
+    try:
+        _member(outer, MODULES["cg"])
+        return outer
+    except FileNotFoundError:
+        pass
+    for name in outer.namelist():
+        base = Path(name).name.lower()
+        if base.endswith(".zip") and "csv" in base:
+            return zipfile.ZipFile(io.BytesIO(outer.read(name)))
+    raise FileNotFoundError(f"No CSV modules (direct or nested) in {outer.filename}")
+
+
 def read_month(
     month: Period, nrows: Optional[int] = None, path: Optional[Path] = None
 ) -> pd.DataFrame:
     src = path or find_zip(month)
-    with zipfile.ZipFile(src) as z:
+    with zipfile.ZipFile(src) as outer:
+        z = _csv_archive(outer)
         cg = _read(z, _member(z, MODULES["cg"]), _keep("cg"), nrows)
         ft = _read(z, _member(z, MODULES["ft"]), _keep("ft"), None)
         oc = _read(z, _member(z, MODULES["oc"]), _keep("oc"), None)
