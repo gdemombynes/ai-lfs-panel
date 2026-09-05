@@ -13,12 +13,14 @@ from lfspanel.fetch.col import find_zip
 from lfspanel.periods import Period
 
 KEYS = ["DIRECTORIO", "SECUENCIA_P", "ORDEN"]
-# module -> member-name prefix inside the zip (accents are mangled in the archive)
+# module -> CSV file-name prefix inside the zip. Archives nest the CSV folder at
+# different depths by year and mangle accents, so members are matched by
+# basename prefix inside any ".../CSV/" folder, case-insensitively.
 MODULES = {
-    "cg": "CSV/Caracter",
-    "ft": "CSV/Fuerza de trabajo",
-    "oc": "CSV/Ocupados",
-    "no": "CSV/No ocupados",
+    "cg": "Caracter",
+    "ft": "Fuerza de trabajo",
+    "oc": "Ocupados",
+    "no": "No ocupados",
 }
 
 
@@ -34,10 +36,18 @@ def _keep(module: str) -> List[str]:
 
 
 def _member(z: zipfile.ZipFile, prefix: str) -> str:
+    """CSV member whose basename starts with ``prefix`` inside a CSV folder."""
     for name in z.namelist():
-        if name.startswith(prefix) and name.upper().endswith(".CSV"):
+        parts = name.replace("\\", "/").split("/")
+        base = parts[-1]
+        in_csv = any(p.upper() == "CSV" for p in parts[:-1])
+        if (
+            in_csv
+            and base.upper().startswith(prefix.upper())
+            and base.upper().endswith(".CSV")
+        ):
             return name
-    raise FileNotFoundError(f"No member starting with {prefix!r} in {z.filename}")
+    raise FileNotFoundError(f"No CSV member starting with {prefix!r} in {z.filename}")
 
 
 def _read(
