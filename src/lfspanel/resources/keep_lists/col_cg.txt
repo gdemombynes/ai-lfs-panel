@@ -1,0 +1,13 @@
+# GEIH "Características generales, seguridad social en salud y educación" (all persons)
+DIRECTORIO
+SECUENCIA_P
+ORDEN
+HOGAR
+MES         # calendar month 01-12
+FEX_C18     # monthly expansion factor (Census 2018 projections)
+CLASE       # 1 cabecera (urban), 2 centros poblados y rural disperso
+DPTO        # department code
+P6040       # age
+P3271       # sex: 1 male, 2 female
+P3042       # highest level of education attained
+P3042S1     # highest grade within that level

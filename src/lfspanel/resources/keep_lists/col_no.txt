@@ -1,0 +1,5 @@
+# GEIH "No ocupados" (working-age persons not employed)
+DIRECTORIO
+SECUENCIA_P
+ORDEN
+DSI         # unemployed flag

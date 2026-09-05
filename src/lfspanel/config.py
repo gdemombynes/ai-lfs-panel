@@ -88,7 +88,7 @@ COUNTRIES = {
         freq="M",
         minlaborage=15,
         isco_digits=4,
-        isic_digits=4,
+        isic_digits=2,
         access="open",
         first_period="2022Q1",
     ),

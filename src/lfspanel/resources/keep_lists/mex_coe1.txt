@@ -1,0 +1,21 @@
+# ENOE COE1 (employment questionnaire, part 1)
+cd_a
+ent
+con
+v_sel
+tipo
+mes_cal
+n_hog
+h_mud
+n_ren
+p3          # occupation, SINCO 2019 4-digit
+p4a         # economic activity, SCIAN 4-digit
+p4b         # type of economic unit (1 agro, 2 education/health, 3 public/non-profit, 4 private, 5 undetermined)
+p4c         # independent / private status when p4b == 5
+p4d1        # administered by government (1 yes, 2 no)
+p4d2        # detail of administration
+p3i         # written contract, basic questionnaire (1 yes, 2 no)
+p3j         # written contract, extended questionnaire (1 yes, 2 no)
+p3r         # started job: 1 this year, 2 last year, 3 earlier, 9 unknown
+p3r_anio    # year started (when p3r == 3)
+p3r_mes     # month started (when p3r in 1,2; 99 unknown)

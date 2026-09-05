@@ -1,0 +1,8 @@
+# GEIH "Fuerza de trabajo" (working-age persons)
+DIRECTORIO
+SECUENCIA_P
+ORDEN
+PET         # working-age population (15+) flag
+FT          # in the labour force
+FFT         # outside the labour force
+P6240       # main activity last week: 1 working 2 searching 3 studying 4 housework 5 disabled 6 other

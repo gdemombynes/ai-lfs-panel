@@ -1,10 +1,16 @@
-"""Download helpers: streaming, checksums, manifest, selective unzip."""
+"""Download helpers: streaming, checksums, manifest, selective unzip.
+
+Python 3.9 on this Mac links LibreSSL 2.8, which cannot negotiate TLS 1.3.
+Hosts that require it (DANE) make ``requests`` raise ``SSLError``; every
+network helper here falls back to the system ``curl`` in that case.
+"""
 
 from __future__ import annotations
 
 import csv
 import fnmatch
 import hashlib
+import subprocess
 import zipfile
 from dataclasses import dataclass
 from datetime import datetime, timezone
@@ -78,6 +84,39 @@ def make_session() -> requests.Session:
     return s
 
 
+def _curl(args: List[str], timeout: int) -> subprocess.CompletedProcess:
+    cmd = ["curl", "-sS", "-L", "-A", USER_AGENT, "-m", str(timeout)] + args
+    return subprocess.run(cmd, capture_output=True, text=False, timeout=timeout + 30)
+
+
+def fetch_text(
+    url: str, session: Optional[requests.Session] = None, timeout: int = 60
+) -> str:
+    """GET a page as text, falling back to curl on TLS failures."""
+    s = session or make_session()
+    try:
+        r = s.get(url, timeout=timeout)
+        r.raise_for_status()
+        return r.text
+    except requests.exceptions.SSLError:
+        proc = _curl([url], timeout)
+        if proc.returncode != 0:
+            raise requests.RequestException(proc.stderr.decode("utf-8", "ignore"))
+        return proc.stdout.decode("utf-8", "ignore")
+
+
+def url_exists(
+    url: str, session: Optional[requests.Session] = None, timeout: int = 60
+) -> bool:
+    """HEAD a URL (curl fallback); True on HTTP 200."""
+    s = session or make_session()
+    try:
+        return s.head(url, allow_redirects=True, timeout=timeout).status_code == 200
+    except requests.exceptions.SSLError:
+        proc = _curl(["-I", "-o", "/dev/null", "-w", "%{http_code}", url], timeout)
+        return proc.returncode == 0 and proc.stdout.decode().strip() == "200"
+
+
 def check_remote(url: str, session: Optional[requests.Session] = None) -> dict:
     """HEAD a URL; return status, size and Last-Modified without downloading."""
     s = session or make_session()
@@ -87,6 +126,25 @@ def check_remote(url: str, session: Optional[requests.Session] = None) -> dict:
         "bytes": int(r.headers.get("Content-Length") or 0),
         "last_modified": r.headers.get("Last-Modified"),
     }
+
+
+def _stream_to(
+    url: str, part: Path, session: requests.Session, timeout: int
+) -> Optional[str]:
+    """Download to ``part``; return the Last-Modified header if known."""
+    try:
+        with session.get(url, stream=True, timeout=timeout) as r:
+            r.raise_for_status()
+            with open(part, "wb") as f:
+                for block in r.iter_content(chunk_size=1 << 20):
+                    if block:
+                        f.write(block)
+            return r.headers.get("Last-Modified")
+    except requests.exceptions.SSLError:
+        proc = _curl(["-f", "-o", str(part), url], max(timeout, 1800))
+        if proc.returncode != 0:
+            raise requests.RequestException(proc.stderr.decode("utf-8", "ignore"))
+        return None
 
 
 def download(
@@ -136,14 +194,8 @@ def download(
     dest.parent.mkdir(parents=True, exist_ok=True)
     part = dest.with_name(dest.name + ".part")
     try:
-        with s.get(url, stream=True, timeout=timeout) as r:
-            r.raise_for_status()
-            last_mod = r.headers.get("Last-Modified")
-            with open(part, "wb") as f:
-                for block in r.iter_content(chunk_size=1 << 20):
-                    if block:
-                        f.write(block)
-    except requests.RequestException as exc:
+        last_mod = _stream_to(url, part, s, timeout)
+    except (requests.RequestException, subprocess.TimeoutExpired) as exc:
         if part.exists():
             part.unlink()
         return FetchResult(dest, "failed", error=str(exc))

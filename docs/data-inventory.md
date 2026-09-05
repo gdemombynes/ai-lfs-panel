@@ -12,8 +12,11 @@ using any new raw file.
 | HAVE (resource) | `resources/crosswalks/isco08_structure.csv` | ILO, "ISCO-08 EN Structure and definitions.xlsx" | 2026-09-05 | ILO, free reuse with attribution | ISCO code validation |
 | HAVE (resource) | `resources/official/bra_headline.csv` | IBGE SIDRA API table 4092 | 2026-09-05 | Public | Validation |
 | NEED | ILO GenAI exposure scores (`Final_Scores_ISCO08_Gmyrek_et_al_2025.xlsx`) | github.com/pgmyrek/2025_GenAI_scores_ISCO08 | | ILO WP140, cite Gmyrek et al. 2025 | Exposure layer (M4) |
-| NEED | Mexico ENOE quarterly zips 2022Q1-2026Q2 | INEGI | | Open | M2 |
-| NEED | Colombia GEIH monthly zips 2022M01-2026M06 | DANE microdata catalogue | | Open | M2 |
+| HAVE (in progress) | `mex/enoe/{2022Q1..2026Q2}/enoe[_n]_YYYY_trimN_csv.zip` (~40 MB each) | INEGI ENOE microdatos; `_n_` naming through 2022, members ENOEN_/ENOE_ | 2026-09-05 | Open (INEGI open data) | Mexico panel |
+| HAVE | `mex/enoe/docs/bulletins/*.pdf` | INEGI quarterly ENOE press bulletins (2023Q4 onward located) | 2026-09-05 | Public | Mexico validation |
+| HAVE (resource) | `resources/crosswalks/sinco2019_to_isco08.csv`, `scian2018_to_isic4.csv` | World Bank GLD MEX ENOE utilities (converted from .dta) | 2026-09-05 | MIT (GLD) | Mexico occupation and industry |
+| HAVE (in progress) | `col/geih/{2022M01..2026M06}/*.zip` (~60 MB each, CSV+DTA+SAV) | DANE microdata catalogue entries 771/782/819/853/900, download/<resource> | 2026-09-05 | Open (DANE) | Colombia panel |
+| HAVE | `col/geih/docs/anex-GEIH-<mmm><yyyy>.xlsx` | DANE anexo GEIH, national monthly and quarterly series | 2026-09-05 | Public | Colombia validation |
 | NEED | Argentina EPH quarterly zips | INDEC | | Open | M2 |
 | NEED | Ecuador ENEMDU quarterly SPSS zips | INEC | | Open | M2 |
 | NEED | Peru ENAHO quarterly module 500 (+02, 03) | INEI | | Open | M2 |

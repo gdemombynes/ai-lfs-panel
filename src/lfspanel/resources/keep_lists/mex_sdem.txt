@@ -1,0 +1,27 @@
+# ENOE SDEM (sociodemographic table): raw variables retained
+cd_a        # merge key: city / area code
+ent         # state
+con         # control number
+v_sel       # selected dwelling
+tipo        # 1 basic, 2 extended questionnaire
+mes_cal     # month within quarter (1-3; 96 not applicable)
+n_hog       # household number
+h_mud       # household move indicator
+n_ren       # person number
+n_ent       # interview number in the panel (1-5)
+r_def       # interview result (0 complete)
+c_res       # residence condition (2 = absent, excluded)
+t_loc_tri   # locality size (1-3 urban, 4 rural)
+fac_tri     # quarterly expansion factor
+sex         # 1 male, 2 female
+eda         # age (99 unspecified)
+cs_p13_1    # highest level of schooling
+anios_esc   # years of schooling
+clase1      # 1 economically active, 2 not active
+clase2      # 1 employed, 2 unemployed, 3 available NLF, 4 unavailable NLF
+pos_ocu     # position: 1 paid employee, 2 employer, 3 own account, 4 unpaid
+sub_o       # time-related underemployment (1 yes)
+c_inac5c    # NLF reason: 1 student 2 housework 3 retired 4 disabled 5 other
+imssissste  # social security: 1 IMSS 2 ISSSTE 3 other 4 none
+hrsocup     # hours worked in the reference week
+ingocup     # monthly labour income

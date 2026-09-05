@@ -1,0 +1,17 @@
+# GEIH "Ocupados" (employed persons)
+DIRECTORIO
+SECUENCIA_P
+ORDEN
+OCI         # employed flag
+P6426       # months in the current job
+P6430       # position: 1 private employee 2 government employee 3 domestic 4 own account 5 employer 6 unpaid family 7 unpaid other household 8 day labourer 9 other
+P6440       # has a contract (1 yes, 2 no)
+P6450       # contract is verbal (1) or written (2)
+P6500       # monthly earnings, employees
+P6800       # hours usually worked per week
+P6850       # hours worked last week
+P6810       # wants to work more hours (1 yes)
+P6920       # contributes to a pension fund: 1 yes 2 no 3 already pensioned
+OFICIO_C8   # occupation CIUO-08 A.C., 4 digits
+RAMA2D_R4   # industry CIIU Rev.4 A.C., 2 digits
+RAMA4D_R4   # industry CIIU Rev.4 A.C., 4 digits

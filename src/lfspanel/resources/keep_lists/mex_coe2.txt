@@ -1,0 +1,11 @@
+# ENOE COE2 (employment questionnaire, part 2); keys only for now
+cd_a
+ent
+con
+v_sel
+tipo
+mes_cal
+n_hog
+h_mud
+n_ren
+p6b2        # monthly earnings declared (used by GLD as wage source)
