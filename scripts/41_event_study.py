@@ -56,7 +56,7 @@ def main() -> None:
         n_cells, n_cl = int(e["n_cells"].iloc[0]), int(e["n_clusters"].iloc[0])
         mean_post = post["coef"].mean()
         print(
-            f"{name:12s} cells={n_cells:>7,} clusters={n_cl:>5}  mean post={mean_post:+.4f}"
+            f"{name:12s} cells={n_cells:>7,} clusters={n_cl:>5}  post={mean_post:+.4f}"
         )
     suffix = f"{args.outcome}" + ("" if args.treat == "high" else f"_{args.treat}")
     pd.concat(es).to_csv(tables / f"event_study_{suffix}.csv", index=False)
