@@ -1,0 +1,113 @@
+period,previous,variable,change,detail,share,country
+2024Q1,2023Q4,V3009A,codes_removed,04,0.0046,bra
+2021Q2,2021Q1,p3j,missing_share_jump,0.70 -> 1.00,,mex
+2021Q2,2021Q1,p3j,codes_removed,"1,2,9",1.0,mex
+2021Q2,2021Q1,p3r,missing_share_jump,0.58 -> 1.00,,mex
+2021Q2,2021Q1,p3r,codes_removed,"1,2,3,9",1.0,mex
+2021Q2,2021Q1,p3r_anio,kind_changed,continuous -> codes,,mex
+2021Q2,2021Q1,p3r_mes,codes_removed,"1,10,11,12,2,3,4,5,6,7,8,9,99",1.0,mex
+2022Q1,2021Q4,p3j,missing_share_jump,1.00 -> 0.69,,mex
+2022Q1,2021Q4,p3j,codes_added,"1,2,9",1.0,mex
+2022Q1,2021Q4,p3r,missing_share_jump,1.00 -> 0.56,,mex
+2022Q1,2021Q4,p3r,codes_added,"1,2,3,9",1.0,mex
+2022Q1,2021Q4,p3r_anio,kind_changed,codes -> continuous,,mex
+2022Q1,2021Q4,p3r_mes,missing_share_jump,1.00 -> 0.90,,mex
+2022Q1,2021Q4,p3r_mes,codes_added,"1,10,11,12,2,3,4,5,6,7,8,9,99",1.0,mex
+2022Q2,2022Q1,p3j,missing_share_jump,0.69 -> 1.00,,mex
+2022Q2,2022Q1,p3j,codes_removed,"1,2,9",1.0,mex
+2022Q2,2022Q1,p3r,missing_share_jump,0.56 -> 1.00,,mex
+2022Q2,2022Q1,p3r,codes_removed,"1,2,3,9",1.0,mex
+2022Q2,2022Q1,p3r_anio,kind_changed,continuous -> codes,,mex
+2022Q2,2022Q1,p3r_mes,missing_share_jump,0.90 -> 1.00,,mex
+2022Q2,2022Q1,p3r_mes,codes_removed,"1,10,11,12,2,3,4,5,6,7,8,9,99",1.0,mex
+2022Q3,2022Q2,tipo,codes_removed,2,0.0097,mex
+2023Q1,2022Q4,p3j,missing_share_jump,1.00 -> 0.68,,mex
+2023Q1,2022Q4,p3j,codes_added,"1,2,9",1.0,mex
+2023Q1,2022Q4,p3r,missing_share_jump,1.00 -> 0.55,,mex
+2023Q1,2022Q4,p3r,codes_added,"1,2,3,9",1.0,mex
+2023Q1,2022Q4,p3r_anio,kind_changed,codes -> continuous,,mex
+2023Q1,2022Q4,p3r_mes,missing_share_jump,1.00 -> 0.90,,mex
+2023Q1,2022Q4,p3r_mes,codes_added,"01,02,03,04,05,06,07,08,09,10,11,12,99",1.0,mex
+2023Q1,2022Q4,tipo,codes_added,2,0.1206,mex
+2023Q2,2023Q1,p3j,missing_share_jump,0.68 -> 1.00,,mex
+2023Q2,2023Q1,p3j,codes_removed,"1,2,9",1.0,mex
+2023Q2,2023Q1,p3r,missing_share_jump,0.55 -> 1.00,,mex
+2023Q2,2023Q1,p3r,codes_removed,"1,2,3,9",1.0,mex
+2023Q2,2023Q1,p3r_anio,kind_changed,continuous -> codes,,mex
+2023Q2,2023Q1,p3r_mes,missing_share_jump,0.90 -> 1.00,,mex
+2023Q2,2023Q1,p3r_mes,codes_removed,"01,02,03,04,05,06,07,08,09,10,11,12,99",1.0,mex
+2024Q1,2023Q4,p3j,missing_share_jump,1.00 -> 0.68,,mex
+2024Q1,2023Q4,p3j,codes_added,"1,2,9",1.0,mex
+2024Q1,2023Q4,p3r,missing_share_jump,1.00 -> 0.54,,mex
+2024Q1,2023Q4,p3r,codes_added,"1,2,3,9",1.0,mex
+2024Q1,2023Q4,p3r_anio,kind_changed,codes -> continuous,,mex
+2024Q1,2023Q4,p3r_mes,missing_share_jump,1.00 -> 0.90,,mex
+2024Q1,2023Q4,p3r_mes,codes_added,"1,10,11,12,2,3,4,5,6,7,8,9,99",1.0,mex
+2024Q2,2024Q1,p3j,missing_share_jump,0.68 -> 1.00,,mex
+2024Q2,2024Q1,p3j,codes_removed,"1,2,9",1.0,mex
+2024Q2,2024Q1,p3r,missing_share_jump,0.54 -> 1.00,,mex
+2024Q2,2024Q1,p3r,codes_removed,"1,2,3,9",1.0,mex
+2024Q2,2024Q1,p3r_anio,kind_changed,continuous -> codes,,mex
+2024Q2,2024Q1,p3r_mes,missing_share_jump,0.90 -> 1.00,,mex
+2024Q2,2024Q1,p3r_mes,codes_removed,"1,10,11,12,2,3,4,5,6,7,8,9,99",1.0,mex
+2025Q1,2024Q4,p3j,missing_share_jump,1.00 -> 0.68,,mex
+2025Q1,2024Q4,p3j,codes_added,"1,2,9",1.0,mex
+2025Q1,2024Q4,p3r,missing_share_jump,1.00 -> 0.55,,mex
+2025Q1,2024Q4,p3r,codes_added,"1,2,3,9",1.0,mex
+2025Q1,2024Q4,p3r_anio,kind_changed,codes -> continuous,,mex
+2025Q1,2024Q4,p3r_mes,codes_added,"1,10,11,12,2,3,4,5,6,7,8,9,99",1.0,mex
+2025Q2,2025Q1,p3j,missing_share_jump,0.68 -> 1.00,,mex
+2025Q2,2025Q1,p3j,codes_removed,"1,2,9",1.0,mex
+2025Q2,2025Q1,p3r,missing_share_jump,0.55 -> 1.00,,mex
+2025Q2,2025Q1,p3r,codes_removed,"1,2,3,9",1.0,mex
+2025Q2,2025Q1,p3r_anio,kind_changed,continuous -> codes,,mex
+2025Q2,2025Q1,p3r_mes,codes_removed,"1,10,11,12,2,3,4,5,6,7,8,9,99",1.0,mex
+2026Q1,2025Q4,p3j,missing_share_jump,1.00 -> 0.68,,mex
+2026Q1,2025Q4,p3j,codes_added,"1,2,9",1.0,mex
+2026Q1,2025Q4,p3r,missing_share_jump,1.00 -> 0.55,,mex
+2026Q1,2025Q4,p3r,codes_added,"1,2,3,9",1.0,mex
+2026Q1,2025Q4,p3r_anio,kind_changed,codes -> continuous,,mex
+2026Q1,2025Q4,p3r_mes,codes_added,"1,10,11,12,2,3,4,5,6,7,8,9,99",1.0,mex
+2026Q2,2026Q1,p3j,missing_share_jump,0.68 -> 1.00,,mex
+2026Q2,2026Q1,p3j,codes_removed,"1,2,9",1.0,mex
+2026Q2,2026Q1,p3r,missing_share_jump,0.55 -> 1.00,,mex
+2026Q2,2026Q1,p3r,codes_removed,"1,2,3,9",1.0,mex
+2026Q2,2026Q1,p3r_anio,kind_changed,continuous -> codes,,mex
+2026Q2,2026Q1,p3r_mes,codes_removed,"1,10,11,12,2,3,4,5,6,7,8,9,99",1.0,mex
+2026Q1,2025Q4,CAT_INAC,missing_share_jump,0.00 -> 1.00,,arg
+2026Q1,2025Q4,CAT_INAC,codes_removed,"0,1,2,3,4,5,6,7",1.0,arg
+2021Q4,2021Q3,p42,labels_changed,3.0: ' Empleado terciarizado' -> ' Empleado tercerizado',,ecu
+2023Q1,2022Q4,c310,codes_added,9,0.0103,per
+2023Q4,2023Q3,resident,codes_added,9,0.033,per
+2024Q1,2023Q4,b26_employed_at_local_unit,codes_added,"7,8",0.0363,geo
+2021Q2,2021Q1,pufc34_wynot,codes_added,"00,01,02,03,04,05,07,08,09,61,62,63",1.0,phl
+2021Q2,2021Q1,pufc34_wynot,codes_removed,"0,1,2,3,4,5,6,7,8,9",1.0,phl
+2023Q4,2023Q3,pufreg,codes_added,19,0.0774,phl
+2023Q4,2023Q3,pufreg,codes_removed,15,0.0703,phl
+2023Q4,2023Q3,pufurb2020,missing_share_jump,0.00 -> 1.00,,phl
+2023Q4,2023Q3,pufurb2020,codes_removed,"1,2",1.0,phl
+2025Q1,2024Q4,pufreg,codes_added,18,0.0303,phl
+2025Q1,2024Q4,pufurb2020,missing_share_jump,1.00 -> 0.00,,phl
+2025Q1,2024Q4,pufurb2020,codes_added,"1,2",1.0,phl
+2022Q3,2022Q2,q416nrworkers,labels_changed,99: '-' -> 'Unspecified',,zaf
+2023Q1,2022Q4,q416nrworkers,labels_changed,99: 'Unspecified' -> '-',,zaf
+2023Q1,2022Q4,q42occupation,labels_changed,5142: '-' -> '5142. Companions and valets',,zaf
+2023Q2,2023Q1,q415typebusns,labels_changed,9: '-' -> 'Unspecified',,zaf
+2023Q2,2023Q1,q416nrworkers,labels_changed,99: '-' -> 'Unspecified',,zaf
+2023Q3,2023Q2,q415typebusns,labels_changed,9: 'Unspecified' -> '-',,zaf
+2023Q3,2023Q2,q416nrworkers,labels_changed,99: 'Unspecified' -> '-',,zaf
+2023Q4,2023Q3,q42occupation,labels_changed,9888: '-' -> 'Bootlegger',,zaf
+2024Q1,2023Q4,q43industry,labels_changed,988: '-' -> 'Begging',,zaf
+2024Q2,2024Q1,q415typebusns,labels_changed,9: '-' -> 'Unspecified',,zaf
+2024Q2,2024Q1,q416nrworkers,labels_changed,99: '-' -> 'Unspecified',,zaf
+2024Q3,2024Q2,q415typebusns,labels_changed,9: 'Unspecified' -> '-',,zaf
+2025Q1,2024Q4,q42occupation,labels_changed,8154: '-' -> 'Chemical still and reactor operators (except petroleum and natural gas) ',,zaf
+2025Q3,2025Q2,q416nrworkers,labels_changed,8: 'Do not know' -> '-'; 99: 'Unspecified' -> '-',,zaf
+2025Q3,2025Q2,q45wrk4whom,labels_changed,1: 'Working for someone else for pay' -> 'As an employee'; 2: 'An employer (employing one or more employees)' -> 'In your own business'; 3: 'Own account worker (not employing any employees)' -> 'Helping in a family or household business'; 4: 'Helping without pay in a household business' -> 'As a pai,,zaf
+2025Q3,2025Q2,q415typebusns,missing_share_jump,0.75 -> 1.00,,zaf
+2025Q3,2025Q2,q415typebusns,codes_removed,"1,2,3,4,5,6",1.0,zaf
+2025Q3,2025Q2,q416nrworkers,codes_removed,"8,99",0.0713,zaf
+2025Q4,2025Q3,q17education,labels_changed,99: '-' -> 'Unspecified',,zaf
+2025Q4,2025Q3,q44monthstart,labels_changed,9: 'Sepember' -> 'September',,zaf
+2026Q1,2025Q4,q17education,labels_changed,99: 'Unspecified' -> '-',,zaf
+2026Q1,2025Q4,q411contracttype,labels_changed,1: 'Yes' -> 'A written contract'; 2: 'No' -> 'A verbal agreement',,zaf

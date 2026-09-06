@@ -9,6 +9,12 @@ inside the archive is read (`LFS PUF <Month> <Year>.CSV`); some rounds carry a
 UTF-8 byte-order mark in the first column name, and the urban flag is
 `PUFURB2015` before 2024 and `PUFURB2020` from 2025 (absent in April 2024).
 
+Expanded rounds: July 2021, January 2022, July 2023 and January 2024 carry
+about 180,000 households against 44,000 in the regular rounds, and their
+weighted composition differs (employee share 4 to 6 points higher), which
+the distribution-drift check flags. Treat the alternation as a survey-design
+break in any Philippine-only analysis.
+
 Persons 15+ with no labour status (overseas Filipino workers and other
 non-household members) are dropped: PSA excludes them from the population
 15 and over, and keeping them overstated it by 2.3 %.

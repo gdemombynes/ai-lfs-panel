@@ -56,7 +56,7 @@ IGNORE = re.compile(
     r"directorio|secuencia_p|orden|upa|v1008|v1014|v1016|v1028|cd_a|ent|con|"
     r"v_sel|n_hog|h_mud|n_ren|fexp|factor|fac_t300|pondera|weight|p_weights|"
     r"pufpwgtprv|fex_c18|fact_cal|panelm|muestra|estrato|pufpsu|pufrpl|stratum|"
-    r"area_geo|nomciudad|codciudad)$",
+    r"area_geo|nomciudad|codciudad|mes_cal|n_ent|n_pro_viv|v_sel|t_loc)$",
     re.I,
 )
 
@@ -122,6 +122,21 @@ def load_fingerprints(country_key: str) -> Dict[str, dict]:
     return dict(sorted(docs.items()))
 
 
+def _label_key(label, code) -> str:
+    """Normalised label text: wording-only differences and self-labels do not count."""
+    if label is None:
+        return ""
+    text = (
+        re.sub(rf"^\s*{re.escape(str(code))}\s*[.)\-]\s*", "", str(label))
+        .strip()
+        .lower()
+    )
+    text = re.sub(r"[^a-z0-9]+", " ", text).strip()
+    if text == "" or text == str(code).strip().lower():
+        return ""
+    return text
+
+
 def _row(period, previous, variable, change, detail="", share=None) -> dict:
     return dict(
         period=period, previous=previous, variable=variable, change=change,
@@ -141,11 +156,14 @@ def diff_codebooks(country_key: str, min_share: float = 0.0) -> pd.DataFrame:
     keys = list(docs)
     rows: List[dict] = []
     for prev, cur in zip(keys, keys[1:]):
-        a, b = docs[prev]["variables"], docs[cur]["variables"]
+        a = {k: v for k, v in docs[prev]["variables"].items() if not IGNORE.match(k)}
+        b = {k: v for k, v in docs[cur]["variables"].items() if not IGNORE.match(k)}
         la, lb = docs[prev].get("labels", {}), docs[cur].get("labels", {})
         for v in sorted(set(la) & set(lb)):
             changed = {
-                k for k in set(la[v]) | set(lb[v]) if la[v].get(k) != lb[v].get(k)
+                k
+                for k in set(la[v]) | set(lb[v])
+                if _label_key(la[v].get(k), k) != _label_key(lb[v].get(k), k)
             }
             if changed:
                 detail = "; ".join(
