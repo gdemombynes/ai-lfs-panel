@@ -87,3 +87,20 @@ def test_job_characteristics(out):
     assert emp["contract"].dropna().isin([0, 1]).all()
     assert emp["tenure_lt12"].notna().mean() > 0.9
     assert ((emp["tenure_months"] < 12) == (emp["tenure_lt12"] == 1)).all()
+
+
+def test_status_in_employment_break_2025q3():
+    from lfspanel.harmonize.zaf import status_in_employment
+
+    raw = pd.DataFrame(
+        {
+            "q45wrk4whom": ["1", "2", "3", "4", "5", ""],
+            "q416nrworkers": ["3", "1", "1", "7", "", ""],
+        }
+    )
+    before = status_in_employment(raw, Period("2025Q2")).tolist()
+    assert before[:4] == [1, 3, 4, 2]
+    after = status_in_employment(raw, Period("2025Q3")).tolist()
+    assert after[:5] == [1, 4, 2, 1, 2]  # own business with 0 employees -> own account
+    raw2 = pd.DataFrame({"q45wrk4whom": ["2", "2"], "q416nrworkers": ["4", ""]})
+    assert status_in_employment(raw2, Period("2026Q1")).tolist() == [3, 4]

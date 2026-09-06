@@ -659,3 +659,108 @@ def indicators_geo(
 
 
 FETCHERS.update({"geo": indicators_geo})
+
+
+# ---------------------------------------------------------------- Philippines
+OPENSTAT_LFS = "https://openstat.psa.gov.ph/PXWeb/api/v1/en/DB/1B/LFS/0011B3FKEI1.px"
+OPENSTAT_TOL = 0.05
+_PHL_MONTHS = [
+    "January", "February", "March", "April", "May", "June", "July", "August",
+    "September", "October", "November", "December",
+]  # fmt: skip
+
+
+def _curl_json(url: str, body: Optional[dict] = None) -> dict:
+    """GET or POST JSON through curl (the host only speaks TLS 1.3, which the
+    Python ssl module on this machine cannot negotiate)."""
+    import json
+    import subprocess
+
+    cmd = ["curl", "-sS", "-L", "-m", "120", "-A", "Mozilla/5.0 (Macintosh)", url]
+    if body is not None:
+        cmd += [
+            "-X",
+            "POST",
+            "-H",
+            "Content-Type: application/json",
+            "-d",
+            json.dumps(body),
+        ]
+    proc = subprocess.run(cmd, capture_output=True, text=True, timeout=150)
+    if proc.returncode != 0:
+        raise requests.RequestException(proc.stderr.strip())
+    text = proc.stdout.lstrip("\ufeff")
+    return json.loads(text)
+
+
+def openstat_phl(
+    periods: Iterable[Period], session: Optional[requests.Session] = None
+) -> pd.DataFrame:
+    """PSA OpenSTAT 'Levels of Key Employment Indicators' (persons 15+, thousands).
+
+    A quarter is represented by its full-sample round, the first month of the
+    quarter, so the official row for 2025Q2 is the April 2025 estimate.
+    """
+    periods = list(periods)
+    meta = _curl_json(OPENSTAT_LFS)
+    var = {v["code"]: v for v in meta["variables"]}
+    years = {t: c for c, t in zip(var["Year"]["values"], var["Year"]["valueTexts"])}
+    months = {t: c for c, t in zip(var["Month"]["values"], var["Month"]["valueTexts"])}
+    levels = {
+        t: c for c, t in zip(var["Levels"]["values"], var["Levels"]["valueTexts"])
+    }
+    wanted = {
+        "Total Population 15 Years Old and Over": "pet",
+        "Persons in the Labor Force": "lf",
+        "Employed Persons": "emp",
+        "Unemployed Persons": "unemp",
+    }
+    year_values = sorted({years[str(p.year)] for p in periods if str(p.year) in years})
+    month_values = [months[m] for m in ("January", "April", "July", "October")]
+    query = {
+        "query": [
+            {"code": "Year", "selection": {"filter": "item", "values": year_values}},
+            {"code": "Month", "selection": {"filter": "item", "values": month_values}},
+            {
+                "code": "Levels",
+                "selection": {"filter": "item", "values": [levels[k] for k in wanted]},
+            },
+            {
+                "code": "Sex",
+                "selection": {"filter": "item", "values": [var["Sex"]["values"][0]]},
+            },
+        ],
+        "response": {"format": "json"},
+    }
+    data = _curl_json(OPENSTAT_LFS, query)
+    year_text = {c: t for t, c in years.items()}
+    month_text = {c: t for t, c in months.items()}
+    level_key = {levels[k]: v for k, v in wanted.items()}
+    values: Dict[str, Dict[str, float]] = {}
+    for row in data["data"]:
+        y, m, lv, _ = row["key"]
+        try:
+            val = 1000 * float(row["values"][0])
+        except (TypeError, ValueError):
+            continue
+        month = _PHL_MONTHS.index(month_text[m]) + 1
+        key = f"{year_text[y]}Q{(month - 1) // 3 + 1}"
+        values.setdefault(key, {})[level_key[lv]] = val
+    out: List[dict] = []
+    for p in periods:
+        v = values.get(str(p))
+        if v and {"pet", "lf", "emp", "unemp"} <= set(v):
+            out += _rows(
+                p,
+                OPENSTAT_LFS,
+                v["pet"],
+                v["lf"],
+                v["emp"],
+                v["unemp"],
+                OPENSTAT_TOL,
+                "15+",
+            )
+    return pd.DataFrame(out)
+
+
+FETCHERS.update({"phl": openstat_phl})

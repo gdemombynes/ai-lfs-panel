@@ -23,6 +23,7 @@ from lfspanel.harmonize.common import (
     isco_major,
     occup_skill_from_major,
     to_int,
+    true_only,
 )
 from lfspanel.periods import Period
 
@@ -53,20 +54,24 @@ def _educy(raw: pd.DataFrame) -> pd.Series:
     lvl = to_int(raw["P3042"], "Int16")
     grd = pd.to_numeric(raw["P3042S1"], errors="coerce")
     y = pd.Series(pd.NA, index=raw.index, dtype="Float64")
-    y = y.mask(lvl.isin([1, 2]) | ((lvl == 3) & (grd == 0)), 0)
-    y = y.mask((lvl == 3) & grd.between(1, 5), grd)
-    y = y.mask(lvl == 4, 5 + grd)
-    y = y.mask(lvl.isin([5, 6]), 9 + grd)
+    y = y.mask(true_only(lvl.isin([1, 2]) | ((lvl == 3) & (grd == 0))), 0)
+    y = y.mask(true_only((lvl == 3) & grd.between(1, 5)), grd)
+    y = y.mask(true_only(lvl == 4), 5 + grd)
+    y = y.mask(true_only(lvl.isin([5, 6])), 9 + grd)
     for level in (7, 8, 9, 10):
-        y = y.mask((lvl == level) & grd.between(0, 1), 11)
-        y = y.mask((lvl == level) & grd.between(2, 3), 12)
-        y = y.mask((lvl == level) & grd.between(4, 5), 13)
-    y = y.mask((lvl == 8) & grd.between(4, 12), 13)
-    y = y.mask((lvl == 9) & grd.between(6, 12), 14)
-    y = y.mask((lvl == 10) & grd.between(6, 7), 14)
-    y = y.mask((lvl == 10) & grd.between(8, 9), 15)
-    y = y.mask((lvl == 10) & grd.between(10, 28), 16)
-    y = y.mask(lvl == 11, 17).mask(lvl == 12, 18).mask(lvl == 13, 21)
+        y = y.mask(true_only((lvl == level) & grd.between(0, 1)), 11)
+        y = y.mask(true_only((lvl == level) & grd.between(2, 3)), 12)
+        y = y.mask(true_only((lvl == level) & grd.between(4, 5)), 13)
+    y = y.mask(true_only((lvl == 8) & grd.between(4, 12)), 13)
+    y = y.mask(true_only((lvl == 9) & grd.between(6, 12)), 14)
+    y = y.mask(true_only((lvl == 10) & grd.between(6, 7)), 14)
+    y = y.mask(true_only((lvl == 10) & grd.between(8, 9)), 15)
+    y = y.mask(true_only((lvl == 10) & grd.between(10, 28)), 16)
+    y = (
+        y.mask(true_only(lvl == 11), 17)
+        .mask(true_only(lvl == 12), 18)
+        .mask(true_only(lvl == 13), 21)
+    )
     return y
 
 
@@ -74,13 +79,13 @@ def _educat7(raw: pd.DataFrame) -> pd.Series:
     lvl = to_int(raw["P3042"], "Int16")
     educy = _educy(raw)
     out = pd.Series(pd.NA, index=raw.index, dtype="Int8")
-    out = out.mask(educy == 0, 1)
-    out = out.mask(educy.between(1, 4), 2)
-    out = out.mask((educy == 5) & (lvl == 3), 3)
-    out = out.mask(lvl == 4, 4)
-    out = out.mask(lvl.isin([5, 6]), 5)
-    out = out.mask(lvl.isin([7, 8, 9]), 6)
-    out = out.mask(lvl.isin([10, 11, 12, 13]), 7)
+    out = out.mask(true_only(educy == 0), 1)
+    out = out.mask(true_only(educy.between(1, 4)), 2)
+    out = out.mask(true_only((educy == 5) & (lvl == 3)), 3)
+    out = out.mask(true_only(lvl == 4), 4)
+    out = out.mask(true_only(lvl.isin([5, 6])), 5)
+    out = out.mask(true_only(lvl.isin([7, 8, 9])), 6)
+    out = out.mask(true_only(lvl.isin([10, 11, 12, 13])), 7)
     return out.astype("Int8")
 
 
@@ -112,7 +117,11 @@ def harmonize(
     pet = raw["PET"] == "1"
     oci, dsi = raw["OCI"] == "1", raw["DSI"] == "1"
     lstatus = pd.Series(pd.NA, index=raw.index, dtype="Int8")
-    lstatus = lstatus.mask(pet, 3).mask(pet & dsi, 2).mask(pet & oci, 1)
+    lstatus = (
+        lstatus.mask(true_only(pet), 3)
+        .mask(true_only(pet & dsi), 2)
+        .mask(true_only(pet & oci), 1)
+    )
     lstatus = lstatus.where(df["age"] >= COUNTRY.minlaborage)
     df["lstatus"] = lstatus.astype("Int8")
     employed, nlf = df["lstatus"] == 1, df["lstatus"] == 3
@@ -130,8 +139,8 @@ def harmonize(
     ).astype("Int8")
     df["ocusec"] = (
         pd.Series(pd.NA, index=raw.index, dtype="Int8")
-        .mask(pos == 2, 1)
-        .mask(pos.notna() & (pos != 2), 2)
+        .mask(true_only(pos == 2), 1)
+        .mask(true_only(pos.notna() & (pos != 2)), 2)
     )
 
     rama4 = raw["RAMA4D_R4"].str.zfill(4).where(raw["RAMA4D_R4"].str.strip() != "")
@@ -163,7 +172,11 @@ def harmonize(
     df["whours"] = last.where(last > 0, usual).where(lambda s: s > 0).astype("float32")
     p6440, p6450 = to_int(raw["P6440"]), to_int(raw["P6450"])
     contract = pd.Series(pd.NA, index=raw.index, dtype="Int8")
-    contract = contract.mask(p6440 == 2, 0).mask(p6450 == 1, 0).mask(p6450 == 2, 1)
+    contract = (
+        contract.mask(true_only(p6440 == 2), 0)
+        .mask(true_only(p6450 == 1), 0)
+        .mask(true_only(p6450 == 2), 1)
+    )
     df["contract"] = contract.astype("Int8")
     df["socialsec"] = to_int(raw["P6920"]).map({1: 1, 2: 0}).astype("Int8")
     df["firmsize_l"] = pd.NA
@@ -172,8 +185,8 @@ def harmonize(
     df["tenure_months"] = months
     df["tenure_lt12"] = (
         pd.Series(pd.NA, index=raw.index, dtype="Int8")
-        .mask(months < 12, 1)
-        .mask(months >= 12, 0)
+        .mask(true_only(months < 12), 1)
+        .mask(true_only(months >= 12), 0)
     )
     df["source_file"] = (
         raw["source_file"].astype("string") if "source_file" in raw else pd.NA

@@ -24,6 +24,7 @@ from lfspanel.harmonize.common import (
     isco_major,
     occup_skill_from_major,
     to_int,
+    true_only,
 )
 from lfspanel.periods import Period
 
@@ -71,7 +72,7 @@ def harmonize(
     unemp_flag = to_int(raw["unemployed"]) == 1
     adult = df["age"] >= COUNTRY.minlaborage
     lstatus = pd.Series(3, index=raw.index, dtype="Int8")
-    lstatus = lstatus.mask(unemp_flag, 2).mask(emp_flag, 1)
+    lstatus = lstatus.mask(true_only(unemp_flag), 2).mask(true_only(emp_flag), 1)
     df["lstatus"] = lstatus.where(adult)
     employed, nlf = df["lstatus"] == 1, df["lstatus"] == 3
     df["potential_lf"] = (
@@ -83,10 +84,18 @@ def harmonize(
         .where(employed)
     )
     reason = pd.Series(5, index=raw.index, dtype="Int8")
-    reason = reason.mask(to_int(raw["outsidethelabourforce_disabled"]) == 1, 4)
-    reason = reason.mask(to_int(raw["outsidethelabourforce_pensioner"]) == 1, 3)
-    reason = reason.mask(to_int(raw["outsidethelabourforce_homemaker"]) == 1, 2)
-    reason = reason.mask(to_int(raw["outsidethelabourforce_student"]) == 1, 1)
+    reason = reason.mask(
+        true_only(to_int(raw["outsidethelabourforce_disabled"]) == 1), 4
+    )
+    reason = reason.mask(
+        true_only(to_int(raw["outsidethelabourforce_pensioner"]) == 1), 3
+    )
+    reason = reason.mask(
+        true_only(to_int(raw["outsidethelabourforce_homemaker"]) == 1), 2
+    )
+    reason = reason.mask(
+        true_only(to_int(raw["outsidethelabourforce_student"]) == 1), 1
+    )
     df["nlfreason"] = reason.where(nlf)
     df["empstat"] = to_int(raw["status"]).map(EMPSTAT).astype("Int8")
     df["ocusec"] = (

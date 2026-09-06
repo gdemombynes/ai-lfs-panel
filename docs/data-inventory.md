@@ -30,5 +30,7 @@ using any new raw file.
 | HAVE (resource) | `resources/crosswalks/sasco2003_to_isco88.csv` | World Bank GLD `isco88_sasco03_mapping.dta` (Support/B - Country Survey Details/ZAF) | 2026-09-06 | MIT (GLD) | South Africa occupations |
 | HAVE | `geo/lfs/{2021..2025}/Labour-Force-Survey*.zip` (5 files, 17 MB; ECSTAT + demographic SPSS) | Geostat LFS databases page, media ids in `fetch/geo.py` | 2026-09-06 | Open (Geostat) | Georgia panel |
 | HAVE | `geo/lfs/docs/30-Labour-Force-Indicators-Q.xlsx` | Geostat quarterly labour force indicators | 2026-09-06 | Public | Georgia validation |
+| HAVE (manual) | `phl/lfs/{2021M01..2025M10}/PHL-PSA-LFS-<yyyy>-<mm>-PUF.zip` (19 files, 190 MB; July 2025 not yet released) | PSADA public-use files (login + Cloudflare), full-sample rounds Jan/Apr/Jul/Oct | 2026-09-06 | PSA terms of use | Philippines panel |
+| HAVE (resource) | `resources/official/phl_headline.csv` | PSA OpenSTAT PXWeb API, table 0011B3FKEI1 (via curl: TLS 1.3 only) | 2026-09-06 | Public | Philippines validation |
 | NEED | India PLFS quarterly unit-level files | MoSPI microdata API (key in `.env`) | | MoSPI terms | M3 |
 | MANUAL | GLD harmonized `.dta` for BRA, MEX, COL, ZAF, IND | World Bank GLD server / datalibweb (staff access) | | World Bank internal; do not redistribute | Backfill 2018-2021, validation |

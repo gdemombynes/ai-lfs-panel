@@ -32,9 +32,9 @@ def isco_major(occup_isco: pd.Series) -> pd.Series:
 def occup_skill_from_major(major: pd.Series) -> pd.Series:
     """GLD skill level: 1-3 high, 4-8 medium, 9 low, armed forces NA."""
     out = pd.Series(pd.NA, index=major.index, dtype="Int8")
-    out = out.mask(major.isin([1, 2, 3]), 3)
-    out = out.mask(major.isin([4, 5, 6, 7, 8]), 2)
-    out = out.mask(major == 9, 1)
+    out = out.mask(true_only(major.isin([1, 2, 3])), 3)
+    out = out.mask(true_only(major.isin([4, 5, 6, 7, 8])), 2)
+    out = out.mask(true_only(major == 9), 1)
     return out.astype("Int8")
 
 
@@ -59,26 +59,36 @@ def industrycat10_from_isic(isic: pd.Series) -> pd.Series:
     div = pd.to_numeric(isic.astype("string").str[:2], errors="coerce")
     out = pd.Series(pd.NA, index=isic.index, dtype="Int8")
     for (lo, hi), cat in _ISIC10:
-        out = out.mask(div.between(lo, hi), cat)
+        out = out.mask(true_only(div.between(lo, hi)), cat)
     return out.astype("Int8")
 
 
 def industrycat4_from_10(cat10: pd.Series) -> pd.Series:
     out = pd.Series(pd.NA, index=cat10.index, dtype="Int8")
-    out = out.mask(cat10 == 1, 1)
-    out = out.mask(cat10.isin([2, 3, 4, 5]), 2)
-    out = out.mask(cat10.isin([6, 7, 8, 9]), 3)
-    out = out.mask(cat10 == 10, 4)
+    out = out.mask(true_only(cat10 == 1), 1)
+    out = out.mask(true_only(cat10.isin([2, 3, 4, 5])), 2)
+    out = out.mask(true_only(cat10.isin([6, 7, 8, 9])), 3)
+    out = out.mask(true_only(cat10 == 10), 4)
     return out.astype("Int8")
 
 
 def educat4_from_7(educat7: pd.Series) -> pd.Series:
     out = pd.Series(pd.NA, index=educat7.index, dtype="Int8")
-    out = out.mask(educat7 == 1, 1)
-    out = out.mask(educat7.isin([2, 3]), 2)
-    out = out.mask(educat7.isin([4, 5]), 3)
-    out = out.mask(educat7.isin([6, 7]), 4)
+    out = out.mask(true_only(educat7 == 1), 1)
+    out = out.mask(true_only(educat7.isin([2, 3])), 2)
+    out = out.mask(true_only(educat7.isin([4, 5])), 3)
+    out = out.mask(true_only(educat7.isin([6, 7])), 4)
     return out.astype("Int8")
+
+
+def true_only(cond: pd.Series) -> pd.Series:
+    """Boolean condition with missing values treated as False.
+
+    ``Series.mask`` replaces where the condition is missing as well as where it
+    is True, so a comparison against a nullable integer that is NA would
+    otherwise assign a category to rows with no information.
+    """
+    return cond.fillna(False).astype(bool)
 
 
 def to_int(s: pd.Series, dtype: str = "Int8") -> pd.Series:

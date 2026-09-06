@@ -29,7 +29,7 @@ Reference: World Bank GLD `COL_2025_GEIH_V01_M_V01_A_GLD_ALL.do`.
 | occupation | OFICIO_C8 CIUO-08 A.C. | Colombian unit groups mapped to ISCO-08 per GLD (73xx, 8323-4, 9625-6), then validated; 4 digits for >99.9 % |
 | wage_no_compen | P6500 | monthly earnings of employees; 0 for unpaid |
 | whours | P6850, else P6800 | last week, else usual hours |
-| contract | P6440, P6450 | written contract (P6450 = 2) -> 1; verbal or none -> 0 |
+| contract | P6440, P6450 | written contract (P6450 = 2) -> 1; verbal or none -> 0. Until 2026-09-06 employees without a contract type were counted as having one (missing-condition bug); the corrected share of employees with a written contract is about 39 % |
 | socialsec | P6920 | contributes to pension 1 -> 1, 2 -> 0, pensioned -> NA |
 | tenure_months *, tenure_lt12 * | P6426 | months in current job |
 

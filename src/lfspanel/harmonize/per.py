@@ -27,6 +27,7 @@ from lfspanel.harmonize.common import (
     isco_major,
     occup_skill_from_major,
     to_int,
+    true_only,
 )
 from lfspanel.periods import Period
 
@@ -115,15 +116,19 @@ def harmonize(
     pens = pd.concat([to_int(raw[c]) for c in ("c364_1", "c364_2", "c364_3")], axis=1)
     df["socialsec"] = (
         pd.Series(pd.NA, index=raw.index, dtype="Int8")
-        .mask(pens.notna().any(axis=1), 0)
-        .mask((pens == 1).any(axis=1), 1)
+        .mask(true_only(pens.notna().any(axis=1)), 0)
+        .mask(true_only((pens == 1).any(axis=1)), 1)
     )
     band = to_int(raw["c317"])
     exact = pd.to_numeric(raw["c317a"], errors="coerce").where(band == 1)
     df["firmsize_l"] = band.map({k: v[0] for k, v in FIRMSIZE.items()}).astype("Int16")
     df["firmsize_u"] = band.map({k: v[1] for k, v in FIRMSIZE.items()}).astype("Int16")
-    df["firmsize_l"] = df["firmsize_l"].mask(exact.notna(), exact).astype("Int16")
-    df["firmsize_u"] = df["firmsize_u"].mask(exact.notna(), exact).astype("Int16")
+    df["firmsize_l"] = (
+        df["firmsize_l"].mask(true_only(exact.notna()), exact).astype("Int16")
+    )
+    df["firmsize_u"] = (
+        df["firmsize_u"].mask(true_only(exact.notna()), exact).astype("Int16")
+    )
     df["tenure_months"] = pd.NA  # no tenure question in the EPEN
     df["tenure_lt12"] = pd.NA
     df["source_file"] = (

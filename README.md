@@ -25,7 +25,17 @@ Companion inventory of where LFS microdata are published:
 | Peru (EPEN) | INEI zips by survey code | national .dta | 2022Q1-2026Q2, 18 quarters | 90/90 checks pass, max gap 0.001 pp vs INEI's quarterly reports (`output/tables/validation_official_per.csv`) |
 | South Africa (QLFS) | DataFirst, manual download (CAPTCHA login) | worker .dta via pandas | 2022Q1-2026Q2, 18 quarters | 90/90 checks pass, rates identical to Stats SA's QLFS Trends (15-64) to 3 decimals (`output/tables/validation_official_zaf.csv`) |
 | Georgia (LFS) | Geostat annual zips, quarter ids | ECSTAT .sav per quarter | 2021Q1-2025Q4, 20 quarters | 100/100 checks pass, rates identical to Geostat's quarterly indicators to 3 decimals (`output/tables/validation_official_geo.csv`) |
+| Philippines (LFS) | PSADA, manual download | PUF CSV, full-sample rounds | 2021Q1-2025Q4, 18 quarters (2025Q3 not released) | 90/90 checks pass, rates identical to PSA OpenSTAT to 3 decimals (`output/tables/validation_official_phl.csv`) |
 | India | blocked: MoSPI microdata portal unreachable (hourly check scheduled) | | | |
+
+## Codebook drift
+
+`10_harmonize.py` writes a fingerprint of every raw variable's code set per
+country-quarter (`data/processed/codebooks/`), and
+`scripts/25_codebook_drift.py` diffs consecutive quarters (variables and
+codes that appear or vanish, missing-share jumps) and flags level shifts in
+the harmonized category shares. Outputs: `output/tables/codebook_changes.csv`
+and `distribution_drift.csv`.
 
 ## Analysis (milestone 4, first pass)
 

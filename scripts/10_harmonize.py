@@ -9,6 +9,7 @@ import argparse
 import importlib
 import time
 
+from lfspanel.codebook import fingerprint
 from lfspanel.config import get_country
 from lfspanel.fetch.base import read_manifest
 from lfspanel.periods import parse_periods
@@ -34,6 +35,8 @@ def main() -> None:
     for period in parse_periods(args.periods):
         t0 = time.time()
         raw = reader.read_raw(period, nrows=args.nrows)
+        if args.source == "own" and not args.nrows:
+            fingerprint(raw, country.key, period)
         release = ""
         src = (
             str(raw["source_file"].iloc[0]).split(":")[0]

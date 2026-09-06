@@ -1,0 +1,31 @@
+period,previous,variable,change,detail,share,country
+2025Q3,2025Q2,q415typebusns,missing_share_jump,0.75 -> 1.00,,zaf
+2025Q3,2025Q2,q415typebusns,codes_removed,"1,2,3,4,5,6",1.0,zaf
+2025Q3,2025Q2,q416nrworkers,codes_removed,"8,99",0.0713,zaf
+2025Q4,2025Q3,q14age,labels_changed,105: '-' -> '105',,zaf
+2025Q4,2025Q3,q17education,labels_changed,99: '-' -> 'Unspecified',,zaf
+2025Q4,2025Q3,q419totalhrs,labels_changed,116: '-' -> '116'; 119: '119' -> '-'; 133: '133' -> '-'; 140: '-' -> '140'; 86: '86' -> '-'; 87: '-' -> '87',,zaf
+2025Q4,2025Q3,q44monthstart,labels_changed,9: 'Sepember' -> 'September',,zaf
+2025Q4,2025Q3,q44yearstart,labels_changed,1948: '1948' -> '-'; 1966: '-' -> '1966'; 1967: '1967' -> '-'; 1970: '-' -> '1970'; 1971: '-' -> '1971'; 1972: '1972' -> '-',,zaf
+2026Q1,2025Q4,q14age,labels_changed,102: '102' -> '-'; 106: '-' -> '106'; 110: '-' -> '110',,zaf
+2026Q1,2025Q4,q17education,labels_changed,99: 'Unspecified' -> '-',,zaf
+2026Q1,2025Q4,q411contracttype,labels_changed,1: 'Yes' -> 'A written contract'; 2: 'No' -> 'A verbal agreement',,zaf
+2026Q1,2025Q4,q419totalhrs,labels_changed,100: '100' -> '-'; 102: '-' -> '102'; 108: '108' -> '-'; 112: '112' -> '-'; 116: '116' -> '-'; 126: '-' -> '126',,zaf
+2026Q1,2025Q4,q44yearstart,labels_changed,1966: '1966' -> '-'; 1970: '1970' -> '-'; 1971: '1971' -> '-'; 1974: '1974' -> '-'; 2026: '-' -> '2026',,zaf
+2026Q2,2026Q1,geo_type_code,labels_changed,1: 'Urban' -> '1. Urban'; 2: 'Traditional' -> '2. Traditional'; 3: 'Farms' -> '3. Farms',,zaf
+2026Q2,2026Q1,inactreason,labels_changed,1: 'Scholar/student' -> '1. Scholar/student'; 2: 'Home-maker' -> '2. Home-maker'; 3: 'Health reasons' -> '3. Health reasons'; 4: 'Too young/old/retired' -> '4. Too young/old/retired'; 5: 'Discouraged work-seekers' -> '5. Discouraged work-seekers'; 6: 'Other' -> '6. Other',,zaf
+2026Q2,2026Q1,province,labels_changed,1: 'Western Cape' -> '1. Western Cape'; 2: 'Eastern Cape' -> '2. Eastern Cape'; 3: 'Northern Cape' -> '3. Northern Cape'; 4: 'Free State' -> '4. Free State'; 5: 'KwaZulu-Natal' -> '5. KwaZulu-Natal'; 6: 'North West' -> '6. North West',,zaf
+2026Q2,2026Q1,q13gender,labels_changed,1: 'Male' -> '1. Male'; 2: 'Female' -> '2. Female',,zaf
+2026Q2,2026Q1,q14age,labels_changed,0: '0' -> '0. 0'; 1: '1' -> '1. 1'; 10: '10' -> '10. 10'; 100: '100' -> '100. 100'; 101: '101' -> '101. 101'; 102: '-' -> '102. 102',,zaf
+2026Q2,2026Q1,q17education,labels_changed,0: 'Grade R/0' -> '0. Grade R/0'; 1: 'Grade 1/Sub A' -> '1. Grade 1/Sub A'; 10: 'Grade 10/Standard 8/Form 3' -> '10. Grade 10/Standard 8/Form 3'; 11: 'Grade 11/Standard 9/Form 4' -> '11. Grade 11/Standard 9/Form 4'; 12: 'Grade 12/Standard 10/Form 5/Matric (No Exemption)' -> '12. Grade 12/Standard 10,,zaf
+2026Q2,2026Q1,q411contracttype,labels_changed,1: 'A written contract' -> '1. A written contract'; 2: 'A verbal agreement' -> '2. A verbal agreement',,zaf
+2026Q2,2026Q1,q416nrworkers,labels_changed,1: '0 employee' -> '1. 0 employee'; 2: '1 employee' -> '2. 1 employee'; 3: 'between 2 and 4 employees' -> '3. between 2 and 4 employees'; 4: 'between 5 and 9 employees' -> '4. between 5 and 9 employees'; 5: 'between 10 and 19 employees' -> '5. between 10 and 19 employees'; 6: 'between 20 and 49 empl,,zaf
+2026Q2,2026Q1,q419totalhrs,labels_changed,0: '0' -> '0. 0'; 1: '1' -> '1. 1'; 10: '10' -> '10. 10'; 102: '102' -> '-'; 105: '105' -> '105. 105'; 11: '11' -> '11. 11',,zaf
+2026Q2,2026Q1,q42occupation,labels_changed,1110: 'Legislators' -> '1110. Legislators'; 1120: 'Senior government officers' -> '1120. Senior government officers'; 1130: 'Traditional chiefs and heads of villages' -> '1130. Traditional chiefs and heads of villages'; 1141: 'Senior officers of political party organisations' -> '1141. Senior office,,zaf
+2026Q2,2026Q1,q43industry,labels_changed,10: 'Private households with employed persons' -> '10. Private households with employed persons'; 111: 'Growing of crops' -> '111. Growing of crops'; 112: 'Farming of animals' -> '112. Farming of animals'; 113: 'Growing of crops combined with farming of animals(mixed farming)' -> '113. Growing of cr,,zaf
+2026Q2,2026Q1,q44monthstart,labels_changed,1: 'January' -> '1. January'; 10: 'October' -> '10. October'; 11: 'November' -> '11. November'; 12: 'December' -> '12. December'; 2: 'February' -> '2. February'; 3: 'March' -> '3. March',,zaf
+2026Q2,2026Q1,q44yearstart,labels_changed,1973: '-' -> '1973. 1973'; 1975: '1975' -> '-'; 1976: '1976' -> '1976. 1976'; 1978: '1978' -> '1978. 1978'; 1979: '1979' -> '-'; 1980: '1980' -> '1980. 1980',,zaf
+2026Q2,2026Q1,q45wrk4whom,labels_changed,"1: 'As an employee' -> '1. As an employee'; 2: 'In your own business' -> '2. In your own business'; 3: 'Helping in a family or household business' -> '3. Helping in a family or household business'; 4: 'As a paid apprentice, intern' -> '4. As a paid apprentice, intern'; 5: 'Helping a family member wh",,zaf
+2026Q2,2026Q1,q46pension,labels_changed,1: 'Yes' -> '1. Yes'; 2: 'No' -> '2. No'; 3: 'Do not know' -> '3. Do not know',,zaf
+2026Q2,2026Q1,status,labels_changed,1: 'Employed' -> '1. Employed'; 2: 'Unemployed' -> '2. Unemployed'; 3: 'Discouraged job seeker' -> '3. Discouraged job seeker'; 4: 'Other not economically active' -> '4. Other not economically active',,zaf
+2026Q2,2026Q1,underempl,labels_changed,1: 'Underemployed' -> '1. Underemployed'; 2: 'Not underemployed' -> '2. Not underemployed',,zaf

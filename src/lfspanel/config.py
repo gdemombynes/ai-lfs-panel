@@ -140,6 +140,18 @@ COUNTRIES = {
         access="open",
         first_period="2022Q1",
     ),
+    "phl": Country(
+        ccc="PHL",
+        survey="lfs",
+        survey_name="Labor Force Survey (public-use files, full-sample rounds)",
+        agency="PSA",
+        freq="Q",
+        minlaborage=15,
+        isco_digits=4,
+        isic_digits=2,
+        access="manual",
+        first_period="2021Q1",
+    ),
     "zaf": Country(
         ccc="ZAF",
         survey="qlfs",

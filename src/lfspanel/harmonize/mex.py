@@ -24,6 +24,7 @@ from lfspanel.harmonize.common import (
     isco_major,
     occup_skill_from_major,
     to_int,
+    true_only,
 )
 from lfspanel.periods import Period
 
@@ -46,13 +47,13 @@ def _educat7(raw: pd.DataFrame) -> pd.Series:
     lvl = to_int(raw["cs_p13_1"])
     yrs = pd.to_numeric(raw["anios_esc"], errors="coerce")
     out = pd.Series(pd.NA, index=raw.index, dtype="Int8")
-    out = out.mask(lvl.isin([0, 1]), 1)
-    out = out.mask(lvl == 2, 2)
-    out = out.mask((lvl == 2) & (yrs >= 6), 3)
-    out = out.mask(lvl.isin([3, 4]), 4)
-    out = out.mask((lvl == 4) & (yrs >= 12), 5)
-    out = out.mask(lvl.isin([5, 6]), 6)
-    out = out.mask(lvl.isin([7, 8, 9]), 7)
+    out = out.mask(true_only(lvl.isin([0, 1])), 1)
+    out = out.mask(true_only(lvl == 2), 2)
+    out = out.mask(true_only((lvl == 2) & (yrs >= 6)), 3)
+    out = out.mask(true_only(lvl.isin([3, 4])), 4)
+    out = out.mask(true_only((lvl == 4) & (yrs >= 12)), 5)
+    out = out.mask(true_only(lvl.isin([5, 6])), 6)
+    out = out.mask(true_only(lvl.isin([7, 8, 9])), 7)
     return out.astype("Int8")
 
 
@@ -60,13 +61,13 @@ def _ocusec(raw: pd.DataFrame, empstat: pd.Series) -> pd.Series:
     """GLD MEX rule from the type of economic unit (p4b, p4c, p4d1, p4d2)."""
     p4b, p4c, p4d1, p4d2 = (to_int(raw[c]) for c in ("p4b", "p4c", "p4d1", "p4d2"))
     out = pd.Series(pd.NA, index=raw.index, dtype="Int8")
-    out = out.mask((p4b == 4) | ((p4b == 5) & p4c.isin([1, 2])), 2)
+    out = out.mask(true_only((p4b == 4) | ((p4b == 5) & p4c.isin([1, 2]))), 2)
     inst = p4b.isin([2, 3])
-    out = out.mask(inst & (p4d1 == 1) & p4d2.between(1, 7), 1)
-    out = out.mask(inst & (p4d1 == 2) & p4d2.isin([2, 3, 6]), 1)
-    out = out.mask(inst & (p4d1 == 2) & p4d2.isin([1, 4, 5, 7]), 2)
-    out = out.mask((p4b == 1) & empstat.isin([2, 3, 4]), 2)
-    out = out.mask(out.isna() & (raw["p4a"] == "8140"), 2)
+    out = out.mask(true_only(inst & (p4d1 == 1) & p4d2.between(1, 7)), 1)
+    out = out.mask(true_only(inst & (p4d1 == 2) & p4d2.isin([2, 3, 6])), 1)
+    out = out.mask(true_only(inst & (p4d1 == 2) & p4d2.isin([1, 4, 5, 7])), 2)
+    out = out.mask(true_only((p4b == 1) & empstat.isin([2, 3, 4])), 2)
+    out = out.mask(true_only(out.isna() & (raw["p4a"] == "8140")), 2)
     return out.astype("Int8")
 
 
@@ -77,20 +78,20 @@ def _tenure(raw: pd.DataFrame, period: Period, int_month: pd.Series) -> tuple:
     mes = mes.where(mes.between(1, 12))
     anio = pd.to_numeric(raw["p3r_anio"], errors="coerce")
     start_year = pd.Series(np.nan, index=raw.index, dtype="float")
-    start_year = start_year.mask(p3r == 1, float(period.year))
-    start_year = start_year.mask(p3r == 2, float(period.year - 1))
-    start_year = start_year.mask(p3r == 3, anio)
+    start_year = start_year.mask(true_only(p3r == 1), float(period.year))
+    start_year = start_year.mask(true_only(p3r == 2), float(period.year - 1))
+    start_year = start_year.mask(true_only(p3r == 3), anio)
     start_month = mes.where(p3r.isin([1, 2]), 6.0)  # unknown month: mid-year
     ref_month = int_month.astype("float").fillna(float(period.months[1]))
     months = (period.year - start_year) * 12 + (ref_month - start_month)
     months = months.clip(lower=0.5).astype("float32")
     lt12 = pd.Series(pd.NA, index=raw.index, dtype="Int8")
-    lt12 = lt12.mask(months.notna() & (months < 12), 1).mask(
-        months.notna() & (months >= 12), 0
+    lt12 = lt12.mask(true_only(months.notna() & (months < 12)), 1).mask(
+        true_only(months.notna() & (months >= 12)), 0
     )
     # started before last year: at least a year ago. The comparison is NA
     # outside first quarters (question not asked); NA must stay NA, not 0.
-    lt12 = lt12.mask((p3r == 3).fillna(False), 0)
+    lt12 = lt12.mask(true_only((p3r == 3).fillna(False)), 0)
     return months, lt12.astype("Int8")
 
 
@@ -116,8 +117,8 @@ def harmonize(
     tloc = to_int(raw["t_loc_tri"])
     df["urban"] = (
         pd.Series(pd.NA, index=raw.index, dtype="Int8")
-        .mask(tloc.between(1, 3), 1)
-        .mask(tloc == 4, 0)
+        .mask(true_only(tloc.between(1, 3)), 1)
+        .mask(true_only(tloc == 4), 0)
     )
     ent = raw["ent"].str.zfill(2)
     df["subnatid1"] = (ent + " - " + ent.map(ENT_NAMES)).astype("string")
@@ -130,8 +131,10 @@ def harmonize(
     adult = df["age"] >= COUNTRY.minlaborage
     clase2 = to_int(raw["clase2"])
     lstatus = pd.Series(pd.NA, index=raw.index, dtype="Int8")
-    lstatus = lstatus.mask(adult & (clase2 == 1), 1).mask(adult & (clase2 == 2), 2)
-    lstatus = lstatus.mask(adult & clase2.isin([3, 4]), 3)
+    lstatus = lstatus.mask(true_only(adult & (clase2 == 1)), 1).mask(
+        true_only(adult & (clase2 == 2)), 2
+    )
+    lstatus = lstatus.mask(true_only(adult & clase2.isin([3, 4])), 3)
     df["lstatus"] = lstatus.astype("Int8")
     employed, nlf = df["lstatus"] == 1, df["lstatus"] == 3
     df["potential_lf"] = clase2.map({3: 1, 4: 0}).astype("Int8").where(nlf)

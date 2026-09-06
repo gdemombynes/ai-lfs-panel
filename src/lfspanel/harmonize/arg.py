@@ -23,6 +23,7 @@ from lfspanel.harmonize.common import (
     isco_major,
     occup_skill_from_major,
     to_int,
+    true_only,
 )
 from lfspanel.periods import Period
 
@@ -86,11 +87,11 @@ def harmonize(
     caes = caes.where(caes != "").str.zfill(4)
     df["industry_orig"] = caes.astype("string")
     div = caes.str[:2]
-    isic = (div + "00").mask(div.isin(COMMERCE_DIVISIONS), "4700")
+    isic = (div + "00").mask(true_only(div.isin(COMMERCE_DIVISIONS)), "4700")
     df["industrycat_isic"] = isic.astype("string")
     df["isic_digits"] = (
         pd.Series(2, index=raw.index, dtype="Int8")
-        .mask(div.isin(COMMERCE_DIVISIONS), 1)
+        .mask(true_only(div.isin(COMMERCE_DIVISIONS)), 1)
         .where(isic.notna())
     )
     df["industrycat10"] = industrycat10_from_isic(df["industrycat_isic"])
@@ -123,8 +124,8 @@ def harmonize(
     df["tenure_months"] = tenure_band.map(TENURE_MID).astype("float32")
     df["tenure_lt12"] = (
         pd.Series(pd.NA, index=raw.index, dtype="Int8")
-        .mask(tenure_band.between(1, 4), 1)
-        .mask(tenure_band.isin([5, 6]), 0)
+        .mask(true_only(tenure_band.between(1, 4)), 1)
+        .mask(true_only(tenure_band.isin([5, 6])), 0)
     )
     df["source_file"] = raw["source_file"].astype("string")
     return finalize(df, COUNTRY, period, source="own", raw_release=raw_release)

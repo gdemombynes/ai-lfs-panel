@@ -1,0 +1,21 @@
+# PSA LFS public-use file (CSV inside the PUF zip): raw variables retained
+PUFREG          # region code
+PUFHHNUM        # household sequential number
+PUFPWGTPRV      # final weight (population projection)
+PUFSVYMO        # survey month
+PUFSVYYR        # survey year
+PUFC01_LNO      # line number
+PUFC04_SEX      # 1 male, 2 female
+PUFC05_AGE
+PUFC07_GRADE    # highest grade completed (5-digit code)
+PUFC14_PROCC    # primary occupation, PSOC 2012 (2 digits in the PUF)
+PUFC16_PKB      # kind of business, PSIC 2009 (2 digits in the PUF)
+PUFC17_NATEM    # 1 permanent, 2 short-term/seasonal, 3 casual different employers
+PUFC19_PHOURS   # hours worked last week, primary job
+PUFC20_PWMORE   # wants more hours: 1 yes
+PUFC23_PCLASS   # class of worker: 0 private household, 1 private establishment, 2 government, 3 self-employed, 4 employer, 5 paid family, 6 unpaid family
+PUFC24_PBASIS   # basis of payment
+PUFC25_PBASIC   # basic pay per day
+PUFC34_WYNOT    # reason for not looking for work
+PUFNEWEMPSTAT   # 1 employed, 2 unemployed, 3 not in the labour force
+PUFURB2020      # 1 urban, 2 rural (PUFURB2015 before 2024)

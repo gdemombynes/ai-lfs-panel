@@ -50,7 +50,12 @@ python scripts/41_event_study.py --outcome log_emp && python scripts/42_figures.
 - Scripts are numbered in run order and must be re-runnable from scratch.
 - Every function in `src/lfspanel/` gets a test in `tests/`. Tests run on
   small fixtures in `tests/fixtures/`, never on the real microdata.
+- Codebook drift: `10_harmonize.py` fingerprints every raw extract; run
+  `scripts/25_codebook_drift.py --country <ccc>` after adding quarters and
+  resolve every flagged code change (alias, recode, or a documented break).
 - Validation is not optional: a new country-quarter is done only when
   `20_validate_official.py` passes against the published headline rates.
 - Secrets only via `.env` (see `.env.example`); never in code or commits.
+- Never pass a nullable condition straight to `Series.mask`: pandas treats a
+  missing condition as True. Wrap it in `harmonize.common.true_only()`.
 - `pathlib.Path` for paths; `pyproject.toml` is the single dependency source.

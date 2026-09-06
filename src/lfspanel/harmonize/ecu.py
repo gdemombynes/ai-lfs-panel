@@ -22,6 +22,7 @@ from lfspanel.harmonize.common import (
     isco_major,
     occup_skill_from_major,
     to_int,
+    true_only,
 )
 from lfspanel.periods import Period
 
@@ -43,13 +44,21 @@ def _educat7(raw: pd.DataFrame) -> pd.Series:
     lvl = to_int(raw["p10a"])
     grd = pd.to_numeric(raw["p10b"], errors="coerce")
     out = pd.Series(pd.NA, index=raw.index, dtype="Int8")
-    out = out.mask(lvl.isin([1, 2, 3]), 1)
-    out = out.mask((lvl == 4) & (grd < 6), 2).mask((lvl == 4) & (grd >= 6), 3)
-    out = out.mask((lvl == 5) & (grd < 6), 2).mask((lvl == 5) & (grd == 6), 3)
-    out = out.mask((lvl == 5) & (grd >= 7), 4)
-    out = out.mask((lvl == 6) & (grd < 6), 4).mask((lvl == 6) & (grd >= 6), 5)
-    out = out.mask((lvl == 7) & (grd < 3), 4).mask((lvl == 7) & (grd >= 3), 5)
-    out = out.mask(lvl == 8, 6).mask(lvl.isin([9, 10]), 7)
+    out = out.mask(true_only(lvl.isin([1, 2, 3])), 1)
+    out = out.mask(true_only((lvl == 4) & (grd < 6)), 2).mask(
+        true_only((lvl == 4) & (grd >= 6)), 3
+    )
+    out = out.mask(true_only((lvl == 5) & (grd < 6)), 2).mask(
+        true_only((lvl == 5) & (grd == 6)), 3
+    )
+    out = out.mask(true_only((lvl == 5) & (grd >= 7)), 4)
+    out = out.mask(true_only((lvl == 6) & (grd < 6)), 4).mask(
+        true_only((lvl == 6) & (grd >= 6)), 5
+    )
+    out = out.mask(true_only((lvl == 7) & (grd < 3)), 4).mask(
+        true_only((lvl == 7) & (grd >= 3)), 5
+    )
+    out = out.mask(true_only(lvl == 8), 6).mask(true_only(lvl.isin([9, 10])), 7)
     return out.astype("Int8")
 
 
@@ -60,7 +69,7 @@ def _isco(raw_code: pd.Series) -> pd.Series:
     s = s.where(s.notna() & (s != ""), pd.NA)
     three = s.str.len() == 3
     fixed = s.where(~three, s.str.ljust(4, "0"))
-    fixed = fixed.mask(three & s.isin(MILITARY_3DIGIT), s.str.zfill(4))
+    fixed = fixed.mask(true_only(three & s.isin(MILITARY_3DIGIT)), s.str.zfill(4))
     return fixed
 
 
@@ -88,9 +97,9 @@ def harmonize(
     cond = to_int(raw["condact"])
     adult = df["age"] >= COUNTRY.minlaborage
     lstatus = pd.Series(pd.NA, index=raw.index, dtype="Int8")
-    lstatus = lstatus.mask(adult & cond.between(1, 6), 1)
-    lstatus = lstatus.mask(adult & cond.isin([7, 8]), 2)
-    lstatus = lstatus.mask(adult & (cond == 9), 3)
+    lstatus = lstatus.mask(true_only(adult & cond.between(1, 6)), 1)
+    lstatus = lstatus.mask(true_only(adult & cond.isin([7, 8])), 2)
+    lstatus = lstatus.mask(true_only(adult & (cond == 9)), 3)
     df["lstatus"] = lstatus.astype("Int8")
     employed = df["lstatus"] == 1
     df["potential_lf"] = pd.NA
@@ -102,8 +111,8 @@ def harmonize(
     ).astype("Int8")
     df["ocusec"] = (
         pd.Series(pd.NA, index=raw.index, dtype="Int8")
-        .mask(p42 == 1, 1)
-        .mask(p42.notna() & (p42 != 1), 2)
+        .mask(true_only(p42 == 1), 1)
+        .mask(true_only(p42.notna() & (p42 != 1)), 2)
     )
 
     ciiu = raw["p40"].str.strip().where(raw["p40"].str.strip() != "").str.zfill(4)
@@ -131,25 +140,27 @@ def harmonize(
     p43 = to_int(raw["p43"])
     df["contract"] = (
         pd.Series(pd.NA, index=raw.index, dtype="Int8")
-        .mask(p43.isin([1, 2, 3]), 1)
-        .mask(p43.isin([4, 5, 6]), 0)
+        .mask(true_only(p43.isin([1, 2, 3])), 1)
+        .mask(true_only(p43.isin([4, 5, 6])), 0)
     )
     p05a = to_int(raw["p05a"])
     df["socialsec"] = (
         pd.Series(pd.NA, index=raw.index, dtype="Int8")
-        .mask(p05a.between(1, 4), 1)
-        .mask(p05a.between(5, 10), 0)
+        .mask(true_only(p05a.between(1, 4)), 1)
+        .mask(true_only(p05a.between(5, 10)), 0)
     )
     size = pd.to_numeric(raw["p47b"], errors="coerce")
     band = to_int(raw["p47a"])
-    df["firmsize_l"] = size.where(band == 1).mask(band == 2, 100).astype("Int16")
+    df["firmsize_l"] = (
+        size.where(band == 1).mask(true_only(band == 2), 100).astype("Int16")
+    )
     df["firmsize_u"] = size.where(band == 1).astype("Int16")
     years = pd.to_numeric(raw["p45"], errors="coerce")
     df["tenure_months"] = (years * 12 + 6).astype("float32")
     df["tenure_lt12"] = (
         pd.Series(pd.NA, index=raw.index, dtype="Int8")
-        .mask(years == 0, 1)
-        .mask(years >= 1, 0)
+        .mask(true_only(years == 0), 1)
+        .mask(true_only(years >= 1), 0)
     )
     df["source_file"] = raw["source_file"].astype("string")
     return finalize(df, COUNTRY, period, source="own", raw_release=raw_release)

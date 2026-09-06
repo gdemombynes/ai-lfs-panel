@@ -69,4 +69,6 @@ def read_raw(
         else:
             df[c] = s.fillna("").astype(str).str.strip()
     df["source_file"] = f"{src.name}:{Path(member).name}"
+    labels = {k.lower(): v for k, v in meta.variable_value_labels.items()}
+    df.attrs["value_labels"] = {c: labels[c] for c in df.columns if c in labels}
     return df

@@ -28,6 +28,7 @@ from lfspanel.harmonize.common import (
     isco_major,
     occup_skill_from_major,
     to_int,
+    true_only,
 )
 from lfspanel.periods import Period
 
@@ -165,6 +166,30 @@ def sic_to_isic4(code: pd.Series) -> Tuple[pd.Series, pd.Series]:
     return isic.where(digits > 0), digits.where(digits > 0)
 
 
+ICSE18_FROM = Period(
+    "2025Q3"
+)  # Stats SA recoded Q45WRK4WHOM to ICSE-18 style categories
+
+
+def status_in_employment(raw: pd.DataFrame, period: Period) -> pd.Series:
+    """GLD empstat from Q45WRK4WHOM, whose codes changed meaning in 2025Q3.
+
+    Up to 2025Q2: 1 employee, 2 employer, 3 own account, 4 unpaid household
+    business. From 2025Q3: 1 employee, 2 in own business (employers and own
+    account together), 3 helping in a family business, 4 paid apprentice,
+    5 helping a relative employed elsewhere. Own-business workers are split
+    by the number of employees reported in Q416NRWORKERS (0 employees ->
+    own account, otherwise employer; unknown -> own account).
+    """
+    code = to_int(raw["q45wrk4whom"])
+    if period < ICSE18_FROM:
+        return code.map({1: 1, 2: 3, 3: 4, 4: 2}).astype("Int8")
+    out = code.map({1: 1, 2: 4, 3: 2, 4: 1, 5: 2}).astype("Int8")
+    employees = to_int(raw["q416nrworkers"])
+    employer = ((code == 2) & employees.between(2, 7)).fillna(False)
+    return out.mask(true_only(employer), 3).astype("Int8")
+
+
 def harmonize(
     raw: pd.DataFrame, period: Period, raw_release: Optional[str] = None
 ) -> pd.DataFrame:
@@ -200,9 +225,7 @@ def harmonize(
     df["nlfreason"] = (
         to_int(raw["inactreason"]).map(NLFREASON).astype("Int8").where(nlf)
     )
-    df["empstat"] = (
-        to_int(raw["q45wrk4whom"]).map({1: 1, 2: 3, 3: 4, 4: 2}).astype("Int8")
-    )
+    df["empstat"] = status_in_employment(raw, period)
     df["ocusec"] = (
         to_int(raw["q415typebusns"]).map({1: 1, 2: 1, 3: 2, 4: 2, 5: 2}).astype("Int8")
     )
@@ -245,8 +268,8 @@ def harmonize(
     df["tenure_months"] = months.astype("float32")
     df["tenure_lt12"] = (
         pd.Series(pd.NA, index=raw.index, dtype="Int8")
-        .mask(months < 12, 1)
-        .mask(months >= 12, 0)
+        .mask(true_only(months < 12), 1)
+        .mask(true_only(months >= 12), 0)
     )
     df["source_file"] = raw["source_file"].astype("string")
     return finalize(df, COUNTRY, period, source="own", raw_release=raw_release)

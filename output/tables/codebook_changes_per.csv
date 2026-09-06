@@ -1,0 +1,7 @@
+period,previous,variable,change,detail,share,country
+2023Q1,2022Q4,c310,codes_added,9,0.0103,per
+2023Q4,2023Q3,resident,codes_added,9,0.033,per
+2024Q2,2024Q1,nomciudad,missing_share_jump,1.00 -> 0.22,,per
+2024Q2,2024Q1,nomciudad,codes_added,"Abancay,Arequipa,Ayacucho,Cajamarca,Chachapoyas,Chiclayo,Chimbote,Cusco,Huancavelica,Huancayo,Huaraz,Huánuco,Ica,Iquitos,Juliaca,Lima Metropolitana,Moquegua,Moyobamba,Pasco,Piura,Pucallpa,Puerto Maldonado,Puno,Tacna,Tarapoto,Trujillo,Tumbes",1.0,per
+2024Q3,2024Q2,codciudad,kind_changed,codes -> continuous,,per
+2025Q2,2025Q1,nomciudad,codes_added,Bagua Grande,0.026,per

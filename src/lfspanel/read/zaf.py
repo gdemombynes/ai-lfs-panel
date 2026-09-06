@@ -50,6 +50,7 @@ def read_raw(
         )
         try:
             df = reader.read(nrows=nrows) if nrows else reader.read()
+            value_labels = {k.lower(): v for k, v in reader.value_labels().items()}
         finally:
             reader.close()
     actual = {c.lower(): c for c in df.columns}
@@ -70,4 +71,7 @@ def read_raw(
         else:
             df[c] = s.astype("string").str.strip().fillna("")
     df["source_file"] = f"{src.name}:{Path(member).name}"
+    df.attrs["value_labels"] = {
+        c: value_labels[c] for c in df.columns if c in value_labels
+    }
     return df
