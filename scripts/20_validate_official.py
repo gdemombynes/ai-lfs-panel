@@ -12,7 +12,7 @@ import pandas as pd
 from lfspanel.config import OUTPUT, get_country
 from lfspanel.periods import parse_periods
 from lfspanel.store import partition_path, read_partition
-from lfspanel.validate import compare_official, headline_rates, load_official
+from lfspanel.validate import age_band, compare_official, headline_rates, load_official
 
 
 def main() -> None:
@@ -39,8 +39,9 @@ def main() -> None:
             continue
         df = read_partition(path)
         pop = str(official.loc[official["period"] == period, "population"].iloc[0])
-        min_age = 0 if pop.strip().lower() == "all" else None
-        results.append(compare_official(headline_rates(df, min_age), official, period))
+        min_age, max_age = age_band(pop)
+        rates = headline_rates(df, min_age, max_age)
+        results.append(compare_official(rates, official, period))
     if not results:
         return
     out = pd.concat(results, ignore_index=True)

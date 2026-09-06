@@ -1,0 +1,147 @@
+sasco3,isco88,sasco_title,digits
+111,111,Legislators,3
+112,112,Senior Government officers,3
+113,113,Traditional Chiefs and heads of villages,3
+114,114,Senior officers of special interest organisations,3
+119,11,Legislators and senior officers not elsewhere classified,2
+121,121,Directors and chief executives,3
+122,122,Production and operations managers/department managers,3
+123,123,Other managers/department managers,3
+129,12,Corporate managers not elsewhere classified,2
+131,131,General managers,3
+139,13,General managers not elsewhere classified,2
+211,211,"Physicists, chemists and related professionals",3
+212,212,"Mathematicians, statisticians and related professionals",3
+213,213,Computing professionals,3
+214,214,"Architects, engineers and related professionals",3
+215,211,Physical sciences technologists,3
+219,21,"Physical, mathematical and engineering science professionals not elsewhere classified",2
+221,221,Life science professionals,3
+222,222,Health professionals (except nursing),3
+223,223,Nursing and midwifery professionals,3
+229,22,Life science and health professionals not elsewhere classified,2
+231,231,"College, university and higher education institutions teaching professionals",3
+232,232,Secondary education institutions teaching professionals,3
+233,233,Primary and pre-primary education teaching professionals,3
+234,234,Special education institutions teaching professionals,3
+235,235,Other teaching institutions teaching professionals,3
+239,23,Other education professionals not elsewhere classified,2
+241,241,Business professionals,3
+242,242,Legal professionals,3
+243,243,"Archivists, librarians and related information professionals",3
+244,244,Social science and related professionals,3
+245,245,Writers and creative or performing artists,3
+246,246,Religious professionals,3
+249,24,Other professionals not elsewhere classified,2
+311,311,Natural and engineering science technicians,3
+312,312,Computer associate professionals,3
+313,313,Optical and electronic equipment operators,3
+314,314,Ship and aircraft controllers and technicians,3
+315,315,Safety and quality inspectors,3
+319,31,"Physical and engineering science associate professionals not elsewhere
+classified",2
+321,321,Life science technicians and related associate professionals,3
+322,322,Modern health associate professionals (except nursing),3
+323,323,Nursing and midwifery associate professional,3
+324,324,Traditional medicine practitioners and faith healers,3
+329,32,Life science and health associate professionals not elsewhere classified,2
+331,331,Primary education teaching associate professionals,3
+332,332,Pre-primary education teaching associate professionals,3
+333,333,Special education teaching associate professionals,3
+334,334,Other teaching associate professionals,3
+339,33,Teaching associate professionals not elsewhere classified,2
+341,341,Finance and sales associate professionals,3
+342,342,Business services agents and trade brokers,3
+343,343,Administrative associate professionals,3
+344,344,"Customs, tax and related government associate professionals",3
+345,345,Police inspectors and detectives,3
+346,346,Social work associate professionals,3
+347,347,"Artistic, entertainment and sports and associate professionals",3
+348,348,Religious associate professionals,3
+349,34,Other associate professionals not elsewhere classified,2
+411,411,Secretaries and keyboard operating clerks,3
+412,412,Numerical clerks,3
+413,413,Material-recording and transport clerks,3
+414,414,"Library, mail and related clerks",3
+419,41,"Other office clerks and clerks not elsewhere classified (except customer
+services clerks)",2
+421,421,"Cashiers, tellers and related clerks",3
+422,422,Client information clerks,3
+429,42,Customer services clerks not elsewhere classified,2
+511,511,Travel attendants and related workers,3
+512,512,Housekeeping and restaurant services workers,3
+513,513,Personal care and related workers,3
+514,514,Other personal services workers,3
+515,515,"Astrologers, fortune-tellers and related workers",3
+516,516,Protective services workers,3
+519,51,Personal and protective services workers not elsewhere classified,2
+521,521,Fashion and other models,3
+522,522,Shop salespersons and demonstrators,3
+523,522,Stall and market salespersons,3
+529,52,"Models, salespersons and demonstrators not elsewhere classified",2
+611,611,Market gardeners and crop growers,3
+612,612,Market-orientated animal producers and related workers,3
+613,613,Market-orientated crop and animals producers,3
+614,614,Forestry and related workers,3
+615,615,"Fishery workers, hunters and trappers",3
+619,61,"Market-orientated skilled agricultural and fishery workers not elsewhere
+classified",2
+621,621,Subsistence agricultural and fishery workers,3
+711,711,"Miners, shot-firers, stone cutters and carvers",3
+712,712,Building frame and related trades workers,3
+713,713,Building finishers and related trades workers,3
+714,714,"Painters, building structure cleaners and related trades workers",3
+719,71,Extraction and building trades workers not elsewhere classified,2
+721,721,"Metal moulders, welders, sheet-metal workers, structural metal preparers related trades workers",3
+722,722,"Blacksmiths, tool-makers and related trades workers (excluding apprentices/trainees)",3
+723,723,Machinery mechanics and fitters,3
+724,724,Electrical and electronic equipment mechanics and fitters,3
+729,72,"Metal, machinery and related trades workers not elsewhere classified",2
+731,731,Precision workers in metal and related materials,3
+732,732,"Potters, glass-makers and related trades workers",3
+733,733,"Handicraft workers in wood, textile, leather and related materials",3
+734,734,Printing and related trades workers,3
+739,73,"Precision, handicraft, printing and related trades workers not elsewhere
+classified",2
+741,741,Food processing and related trades workers,3
+742,742,"Wood treaters, cabinetmakers and related trades workers",3
+743,743,"Textile, garment and related trades workers",3
+744,744,"Pelt, leather and shoemaking trades workers",3
+749,74,Other craft and related trades workers not elsewhere classified,2
+811,811,Mining and mineral processing plant operators,3
+812,812,Metal-processing plant operators,3
+813,813,"Glass, ceramics and related plant operators",3
+814,814,Wood-processing and papermaking plant operators,3
+815,815,Chemical-processing plant operators,3
+816,816,Power-production and related plant operators,3
+817,817,Automated assembly-line and industrial-robot operators,3
+819,81,Stationary-plant and related operators not elsewhere classified,2
+821,821,Metal and mineral-products machine operators,3
+822,822,Chemical-products machine operators,3
+823,823,Rubber and plastic products machine operators,3
+824,824,Wood products machine operators,3
+825,825,"Printing, binding and paper products machine operators",3
+826,826,"Textile, fur and leather products machine operators",3
+827,827,Food and related products machine operators,3
+828,828,Assemblers,3
+829,82,Other machine operators and assemblers not elsewhere classified,2
+831,831,Locomotive-engine drivers and related workers,3
+832,832,Motor vehicle drivers and related workers,3
+833,833,Agricultural and other mobile plant operators,3
+834,834,Ships’ deck crews and related workers,3
+839,83,Drivers and mobile plant operators not elsewhere classified,2
+911,911,Street vendors and related workers,3
+912,912,Shoe-cleaning and other elementary street service occupations,3
+913,913,"Domestic and related helpers, cleaners and launderers",3
+914,914,Building caretakers and window and related cleaners,3
+915,915,"Messengers, porters, doorkeepers and related workers",3
+916,916,Garbage collectors and related workers,3
+919,91,Elementary sales and services occupations not elsewhere classified,2
+921,921,"Agricultural, fishery and related labourers",3
+929,92,"Agricultural, fishery and related labourers not elsewhere classifie",2
+931,931,Mining and construction labourers,3
+932,932,Manufacturing labourers,3
+933,933,Transport labourers and freight handlers,3
+939,93,"Labourers in mining, construction, manufacturing and transport not elsewhere classified",2
+001,1,Armed forces,1
+011,1,Armed forces,1

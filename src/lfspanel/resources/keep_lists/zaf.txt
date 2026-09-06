@@ -1,0 +1,22 @@
+# QLFS worker file (Stata, DataFirst): raw variables retained (matched case-insensitively)
+UQNO              # dwelling / household key
+PERSONNO
+Q13GENDER         # 1 male, 2 female
+Q14AGE
+Q17EDUCATION      # highest level completed (0-31, 98 none)
+Province          # 1-9
+Geo_type_code     # 1 urban, 2 traditional, 3 farms (Geo_Type_Code from 2025Q3)
+Weight
+Status            # 1 employed, 2 unemployed, 3 discouraged, 4 other NEA
+InactReason       # 1 student, 2 home-maker, 3 health, 4 too young/old/retired, 5 discouraged, 6 other
+Underempl         # 1 underemployed (time-related), 2 not
+Q42OCCUPATION     # SASCO 2003, 4 digits
+Q43INDUSTRY       # SIC 5, 3 digits
+Q44YEARSTART      # year started current job
+Q44MONTHSTART     # month started current job
+Q45WRK4WHOM       # 1 employee, 2 employer, 3 own account, 4 unpaid household business
+Q46PENSION        # employer contributes to pension/retirement fund: 1 yes, 2 no, 3 dk
+Q411CONTRACTTYPE  # written contract: 1 yes, 2 no
+Q415TYPEBUSNS     # 1 government, 2 government-controlled business, 3 private, 4 NGO, 5 household (dropped 2025Q3)
+Q416NRWORKERS     # workplace size bands
+Q419TOTALHRS      # hours worked last week, main job

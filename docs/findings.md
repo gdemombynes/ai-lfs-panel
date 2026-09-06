@@ -1,19 +1,19 @@
-# Findings (first pass, six countries, 2026-09-05)
+# Findings (first pass, seven countries, 2026-09-06)
 
 Question: since generative AI became widely available (reference quarter
 2022 Q4), has employment in AI-exposed occupations grown more slowly than in
 less exposed occupations, and is any gap concentrated among young workers?
 Design and caveats: `docs/design/analysis-plan.md`.
 
-Sample: Brazil, Mexico, Colombia, Argentina (urban), Ecuador and Peru,
-2022 Q1 to 2026 Q2 (2026 Q1 for Argentina and Ecuador). Cells are country x
+Sample: Brazil, Mexico, Colombia, Argentina (urban), Ecuador, Peru and South
+Africa, 2022 Q1 to 2026 Q2 (2026 Q1 for Argentina and Ecuador). Cells are country x
 quarter x ISCO-08 occupation (3 digits; 2 digits for Argentina and Mexico) x
 age group x sex, fixed at cells averaging at least 30 observations in 2022,
 with zero employment where a cell is absent. Exposure: ILO 2025 GenAI scores
 (Gmyrek et al., ILO WP 140), employment-weighted terciles at each digit level;
 "high" = top tercile (35 % of employment). Estimates: cell and country x age
 x sex x quarter fixed effects, baseline-employment weights, standard errors
-clustered by country x occupation (433 clusters).
+clustered by country x occupation (479 clusters).
 
 ## Employment
 
@@ -32,12 +32,17 @@ The pooled result hides opposite country patterns:
 | Peru | +0.105 | 0.044 |
 | Brazil | +0.037 | 0.020 |
 | Mexico | +0.029 | 0.019 |
+| South Africa | +0.030 | 0.042 |
 | Argentina | +0.013 | 0.026 |
 | Colombia | -0.025 | 0.031 |
 | Ecuador | -0.070 | 0.026 |
 
 Ecuador is the only country where high-exposure employment fell relative to
-the rest; Colombia is negative but imprecise. Brazil's index by tercile
+the rest; Colombia is negative but imprecise. South Africa is positive but
+imprecise: its 3-digit cells are thin (85 % fall under the 30-observation
+floor), leaving 46 occupations and 1,836 cell-quarters, and the event-study
+path is negative on average (-0.06) while the difference in differences is
++0.03, so the sign is not settled. Brazil's index by tercile
 (`output/figures/emp_index_BRA.png`) shows the top two terciles up 9-11 %
 by 2026 against 1 % for the least exposed tercile, consistent with a
 continued shift of employment toward clerical, professional and service
@@ -57,7 +62,9 @@ exposed occupations (SE 0.5; triple interaction -0.012, SE 0.005), with no
 change for older workers (-0.003, SE 0.003)
 (`output/figures/es_new_hire_share_young.png`). The effect appears from
 2023 Q2 and persists through 2025. By country it is driven by Brazil
-(-0.010, SE 0.003); Colombia and Ecuador are flat or slightly positive.
+(-0.010, SE 0.003); Colombia and Ecuador are flat or slightly positive, and
+South Africa points the same way as Brazil (-0.012, SE 0.010; young workers
+-0.020, SE 0.030) without the precision to say so.
 
 Read together: employment stocks in exposed occupations kept growing, but
 entry of young workers into them slowed in Brazil, the largest labour
@@ -69,7 +76,8 @@ the result to probe first.
 
 - Four pre-treatment quarters only; the GLD 2018-2021 backfill (milestone 3)
   is needed for a real pre-trend test.
-- Occupation depth differs (2 digits for Argentina and Mexico), and Mexico's
+- Occupation depth differs (2 digits for Argentina and Mexico; South Africa's
+  SASCO codes reach ISCO-08 at 4 digits for 71 % of employment), and Mexico's
   tenure question is asked in first quarters only.
 - "Exposure" is task-based potential, not adoption; timing is a single global
   date. Country adoption indices are the next robustness check.

@@ -24,6 +24,9 @@ using any new raw file.
 | HAVE | `ecu/enemdu/docs/{yyyy}_{roman}_trimestre_Tabulados_Mercado_Laboral.xlsx` | INEC tabulados, newest quarter (all quarters since 2007 in one sheet) | 2026-09-05 | Public | Ecuador validation |
 | HAVE | `per/epen/{2022Q1..2026Q2}/{code}-Modulo76.zip` (18 files, 130 MB) | INEI srienaho, EPEN "Nacional-Trim" module 76; survey codes in `fetch/per.py` | 2026-09-05 | Open (INEI) | Peru panel |
 | HAVE | `per/epen/docs/informe_{period}.pdf` (2023Q1-2026Q2) | INEI quarterly reports via gob.pe publication pages (CDN links resolved at run time) | 2026-09-05 | Public | Peru validation (each report also covers the year-earlier quarter) |
-| MANUAL | `zaf/qlfs/{period}/*.zip` QLFS quarterly Stata files | DataFirst catalogue (login with CAPTCHA, ids in `fetch/zaf.py`); 2025Q1-2026Q2 needed, GLD covers 2008-2024 | | CC-BY, cite Stats SA and DataFirst | M3 |
+| HAVE (manual) | `zaf/qlfs/{2022Q1..2026Q2}/qlfs-<year>-q<n>-v1.zip` (18 files, 92 MB) | DataFirst catalogue (login with CAPTCHA, ids in `fetch/zaf.py`), downloaded by hand | 2026-09-06 | CC-BY, cite Stats SA and DataFirst | South Africa panel |
+| HAVE | `zaf/qlfs/docs/QLFS_Trends_2008-<quarter>.xlsx` | Stats SA P0211 QLFS Trends workbook | 2026-09-06 | Public | South Africa validation |
+| HAVE (resource) | `resources/crosswalks/isco88_to_isco08.csv` | ILO correspondence ISCO-88 to ISCO-08 (`external/crosswalks/Correspondence_EN_ISCO_88_to_ISCO_08.xlsx`), built by `scripts/91_build_zaf_crosswalks.py` | 2026-09-06 | ILO | South Africa occupations |
+| HAVE (resource) | `resources/crosswalks/sasco2003_to_isco88.csv` | World Bank GLD `isco88_sasco03_mapping.dta` (Support/B - Country Survey Details/ZAF) | 2026-09-06 | MIT (GLD) | South Africa occupations |
 | NEED | India PLFS quarterly unit-level files | MoSPI microdata API (key in `.env`) | | MoSPI terms | M3 |
 | MANUAL | GLD harmonized `.dta` for BRA, MEX, COL, ZAF, IND | World Bank GLD server / datalibweb (staff access) | | World Bank internal; do not redistribute | Backfill 2018-2021, validation |

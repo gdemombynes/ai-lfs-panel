@@ -23,7 +23,8 @@ Companion inventory of where LFS microdata are published:
 | Argentina (EPH) | INDEC zips, release check | usu_individual text file | 2022Q1-2026Q1, 17 quarters (urban) | 85/85 checks pass, max gap 0.005 pp on the all-ages base INDEC uses (`output/tables/validation_official_arg.csv`) |
 | Ecuador (ENEMDU) | INEC zips, folder-name variants | person .sav | 2022Q1-2026Q1, 17 quarters | 85/85 checks pass, rates identical to INEC's tabulados to 3 decimals (`output/tables/validation_official_ecu.csv`) |
 | Peru (EPEN) | INEI zips by survey code | national .dta | 2022Q1-2026Q2, 18 quarters | 90/90 checks pass, max gap 0.001 pp vs INEI's quarterly reports (`output/tables/validation_official_per.csv`) |
-| South Africa, India | blocked on DataFirst login / MoSPI API key | | | |
+| South Africa (QLFS) | DataFirst, manual download (CAPTCHA login) | worker .dta via pandas | 2022Q1-2026Q2, 18 quarters | 90/90 checks pass, rates identical to Stats SA's QLFS Trends (15-64) to 3 decimals (`output/tables/validation_official_zaf.csv`) |
+| India | blocked: MoSPI microdata portal unreachable | | | |
 
 ## Analysis (milestone 4, first pass)
 

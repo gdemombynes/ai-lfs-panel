@@ -517,3 +517,82 @@ def informes_per(
 
 
 FETCHERS.update({"per": informes_per})
+
+
+# ---------------------------------------------------------------- South Africa
+STATSSA_TRENDS = (
+    "https://www.statssa.gov.za/publications/P0211/QLFS%20Trends%202008-{y}Q{q}.xlsx"
+)
+STATSSA_TOL = 0.05  # counts published in thousands
+_QLFS_MONTHS = {"Jan-Mar": 1, "Apr-Jun": 2, "Jul-Sep": 3, "Oct-Dec": 4}
+
+
+def latest_statssa_trends(session: requests.Session, newest: Period) -> Path:
+    """Download the newest 'QLFS Trends 2008-<quarter>' workbook (Stats SA P0211)."""
+    cand = Period(str(newest))
+    for _ in range(8):
+        url = STATSSA_TRENDS.format(y=cand.year, q=cand.quarter)
+        if url_exists(url, session):
+            res = download(
+                url,
+                RAW / "zaf" / "qlfs" / "docs" / Path(url).name.replace("%20", "_"),
+                session=session,
+            )
+            if res.status != "failed":
+                return res.path
+        cand = _previous_quarter(cand)
+    raise FileNotFoundError("No Stats SA QLFS Trends workbook found")
+
+
+def trends_zaf(
+    periods: Iterable[Period],
+    tab_path: Optional[Path] = None,
+    session: Optional[requests.Session] = None,
+) -> pd.DataFrame:
+    """Stats SA QLFS Trends, 'Table 2' (both sexes, persons 15-64, thousands)."""
+    periods = list(periods)
+    if tab_path is None:
+        tab_path = latest_statssa_trends(session or make_session(), max(periods))
+    wb = openpyxl.load_workbook(tab_path, read_only=True, data_only=True)
+    ws = wb["Table 2"]
+    rows = list(ws.iter_rows(values_only=True))
+
+    def _is_quarter(v) -> bool:
+        return isinstance(v, str) and v[:7] in _QLFS_MONTHS and v[8:].strip().isdigit()
+
+    header = next(r for r in rows if _is_quarter(r[1]))
+    cols = {}
+    for i, h in enumerate(header):
+        if _is_quarter(h):
+            cols[f"{h[8:].strip()}Q{_QLFS_MONTHS[h[:7]]}"] = i
+    wanted = {
+        "Population 15-64": "pet",
+        "Labour Force": "lf",
+        "Employed": "emp",
+        "Unemployed": "unemp",
+    }
+    values: Dict[str, Dict[str, float]] = {}
+    seen = set()
+    for r in rows:
+        label = str(r[0]).strip() if r[0] else ""
+        key = next((v for k, v in wanted.items() if label.startswith(k)), None)
+        if key is None or key in seen:
+            continue
+        seen.add(key)  # first block is 'Both sexes'
+        for period, i in cols.items():
+            try:
+                values.setdefault(period, {})[key] = 1000 * float(r[i])
+            except (TypeError, ValueError):
+                pass
+    src = f"Stats SA {tab_path.name}, Table 2"
+    out: List[dict] = []
+    for p in periods:
+        v = values.get(str(p))
+        if v and {"pet", "lf", "emp", "unemp"} <= set(v):
+            out += _rows(
+                p, src, v["pet"], v["lf"], v["emp"], v["unemp"], STATSSA_TOL, "15-64"
+            )
+    return pd.DataFrame(out)
+
+
+FETCHERS.update({"zaf": trends_zaf})

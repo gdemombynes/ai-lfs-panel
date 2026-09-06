@@ -6,6 +6,7 @@
     python scripts/90_make_fixtures.py --country arg --period 2025Q1 --n 400
     python scripts/90_make_fixtures.py --country ecu --period 2025Q1 --n 400
     python scripts/90_make_fixtures.py --country per --period 2025Q1 --n 400
+    python scripts/90_make_fixtures.py --country zaf --period 2025Q1 --n 400
 
 Fixtures are random samples of public microdata rows in the original file
 layout, so reader and harmonizer tests exercise the real formats.
@@ -197,9 +198,36 @@ def make_per(period: Period, n: int, seed: int = 11) -> Path:
     return out
 
 
+def make_zaf(period: Period, n: int, seed: int = 11) -> Path:
+    """Sample QLFS rows; written back as Stata 118 with pandas (readstat rejects the
+    original file's character set, so the reader uses pandas as well)."""
+    import io
+
+    from lfspanel.fetch.zaf import find_zip
+
+    src = find_zip(period)
+    with zipfile.ZipFile(src) as z:
+        member = next(m for m in z.namelist() if m.lower().endswith(".dta"))
+        reader = pd.io.stata.StataReader(
+            io.BytesIO(z.read(member)), convert_categoricals=False
+        )
+        df = reader.read()
+        labels = reader.value_labels()
+        reader.close()
+    sample = df.sample(min(n, len(df)), random_state=seed)
+    buf = io.BytesIO()
+    sample.to_stata(buf, write_index=False, version=118, value_labels=None)
+    out = FIXTURES / "zaf" / src.name
+    out.parent.mkdir(parents=True, exist_ok=True)
+    with zipfile.ZipFile(out, "w", zipfile.ZIP_DEFLATED) as z:
+        z.writestr(f"qlfs-{period.year}-q{period.quarter}-sample.dta", buf.getvalue())
+    del labels
+    return out
+
+
 BUILDERS = {
     "bra": make_bra, "mex": make_mex, "col": make_col,
-    "arg": make_arg, "ecu": make_ecu, "per": make_per,
+    "arg": make_arg, "ecu": make_ecu, "per": make_per, "zaf": make_zaf,
 }  # fmt: skip
 
 
