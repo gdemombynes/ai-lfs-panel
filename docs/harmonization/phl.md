@@ -43,6 +43,10 @@ non-household members) are dropped: PSA excludes them from the population
 
 Validation: PSA OpenSTAT table "Levels of Key Employment Indicators"
 (PXWeb API, `0011B3FKEI1.px`; persons 15+, thousands), the round month's
-figures against the quarter, tolerance 0.05 pp. 18 rounds 2021Q1-2025Q4
-(July 2025 not yet released): 90 of 90 checks pass, rates identical to PSA's
-to three decimals.
+figures against the quarter, tolerance 0.05 pp. 19 rounds 2021Q1-2025Q4
+(July 2025 not yet released): 93 of 95 checks pass, rates identical to PSA's
+to three decimals through 2025Q2. October 2025 is the exception: the
+public-use file gives 134,000 more employed than OpenSTAT (0.3 %), so the
+participation and employment rates sit 0.19 and 0.16 points above the
+published figures. The counts of the population 15+ agree, which points to a
+revision of the October 2025 status counts between the file and the table.

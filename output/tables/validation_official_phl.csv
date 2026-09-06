@@ -89,3 +89,8 @@ period,indicator,computed,official,diff,tolerance,status,source
 2025Q2,employment_rate,61.152,61.152,-0.0,0.05,PASS,https://openstat.psa.gov.ph/PXWeb/api/v1/en/DB/1B/LFS/0011B3FKEI1.px
 2025Q2,population,79591811.387,79591811.0,0.387,397959.055,PASS,https://openstat.psa.gov.ph/PXWeb/api/v1/en/DB/1B/LFS/0011B3FKEI1.px
 2025Q2,employed,48671648.03,48671648.0,0.03,243358.24,PASS,https://openstat.psa.gov.ph/PXWeb/api/v1/en/DB/1B/LFS/0011B3FKEI1.px
+2025Q4,participation_rate,63.755,63.561,0.194,0.05,FAIL,https://openstat.psa.gov.ph/PXWeb/api/v1/en/DB/1B/LFS/0011B3FKEI1.px
+2025Q4,unemployment_rate,5.003,4.969,0.034,0.05,PASS,https://openstat.psa.gov.ph/PXWeb/api/v1/en/DB/1B/LFS/0011B3FKEI1.px
+2025Q4,employment_rate,60.565,60.403,0.162,0.05,FAIL,https://openstat.psa.gov.ph/PXWeb/api/v1/en/DB/1B/LFS/0011B3FKEI1.px
+2025Q4,population,80498066.045,80492332.0,5734.045,402461.66,PASS,https://openstat.psa.gov.ph/PXWeb/api/v1/en/DB/1B/LFS/0011B3FKEI1.px
+2025Q4,employed,48753575.225,48619468.0,134107.225,243097.34,PASS,https://openstat.psa.gov.ph/PXWeb/api/v1/en/DB/1B/LFS/0011B3FKEI1.px
