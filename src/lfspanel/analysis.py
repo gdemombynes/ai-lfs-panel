@@ -24,6 +24,9 @@ CELLS_PATH = PROCESSED / "cells" / "cells.parquet"
 AGE_GROUPS = ["15-21", "22-25", "26-29", "30-49", "50+"]
 YOUNG = {"15-21", "22-25", "26-29"}
 MIN_CELL_N = 30
+EXPOSURE_COLS = (
+    "score", "score_w", "g4_share", "tercile", "high", "quintile", "high_q5", "high_d10"
+)  # fmt: skip
 REF_PERIOD = "2022Q4"
 DEPTH_SHARE = 0.9  # employment share that must carry 3 digits for 3-digit cells
 
@@ -128,7 +131,7 @@ def event_study_frame(
         "age_group",
         "male",
         "young",
-    ] + [c for c in ("score", "score_w", "g4_share", "tercile", "high") if c in df]
+    ] + [c for c in EXPOSURE_COLS if c in df]
     attrs = keep.drop_duplicates("cell").set_index("cell")[
         [c for c in fixed if c != "cell"]
     ]

@@ -7,8 +7,10 @@ their tasks and the ILO assigns each unit group to "Not Exposed", "Minimal
 Exposure" or exposure gradients 1-4 (rising share of highly automatable
 tasks). Scores are aggregated to 3, 2 and 1 digits both unweighted and
 weighted by pooled 2022 employment from the panel countries that code
-occupations at four digits, and exposure terciles are employment-weighted
-so each tercile holds a third of baseline employment.
+occupations at four digits. Exposure terciles, quintiles and deciles are
+employment-weighted so each group holds an equal share of baseline
+employment; ``high`` (top tercile), ``high_q5`` (top quintile) and
+``high_d10`` (top decile) are the treatment dummies.
 """
 
 from __future__ import annotations
@@ -96,15 +98,19 @@ def baseline_weights(
     return df.set_index("isco4")["emp"]
 
 
-def _terciles(score: pd.Series, weight: pd.Series) -> pd.Series:
-    """Employment-weighted terciles: 1 low .. 3 high, each a third of employment."""
+def _quantiles(score: pd.Series, weight: pd.Series, q: int) -> pd.Series:
+    """Employment-weighted groups 1 (low) to q (high), each with 1/q of employment."""
     order = score.sort_values().index
     cum = weight.reindex(order).fillna(0).cumsum()
     share = cum / cum.iloc[-1] if cum.iloc[-1] > 0 else cum * 0
-    terc = pd.Series(1, index=order, dtype="Int8")
-    terc[share > 1 / 3] = 2
-    terc[share > 2 / 3] = 3
-    return terc.reindex(score.index)
+    group = pd.Series(1, index=order, dtype="Int8")
+    for k in range(2, q + 1):
+        group[share > (k - 1) / q] = k
+    return group.reindex(score.index)
+
+
+def _terciles(score: pd.Series, weight: pd.Series) -> pd.Series:
+    return _quantiles(score, weight, 3)
 
 
 def aggregate_isco(
@@ -143,12 +149,16 @@ def aggregate_isco(
         )
         agg["tercile"] = _terciles(agg["score_w"], agg["emp_base"])
         agg["high"] = (agg["tercile"] == 3).astype("Int8")
+        agg["quintile"] = _quantiles(agg["score_w"], agg["emp_base"], 5)
+        agg["high_q5"] = (agg["quintile"] == 5).astype("Int8")
+        agg["decile"] = _quantiles(agg["score_w"], agg["emp_base"], 10)
+        agg["high_d10"] = (agg["decile"] == 10).astype("Int8")
         agg.index.name = "isco"
         frames.append(agg.reset_index().assign(digits=d))
     out = pd.concat(frames, ignore_index=True)
     return out[
         ["digits", "isco", "score", "score_w", "score_2023_w", "g4_share", "emp_base",
-         "n_units", "tercile", "high"]
+         "n_units", "tercile", "high", "quintile", "high_q5", "decile", "high_d10"]
     ]  # fmt: skip
 
 
@@ -171,11 +181,21 @@ def attach_exposure(
     table: pd.DataFrame,
     code_col: str = "isco",
     digits_col: str = "isco_digits",
-    cols=("score", "score_w", "g4_share", "tercile", "high"),
+    cols=(
+        "score",
+        "score_w",
+        "g4_share",
+        "tercile",
+        "high",
+        "quintile",
+        "high_q5",
+        "high_d10",
+    ),
 ) -> pd.DataFrame:
     """Join exposure on the ISCO code at the digit level each row carries."""
+    cols = [c for c in cols if c in table.columns]
     lookup: Dict[int, pd.DataFrame] = {
-        d: t.set_index("isco")[list(cols)] for d, t in table.groupby("digits")
+        d: t.set_index("isco")[cols] for d, t in table.groupby("digits")
     }
     parts = []
     for d, part in df.groupby(digits_col):

@@ -66,6 +66,27 @@ Young workers (15-29) in high-exposure occupations show no relative
 employment loss either (post x high x young 0.014, SE 0.012; young-only
 difference in differences +0.038, SE 0.016).
 
+## Treatment definition: terciles, quintiles, deciles
+
+The main results use the top employment-weighted tercile of the ILO score as
+"high exposure" (35 % of employment, dominated by shop salespersons and
+clerks). Re-running with the top quintile (23 % of employment, still led by
+shop salespersons but with clerical and finance groups weighing more) and
+the top decile changes little (`output/tables/did_*_high_q5.csv`,
+`did_*_high_d10.csv`):
+
+| Treatment | Employment, post x high | Young new-hire share, post x high |
+|---|---|---|
+| top tercile | +0.019 (0.020) | -0.009 (0.005) |
+| top quintile | +0.018 (0.023) | -0.010 (0.005) |
+| top decile | +0.031 (0.020) | -0.011 (0.008) |
+
+Employment in exposed occupations is never lower after 2022 Q4 under any
+cut, and the fall in the young new-hire share is about one percentage point
+under all three, losing precision as the treated group shrinks. The quintile
+event study for employment is flat before 2022 Q4 (all pre-period
+coefficients within 0.011 of zero) and rises to about 3 % by 2025.
+
 ## Hiring margin
 
 The new-hire share (workers in their job under 12 months; Brazil, Colombia,

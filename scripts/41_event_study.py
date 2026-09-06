@@ -1,7 +1,8 @@
 """Event-study and difference-in-differences estimates by exposure tercile.
 
     python scripts/41_event_study.py [--outcome log_emp|emp_ratio|new_hire_share]
-                                     [--treat high|score_w] [--keep-small]
+                                     [--treat high|high_q5|high_d10|score_w]
+                                     [--keep-small]
 
 Reference quarter 2022Q4; cell and country x age x sex x quarter fixed
 effects; baseline-employment weights; clusters country x occupation.
