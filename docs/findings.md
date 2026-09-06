@@ -6,8 +6,10 @@ less exposed occupations, and is any gap concentrated among young workers?
 Design and caveats: `docs/design/analysis-plan.md`.
 
 Sample: Brazil, Mexico, Colombia, Argentina (urban), Ecuador, Peru, South
-Africa and Georgia, 2022 Q1 to 2026 Q2 (2026 Q1 for Argentina and Ecuador,
-2025 Q4 for Georgia). Cells are country x
+Africa and Georgia, 2021 Q1 to 2026 Q2 (Brazil, Mexico, Argentina and
+Georgia start in 2021 Q1, Ecuador in 2021 Q3, the rest in 2022 Q1; 2026 Q1
+for Argentina and Ecuador, 2025 Q4 for Georgia). Seven pre-treatment
+quarters are available for the countries with 2021 data. Cells are country x
 quarter x ISCO-08 occupation (3 digits; 2 digits for Argentina and Mexico) x
 age group x sex, fixed at cells averaging at least 30 observations in 2022,
 with zero employment where a cell is absent. Exposure: ILO 2025 GenAI scores
@@ -19,11 +21,12 @@ clustered by country x occupation (504 clusters).
 ## Employment
 
 High-exposure occupations did **not** lose employment relative to the rest.
-Pooled, employment in high-exposure cells is 2.4 % higher after 2022 Q4
-(difference in differences 0.024, SE 0.012), and the event study rises from
+Pooled, employment in high-exposure cells is 2.2 % higher after 2022 Q4
+(difference in differences 0.022, SE 0.013), and the event study rises from
 about zero in 2023 to 4-5 % by 2025-2026 (`output/tables/event_study_log_emp.csv`,
-`output/figures/es_log_emp_all.png`). Pre-period coefficients are flat
-(2022 Q1-Q3 within 0.01 of zero). The continuous-exposure version gives the
+`output/figures/es_log_emp_all.png`). With the 2021 quarters added the
+pre-period is flat: the seven pre-treatment coefficients lie between -0.018
+and +0.009, none distinguishable from zero. The continuous-exposure version gives the
 same sign (0.12 log points per unit of score, SE 0.04).
 
 The pooled result hides opposite country patterns:
@@ -61,9 +64,16 @@ difference in differences +0.038, SE 0.016).
 The new-hire share (workers in their job under 12 months; Brazil, Colombia,
 Ecuador, Argentina, and Mexico first quarters only) tells a different story
 for young workers. Among young workers, the new-hire share in high-exposure
-occupations fell by 1.5 percentage points after 2022 Q4 relative to less
-exposed occupations (SE 0.5; triple interaction -0.012, SE 0.005), with no
-change for older workers (-0.003, SE 0.003)
+occupations is about 1 percentage point lower after 2022 Q4 than at the
+reference quarter, in every quarter from 2023 Q2 to 2025 Q4 (coefficients
+-0.008 to -0.018, `output/figures/es_new_hire_share_young.png`), with no
+change for older workers. The difference in differences against the full
+pre-period is smaller than against 2022 alone (-0.009, SE 0.005, versus
+-0.015 with a 2022-only pre-period; triple interaction -0.005, SE 0.004),
+because the young new-hire share in exposed occupations was rising through
+2021 and early 2022 and had already fallen back by 2022 Q4. Read as a break
+in a rising trend rather than a level shift, the hiring result is weaker
+than the first pass suggested
 (`output/figures/es_new_hire_share_young.png`). The effect appears from
 2023 Q2 and persists through 2025. By country it is driven by Brazil
 (-0.010, SE 0.003); Colombia and Ecuador are flat or slightly positive, and
@@ -78,8 +88,10 @@ the result to probe first.
 
 ## Caveats
 
-- Four pre-treatment quarters only; the GLD 2018-2021 backfill (milestone 3)
-  is needed for a real pre-trend test.
+- Seven pre-treatment quarters for five countries and three for the rest; the
+  2021 quarters are still shaped by the pandemic recovery (Mexico's 2021 files
+  are the ENOE-N design). The GLD 2018-2020 backfill would give a cleaner
+  pre-trend test.
 - Occupation depth differs (2 digits for Argentina and Mexico; South Africa's
   SASCO codes reach ISCO-08 at 4 digits for 71 % of employment), and Mexico's
   tenure question is asked in first quarters only.

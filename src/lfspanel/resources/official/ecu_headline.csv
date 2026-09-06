@@ -1,4 +1,24 @@
 period,population,source_url,tolerance,indicator,value
+2021Q1,15+,"INEC tabulados 2026_I_trimestre_Tabulados_Mercado_Laboral.xlsx, sheet '1. Poblaciones'",0.05,participation_rate,65.157
+2021Q1,15+,"INEC tabulados 2026_I_trimestre_Tabulados_Mercado_Laboral.xlsx, sheet '1. Poblaciones'",0.05,unemployment_rate,5.391
+2021Q1,15+,"INEC tabulados 2026_I_trimestre_Tabulados_Mercado_Laboral.xlsx, sheet '1. Poblaciones'",0.05,employment_rate,61.644
+2021Q1,15+,"INEC tabulados 2026_I_trimestre_Tabulados_Mercado_Laboral.xlsx, sheet '1. Poblaciones'",63011.66000009058,population,12602332.000018116
+2021Q1,15+,"INEC tabulados 2026_I_trimestre_Tabulados_Mercado_Laboral.xlsx, sheet '1. Poblaciones'",38843.081764982504,employed,7768616.3529965
+2021Q2,15+,"INEC tabulados 2026_I_trimestre_Tabulados_Mercado_Laboral.xlsx, sheet '1. Poblaciones'",0.05,participation_rate,66.167
+2021Q2,15+,"INEC tabulados 2026_I_trimestre_Tabulados_Mercado_Laboral.xlsx, sheet '1. Poblaciones'",0.05,unemployment_rate,5.544
+2021Q2,15+,"INEC tabulados 2026_I_trimestre_Tabulados_Mercado_Laboral.xlsx, sheet '1. Poblaciones'",0.05,employment_rate,62.499
+2021Q2,15+,"INEC tabulados 2026_I_trimestre_Tabulados_Mercado_Laboral.xlsx, sheet '1. Poblaciones'",63226.25311328936,population,12645250.62265787
+2021Q2,15+,"INEC tabulados 2026_I_trimestre_Tabulados_Mercado_Laboral.xlsx, sheet '1. Poblaciones'",39515.901982826355,employed,7903180.396565272
+2021Q3,15+,"INEC tabulados 2026_I_trimestre_Tabulados_Mercado_Laboral.xlsx, sheet '1. Poblaciones'",0.05,participation_rate,66.437
+2021Q3,15+,"INEC tabulados 2026_I_trimestre_Tabulados_Mercado_Laboral.xlsx, sheet '1. Poblaciones'",0.05,unemployment_rate,5.053
+2021Q3,15+,"INEC tabulados 2026_I_trimestre_Tabulados_Mercado_Laboral.xlsx, sheet '1. Poblaciones'",0.05,employment_rate,63.08
+2021Q3,15+,"INEC tabulados 2026_I_trimestre_Tabulados_Mercado_Laboral.xlsx, sheet '1. Poblaciones'",63493.840000009826,population,12698768.000001965
+2021Q3,15+,"INEC tabulados 2026_I_trimestre_Tabulados_Mercado_Laboral.xlsx, sheet '1. Poblaciones'",40051.76371143896,employed,8010352.742287791
+2021Q4,15+,"INEC tabulados 2026_I_trimestre_Tabulados_Mercado_Laboral.xlsx, sheet '1. Poblaciones'",0.05,participation_rate,66.74
+2021Q4,15+,"INEC tabulados 2026_I_trimestre_Tabulados_Mercado_Laboral.xlsx, sheet '1. Poblaciones'",0.05,unemployment_rate,4.68
+2021Q4,15+,"INEC tabulados 2026_I_trimestre_Tabulados_Mercado_Laboral.xlsx, sheet '1. Poblaciones'",0.05,employment_rate,63.617
+2021Q4,15+,"INEC tabulados 2026_I_trimestre_Tabulados_Mercado_Laboral.xlsx, sheet '1. Poblaciones'",63717.535002500124,population,12743507.000500025
+2021Q4,15+,"INEC tabulados 2026_I_trimestre_Tabulados_Mercado_Laboral.xlsx, sheet '1. Poblaciones'",40535.1729082655,employed,8107034.5816530995
 2022Q1,15+,"INEC tabulados 2026_I_trimestre_Tabulados_Mercado_Laboral.xlsx, sheet '1. Poblaciones'",0.05,participation_rate,65.936
 2022Q1,15+,"INEC tabulados 2026_I_trimestre_Tabulados_Mercado_Laboral.xlsx, sheet '1. Poblaciones'",0.05,unemployment_rate,5.037
 2022Q1,15+,"INEC tabulados 2026_I_trimestre_Tabulados_Mercado_Laboral.xlsx, sheet '1. Poblaciones'",0.05,employment_rate,62.615

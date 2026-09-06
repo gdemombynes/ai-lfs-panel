@@ -1,4 +1,24 @@
 period,population,source_url,tolerance,indicator,value
+2021Q1,15+,Geostat 30-Labour-Force-Indicators-Q.xlsx,0.05,participation_rate,48.325
+2021Q1,15+,Geostat 30-Labour-Force-Indicators-Q.xlsx,0.05,unemployment_rate,21.938
+2021Q1,15+,Geostat 30-Labour-Force-Indicators-Q.xlsx,0.05,employment_rate,37.723
+2021Q1,15+,Geostat 30-Labour-Force-Indicators-Q.xlsx,14973.998411299002,population,2994799.6822598004
+2021Q1,15+,Geostat 30-Labour-Force-Indicators-Q.xlsx,5648.698693393115,employed,1129739.738678623
+2021Q2,15+,Geostat 30-Labour-Force-Indicators-Q.xlsx,0.05,participation_rate,51.423
+2021Q2,15+,Geostat 30-Labour-Force-Indicators-Q.xlsx,0.05,unemployment_rate,22.101
+2021Q2,15+,Geostat 30-Labour-Force-Indicators-Q.xlsx,0.05,employment_rate,40.058
+2021Q2,15+,Geostat 30-Labour-Force-Indicators-Q.xlsx,15160.118668763746,population,3032023.733752749
+2021Q2,15+,Geostat 30-Labour-Force-Indicators-Q.xlsx,6072.779954034082,employed,1214555.9908068164
+2021Q3,15+,Geostat 30-Labour-Force-Indicators-Q.xlsx,0.05,participation_rate,52.837
+2021Q3,15+,Geostat 30-Labour-Force-Indicators-Q.xlsx,0.05,unemployment_rate,19.524
+2021Q3,15+,Geostat 30-Labour-Force-Indicators-Q.xlsx,0.05,employment_rate,42.521
+2021Q3,15+,Geostat 30-Labour-Force-Indicators-Q.xlsx,15065.130080506784,population,3013026.0161013566
+2021Q3,15+,Geostat 30-Labour-Force-Indicators-Q.xlsx,6405.8276552449215,employed,1281165.5310489843
+2021Q4,15+,Geostat 30-Labour-Force-Indicators-Q.xlsx,0.05,participation_rate,51.182
+2021Q4,15+,Geostat 30-Labour-Force-Indicators-Q.xlsx,0.05,unemployment_rate,19.002
+2021Q4,15+,Geostat 30-Labour-Force-Indicators-Q.xlsx,0.05,employment_rate,41.457
+2021Q4,15+,Geostat 30-Labour-Force-Indicators-Q.xlsx,15006.04759680272,population,3001209.519360544
+2021Q4,15+,Geostat 30-Labour-Force-Indicators-Q.xlsx,6221.040400419867,employed,1244208.0800839735
 2022Q1,15+,Geostat 30-Labour-Force-Indicators-Q.xlsx,0.05,participation_rate,49.906
 2022Q1,15+,Geostat 30-Labour-Force-Indicators-Q.xlsx,0.05,unemployment_rate,19.429
 2022Q1,15+,Geostat 30-Labour-Force-Indicators-Q.xlsx,0.05,employment_rate,40.21

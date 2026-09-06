@@ -17,14 +17,14 @@ Companion inventory of where LFS microdata are published:
 
 | Country | Fetch | Read | Harmonize | Validated vs official |
 |---|---|---|---|---|
-| Brazil (PNAD Contínua) | open FTP | fixed-width via IBGE layout | 2022Q1-2026Q2, 18 quarters | 90/90 checks pass, max gap 0.005 pp (`output/tables/validation_official_bra.csv`) |
-| Mexico (ENOE) | INEGI zips, name resolver | SDEM+COE1+COE2 CSV merge | 2022Q1-2026Q2, 18 quarters | 18/18 checks pass on the 9 quarters with located bulletins, max gap 0.05 pp (`output/tables/validation_official_mex.csv`) |
+| Brazil (PNAD Contínua) | open FTP | fixed-width via IBGE layout | 2021Q1-2026Q2, 22 quarters | 110/110 checks pass, max gap 0.005 pp (`output/tables/validation_official_bra.csv`) |
+| Mexico (ENOE) | INEGI zips, name resolver | SDEM+COE1+COE2 CSV merge | 2021Q1-2026Q2, 22 quarters (2021 = ENOE-N design) | 18/18 checks pass on the 9 quarters with located bulletins, max gap 0.05 pp (`output/tables/validation_official_mex.csv`) |
 | Colombia (GEIH) | DANE catalogue, monthly zips | 4 modules (CSV, Stata fallback), 3 months stacked | 2022Q1-2026Q2, 18 quarters | 90/90 checks pass, rates identical to DANE's anexo to 3 decimals (`output/tables/validation_official_col.csv`) |
-| Argentina (EPH) | INDEC zips, release check | usu_individual text file | 2022Q1-2026Q1, 17 quarters (urban) | 85/85 checks pass, max gap 0.005 pp on the all-ages base INDEC uses (`output/tables/validation_official_arg.csv`) |
-| Ecuador (ENEMDU) | INEC zips, folder-name variants | person .sav | 2022Q1-2026Q1, 17 quarters | 85/85 checks pass, rates identical to INEC's tabulados to 3 decimals (`output/tables/validation_official_ecu.csv`) |
+| Argentina (EPH) | INDEC zips, release check | usu_individual text file | 2021Q1-2026Q1, 21 quarters (urban) | 105/105 checks pass, max gap 0.005 pp on the all-ages base INDEC uses (`output/tables/validation_official_arg.csv`) |
+| Ecuador (ENEMDU) | INEC zips, folder-name variants | person .sav | 2021Q3-2026Q1, 19 quarters | 95/95 checks pass, rates identical to INEC's tabulados to 3 decimals (`output/tables/validation_official_ecu.csv`) |
 | Peru (EPEN) | INEI zips by survey code | national .dta | 2022Q1-2026Q2, 18 quarters | 90/90 checks pass, max gap 0.001 pp vs INEI's quarterly reports (`output/tables/validation_official_per.csv`) |
 | South Africa (QLFS) | DataFirst, manual download (CAPTCHA login) | worker .dta via pandas | 2022Q1-2026Q2, 18 quarters | 90/90 checks pass, rates identical to Stats SA's QLFS Trends (15-64) to 3 decimals (`output/tables/validation_official_zaf.csv`) |
-| Georgia (LFS) | Geostat annual zips, quarter ids | ECSTAT .sav per quarter | 2022Q1-2025Q4, 16 quarters | 80/80 checks pass, rates identical to Geostat's quarterly indicators to 3 decimals (`output/tables/validation_official_geo.csv`) |
+| Georgia (LFS) | Geostat annual zips, quarter ids | ECSTAT .sav per quarter | 2021Q1-2025Q4, 20 quarters | 100/100 checks pass, rates identical to Geostat's quarterly indicators to 3 decimals (`output/tables/validation_official_geo.csv`) |
 | India | blocked: MoSPI microdata portal unreachable (hourly check scheduled) | | | |
 
 ## Analysis (milestone 4, first pass)

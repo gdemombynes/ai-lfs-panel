@@ -32,6 +32,13 @@ FILES = [
     "BDD_ENEMDU_{y}_{r}_Trimestre_SPSS.zip",
 ]
 CANDIDATES = [f"{d}/{f}" for d in FOLDERS for f in FILES]
+# quarters whose published file name does not follow any pattern (typos included)
+OVERRIDES = {
+    "2021Q3": "2021/Trimestre-julio-septiembre-2021/"
+    "1_BDD_ENEMDU_2021_IlI_TRIMESTRE_SPSS.zip",  # 'IlI' as published
+    "2021Q4": "2021/Trimestre-octubre-diciembre-2021/"
+    "1_BDD_ENEMDU_2021_IV_TRIMESTRE_SPSS.zip",
+}
 MONTHS = {
     1: "enero-marzo",
     2: "abril-junio",
@@ -48,6 +55,8 @@ def period_dir(period: Period) -> Path:
 def candidate_urls(period: Period) -> List[str]:
     months = MONTHS[period.quarter]
     months_ = months.replace("-", "_")
+    if str(period) in OVERRIDES:
+        return [f"{BASE}/{OVERRIDES[str(period)]}"]
     return [
         BASE
         + "/"

@@ -1,4 +1,24 @@
 period,indicator,computed,official,diff,tolerance,status,source
+2021Q1,participation_rate,48.325,48.325,-0.0,0.05,PASS,Geostat 30-Labour-Force-Indicators-Q.xlsx
+2021Q1,unemployment_rate,21.938,21.938,-0.0,0.05,PASS,Geostat 30-Labour-Force-Indicators-Q.xlsx
+2021Q1,employment_rate,37.723,37.723,0.0,0.05,PASS,Geostat 30-Labour-Force-Indicators-Q.xlsx
+2021Q1,population,2994799.682,2994799.6822598004,0.0,14973.998411299002,PASS,Geostat 30-Labour-Force-Indicators-Q.xlsx
+2021Q1,employed,1129739.739,1129739.738678623,-0.0,5648.698693393115,PASS,Geostat 30-Labour-Force-Indicators-Q.xlsx
+2021Q2,participation_rate,51.423,51.423,-0.0,0.05,PASS,Geostat 30-Labour-Force-Indicators-Q.xlsx
+2021Q2,unemployment_rate,22.101,22.101,0.0,0.05,PASS,Geostat 30-Labour-Force-Indicators-Q.xlsx
+2021Q2,employment_rate,40.058,40.058,-0.0,0.05,PASS,Geostat 30-Labour-Force-Indicators-Q.xlsx
+2021Q2,population,3032023.734,3032023.733752749,-0.0,15160.118668763746,PASS,Geostat 30-Labour-Force-Indicators-Q.xlsx
+2021Q2,employed,1214555.991,1214555.9908068164,0.0,6072.779954034082,PASS,Geostat 30-Labour-Force-Indicators-Q.xlsx
+2021Q3,participation_rate,52.837,52.837,-0.0,0.05,PASS,Geostat 30-Labour-Force-Indicators-Q.xlsx
+2021Q3,unemployment_rate,19.524,19.524,-0.0,0.05,PASS,Geostat 30-Labour-Force-Indicators-Q.xlsx
+2021Q3,employment_rate,42.521,42.521,-0.0,0.05,PASS,Geostat 30-Labour-Force-Indicators-Q.xlsx
+2021Q3,population,3013026.016,3013026.0161013566,0.0,15065.130080506784,PASS,Geostat 30-Labour-Force-Indicators-Q.xlsx
+2021Q3,employed,1281165.531,1281165.5310489845,0.0,6405.8276552449215,PASS,Geostat 30-Labour-Force-Indicators-Q.xlsx
+2021Q4,participation_rate,51.182,51.182,0.0,0.05,PASS,Geostat 30-Labour-Force-Indicators-Q.xlsx
+2021Q4,unemployment_rate,19.002,19.002,-0.0,0.05,PASS,Geostat 30-Labour-Force-Indicators-Q.xlsx
+2021Q4,employment_rate,41.457,41.457,-0.0,0.05,PASS,Geostat 30-Labour-Force-Indicators-Q.xlsx
+2021Q4,population,3001209.519,3001209.519360544,-0.0,15006.04759680272,PASS,Geostat 30-Labour-Force-Indicators-Q.xlsx
+2021Q4,employed,1244208.08,1244208.0800839737,0.0,6221.040400419867,PASS,Geostat 30-Labour-Force-Indicators-Q.xlsx
 2022Q1,participation_rate,49.906,49.906,0.0,0.05,PASS,Geostat 30-Labour-Force-Indicators-Q.xlsx
 2022Q1,unemployment_rate,19.429,19.429,-0.0,0.05,PASS,Geostat 30-Labour-Force-Indicators-Q.xlsx
 2022Q1,employment_rate,40.21,40.21,0.0,0.05,PASS,Geostat 30-Labour-Force-Indicators-Q.xlsx
