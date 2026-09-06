@@ -24,6 +24,7 @@ from lfspanel.analysis import (
     event_study_frame,
     iter_subsets,
     occupation_totals,
+    pooled_index,
 )
 from lfspanel.config import OUTPUT
 from lfspanel.exposure import load_exposure_table
@@ -63,8 +64,13 @@ def main() -> None:
     pd.concat(es).to_csv(tables / f"event_study_{suffix}.csv", index=False)
     pd.concat(did).to_csv(tables / f"did_{suffix}.csv", index=False)
     if args.outcome == "log_emp" and args.treat == "high":
-        idx = employment_index(occupation_totals(cells), exposure)
+        totals = occupation_totals(cells)
+        idx = employment_index(totals, exposure)
         idx.to_csv(tables / "employment_index.csv", index=False)
+        q5 = employment_index(totals, exposure, group="quintile")
+        pd.concat([q5, pooled_index(q5)]).to_csv(
+            tables / "employment_index_q5.csv", index=False
+        )
     print(pd.concat(did).round(4).to_string(index=False))
 
 

@@ -315,23 +315,48 @@ def occupation_totals(cells: pd.DataFrame) -> pd.DataFrame:
 
 
 def employment_index(
-    totals: pd.DataFrame, exposure: pd.DataFrame, ref_year: str = "2022"
+    totals: pd.DataFrame,
+    exposure: pd.DataFrame,
+    ref_year: str = "2022",
+    group: str = "tercile",
 ) -> pd.DataFrame:
-    """Employment by country x period x exposure tercile, indexed to the reference year."""
+    """Employment by country x period x exposure group, indexed to the reference year."""
     from lfspanel.exposure import attach_exposure
 
-    t = attach_exposure(totals, exposure)
-    t = t[t["tercile"].notna()]
-    agg = t.groupby(["countrycode", "period", "tercile"])["emp"].sum().reset_index()
+    t = attach_exposure(totals, exposure, cols=(group,))
+    t = t[t[group].notna()]
+    agg = t.groupby(["countrycode", "period", group])["emp"].sum().reset_index()
+    agg = agg.rename(columns={group: "group"})
     base = (
         agg[agg["period"].str.startswith(ref_year)]
-        .groupby(["countrycode", "tercile"])["emp"]
+        .groupby(["countrycode", "group"])["emp"]
         .mean()
         .rename("emp_ref")
     )
-    agg = agg.join(base, on=["countrycode", "tercile"])
+    agg = agg.join(base, on=["countrycode", "group"])
     agg["index"] = 100 * agg["emp"] / agg["emp_ref"]
     return agg
+
+
+def pooled_index(idx: pd.DataFrame, min_countries: int = 3) -> pd.DataFrame:
+    """Employment-weighted mean of the country indices, by period and group.
+
+    Countries enter with their reference-year employment as weight, so a
+    quarter's pooled value only reflects the countries observed in it;
+    quarters with fewer than ``min_countries`` are dropped.
+    """
+    d = idx.dropna(subset=["index", "emp_ref"]).copy()
+    d["w_index"] = d["index"] * d["emp_ref"]
+    g = d.groupby(["period", "group"])
+    out = g.agg(
+        w_index=("w_index", "sum"),
+        emp_ref=("emp_ref", "sum"),
+        n=("countrycode", "nunique"),
+    )
+    out["index"] = out["w_index"] / out["emp_ref"]
+    out = out[out["n"] >= min_countries].reset_index()
+    out["countrycode"] = "ALL"
+    return out[["countrycode", "period", "group", "index", "n"]]
 
 
 def list_countries(frame: pd.DataFrame) -> List[str]:
