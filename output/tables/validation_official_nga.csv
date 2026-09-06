@@ -1,0 +1,4 @@
+period,indicator,computed,official,diff,tolerance,status,source
+2024Q1,participation_rate,77.334,77.3,0.034,0.06,PASS,https://www.nigerianstat.gov.ng/pdfuploads/NLFS_Q1_2024_Report.pdf
+2024Q1,unemployment_rate,5.352,5.3,0.052,0.06,PASS,https://www.nigerianstat.gov.ng/pdfuploads/NLFS_Q1_2024_Report.pdf
+2024Q1,employment_rate,73.195,73.2,-0.005,0.06,PASS,https://www.nigerianstat.gov.ng/pdfuploads/NLFS_Q1_2024_Report.pdf

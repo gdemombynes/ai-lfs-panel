@@ -1,0 +1,42 @@
+# NLFS individual file: raw variables retained (lower-case names)
+interview_key   # household interview key
+hhroster_id     # person line number
+id1_zone        # geopolitical zone 1-6
+id2_state
+id5_sector      # 1 urban, 2 rural
+popw            # population weight
+interviewdate
+dc3             # sex: 1 male, 2 female
+dc5             # age
+ed6             # highest level completed (detailed)
+ed7             # highest qualification attained
+atw1            # worked for pay for someone else last 7 days: 1 yes
+atw2            # ran a business last 7 days
+atw3            # helped in a household business
+agf1a_4         # farming section: none of the above (non-agricultural work)
+agf1b_4         # the work mentioned was another type of job or business
+agf2a           # farm products mainly sold
+agf2b           # share intended for sale
+agf2c           # products mainly sold in the past
+agf2d           # hired by someone else for the farm work
+mjj1            # asked of the employed: number of jobs (routing marker)
+mjj2cclean      # main job ISCO-08, cleaned (leading zero lost)
+mjj3cclean      # main job ISIC Rev.4, cleaned (leading zero lost)
+mjj4            # 1 employee, 2 own business, 3 helping household business, 4 apprentice, 5 helping relative
+mjj6            # own business hires paid employees: 1 yes
+mjj8a           # employer type
+mjj8b_9         # pay type: not paid (1)
+mjj8c           # 1 written contract, 2 oral agreement, 3 none
+mjj8l_1         # employer contributes to pension fund: 1 yes
+mjj10           # year began this job
+mjj11           # month began this job (97 dk)
+mjj12           # usual hours per week, main job
+sjj7            # wants more hours: 1 yes
+um1_1           # looked for paid work in last 4 weeks: 1 yes
+um1_2           # tried to start a business in last 4 weeks: 1 yes
+um7             # main reason did not want to work
+um4             # already arranged to take up a job or start a business: 1 yes
+um9             # main reason did not search (17 = future job arranged)
+um10a           # available for work: 1 yes, 2 no, 3 dk
+um10b           # or could start within the next two weeks: 1 yes
+um11            # main reason not available

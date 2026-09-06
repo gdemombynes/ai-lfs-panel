@@ -26,6 +26,7 @@ Companion inventory of where LFS microdata are published:
 | South Africa (QLFS) | DataFirst, manual download (CAPTCHA login) | worker .dta via pandas | 2022Q1-2026Q2, 18 quarters | 90/90 checks pass, rates identical to Stats SA's QLFS Trends (15-64) to 3 decimals (`output/tables/validation_official_zaf.csv`) |
 | Georgia (LFS) | Geostat annual zips, quarter ids | ECSTAT .sav per quarter | 2021Q1-2025Q4, 20 quarters | 100/100 checks pass, rates identical to Geostat's quarterly indicators to 3 decimals (`output/tables/validation_official_geo.csv`) |
 | Philippines (LFS) | PSADA, manual download | PUF CSV, full-sample rounds | 2021Q1-2025Q4, 18 quarters (2025Q3 not released) | 90/90 checks pass, rates identical to PSA OpenSTAT to 3 decimals (`output/tables/validation_official_phl.csv`) |
+| Nigeria (NLFS) | NBS catalogue, manual download | SPSS / Stata / zip per release | 2024Q1, 2024Q3-2025Q2, 5 quarters | 3/3 checks pass on 2024Q1, the only quarter with a published report |
 | India | blocked: MoSPI microdata portal unreachable (hourly check scheduled) | | | |
 
 ## Codebook drift

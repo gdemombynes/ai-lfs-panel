@@ -9,6 +9,7 @@
     python scripts/90_make_fixtures.py --country zaf --period 2025Q1 --n 400
     python scripts/90_make_fixtures.py --country geo --period 2025Q1 --n 400
     python scripts/90_make_fixtures.py --country phl --period 2025Q1 --n 400
+    python scripts/90_make_fixtures.py --country nga --period 2024Q3 --n 400
 
 Fixtures are random samples of public microdata rows in the original file
 layout, so reader and harmonizer tests exercise the real formats.
@@ -278,10 +279,35 @@ def make_phl(period: Period, n: int, seed: int = 11) -> Path:
     return out
 
 
+def make_nga(period: Period, n: int, seed: int = 11) -> Path:
+    """Sample rows of an NLFS Stata file; written back as Stata 118 with pandas."""
+    import io
+
+    from lfspanel.fetch.nga import find_zip
+
+    src = find_zip(period)
+    if src.suffix.lower() == ".zip":
+        with zipfile.ZipFile(src) as z:
+            member = next(m for m in z.namelist() if m.lower().endswith("indiv.dta"))
+            data = z.read(member)
+    else:
+        data = src.read_bytes()
+    reader = pd.io.stata.StataReader(io.BytesIO(data), convert_categoricals=False)
+    df = reader.read()
+    reader.close()
+    sample = df.sample(min(n, len(df)), random_state=seed)
+    text_cols = [c for c in sample.columns if sample[c].dtype == object]
+    sample = sample.drop(columns=[c for c in text_cols if c.endswith("ots")])
+    out = FIXTURES / "nga" / f"nlfs_{period.year}q{period.quarter}_indiv.dta"
+    out.parent.mkdir(parents=True, exist_ok=True)
+    sample.to_stata(out, write_index=False, version=118, value_labels=None)
+    return out
+
+
 BUILDERS = {
     "bra": make_bra, "mex": make_mex, "col": make_col,
     "arg": make_arg, "ecu": make_ecu, "per": make_per, "zaf": make_zaf, "geo": make_geo,
-    "phl": make_phl,
+    "phl": make_phl, "nga": make_nga,
 }  # fmt: skip
 
 

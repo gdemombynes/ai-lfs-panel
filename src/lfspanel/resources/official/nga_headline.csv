@@ -1,0 +1,7 @@
+period,population,source_url,tolerance,indicator,value
+2024Q1,15+,https://www.nigerianstat.gov.ng/pdfuploads/NLFS_Q1_2024_Report.pdf,0.06,participation_rate,77.3
+2024Q1,15+,https://www.nigerianstat.gov.ng/pdfuploads/NLFS_Q1_2024_Report.pdf,0.06,unemployment_rate,5.3
+2024Q1,15+,https://www.nigerianstat.gov.ng/pdfuploads/NLFS_Q1_2024_Report.pdf,0.06,employment_rate,73.2
+2024Q2,15+,https://nigerianstat.gov.ng/pdfuploads/NLFS_Q2_2024.pdf,0.06,participation_rate,79.5
+2024Q2,15+,https://nigerianstat.gov.ng/pdfuploads/NLFS_Q2_2024.pdf,0.06,unemployment_rate,4.3
+2024Q2,15+,https://nigerianstat.gov.ng/pdfuploads/NLFS_Q2_2024.pdf,0.06,employment_rate,76.1

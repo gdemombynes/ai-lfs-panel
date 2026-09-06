@@ -152,6 +152,18 @@ COUNTRIES = {
         access="manual",
         first_period="2021Q1",
     ),
+    "nga": Country(
+        ccc="NGA",
+        survey="nlfs",
+        survey_name="Nigeria Labour Force Survey (quarterly, ICLS-19)",
+        agency="NBS",
+        freq="Q",
+        minlaborage=15,
+        isco_digits=4,
+        isic_digits=4,
+        access="manual",
+        first_period="2022Q4",
+    ),
     "zaf": Country(
         ccc="ZAF",
         survey="qlfs",

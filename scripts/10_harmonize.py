@@ -34,7 +34,11 @@ def main() -> None:
 
     for period in parse_periods(args.periods):
         t0 = time.time()
-        raw = reader.read_raw(period, nrows=args.nrows)
+        try:
+            raw = reader.read_raw(period, nrows=args.nrows)
+        except FileNotFoundError as exc:
+            print(f"{period} skipped: {exc}")
+            continue
         if args.source == "own" and not args.nrows:
             fingerprint(raw, country.key, period)
         release = ""
