@@ -50,7 +50,7 @@ def find_zip(period: Period) -> Path:
     )
     if not matches:
         raise FileNotFoundError(
-            f"No QLFS file in {period_dir(period)}; download it from {catalog_url(period)}"
+            f"No QLFS file in {period_dir(period)}; download from {catalog_url(period)}"
         )
     return matches[-1]
 
