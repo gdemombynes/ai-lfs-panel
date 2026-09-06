@@ -24,7 +24,8 @@ Companion inventory of where LFS microdata are published:
 | Ecuador (ENEMDU) | INEC zips, folder-name variants | person .sav | 2022Q1-2026Q1, 17 quarters | 85/85 checks pass, rates identical to INEC's tabulados to 3 decimals (`output/tables/validation_official_ecu.csv`) |
 | Peru (EPEN) | INEI zips by survey code | national .dta | 2022Q1-2026Q2, 18 quarters | 90/90 checks pass, max gap 0.001 pp vs INEI's quarterly reports (`output/tables/validation_official_per.csv`) |
 | South Africa (QLFS) | DataFirst, manual download (CAPTCHA login) | worker .dta via pandas | 2022Q1-2026Q2, 18 quarters | 90/90 checks pass, rates identical to Stats SA's QLFS Trends (15-64) to 3 decimals (`output/tables/validation_official_zaf.csv`) |
-| India | blocked: MoSPI microdata portal unreachable | | | |
+| Georgia (LFS) | Geostat annual zips, quarter ids | ECSTAT .sav per quarter | 2022Q1-2025Q4, 16 quarters | 80/80 checks pass, rates identical to Geostat's quarterly indicators to 3 decimals (`output/tables/validation_official_geo.csv`) |
+| India | blocked: MoSPI microdata portal unreachable (hourly check scheduled) | | | |
 
 ## Analysis (milestone 4, first pass)
 

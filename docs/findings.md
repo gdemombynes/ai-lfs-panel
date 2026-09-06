@@ -1,19 +1,20 @@
-# Findings (first pass, seven countries, 2026-09-06)
+# Findings (first pass, eight countries, 2026-09-06)
 
 Question: since generative AI became widely available (reference quarter
 2022 Q4), has employment in AI-exposed occupations grown more slowly than in
 less exposed occupations, and is any gap concentrated among young workers?
 Design and caveats: `docs/design/analysis-plan.md`.
 
-Sample: Brazil, Mexico, Colombia, Argentina (urban), Ecuador, Peru and South
-Africa, 2022 Q1 to 2026 Q2 (2026 Q1 for Argentina and Ecuador). Cells are country x
+Sample: Brazil, Mexico, Colombia, Argentina (urban), Ecuador, Peru, South
+Africa and Georgia, 2022 Q1 to 2026 Q2 (2026 Q1 for Argentina and Ecuador,
+2025 Q4 for Georgia). Cells are country x
 quarter x ISCO-08 occupation (3 digits; 2 digits for Argentina and Mexico) x
 age group x sex, fixed at cells averaging at least 30 observations in 2022,
 with zero employment where a cell is absent. Exposure: ILO 2025 GenAI scores
 (Gmyrek et al., ILO WP 140), employment-weighted terciles at each digit level;
 "high" = top tercile (35 % of employment). Estimates: cell and country x age
 x sex x quarter fixed effects, baseline-employment weights, standard errors
-clustered by country x occupation (479 clusters).
+clustered by country x occupation (504 clusters).
 
 ## Employment
 
@@ -32,6 +33,7 @@ The pooled result hides opposite country patterns:
 | Peru | +0.105 | 0.044 |
 | Brazil | +0.037 | 0.020 |
 | Mexico | +0.029 | 0.019 |
+| Georgia | +0.042 | 0.077 |
 | South Africa | +0.030 | 0.042 |
 | Argentina | +0.013 | 0.026 |
 | Colombia | -0.025 | 0.031 |
@@ -42,7 +44,9 @@ the rest; Colombia is negative but imprecise. South Africa is positive but
 imprecise: its 3-digit cells are thin (85 % fall under the 30-observation
 floor), leaving 46 occupations and 1,836 cell-quarters, and the event-study
 path is negative on average (-0.06) while the difference in differences is
-+0.03, so the sign is not settled. Brazil's index by tercile
++0.03, so the sign is not settled. Georgia's survey is small (about 14,000
+persons a quarter), leaving 25 occupations and 720 cell-quarters, and its
+estimate is uninformative. Brazil's index by tercile
 (`output/figures/emp_index_BRA.png`) shows the top two terciles up 9-11 %
 by 2026 against 1 % for the least exposed tercile, consistent with a
 continued shift of employment toward clerical, professional and service

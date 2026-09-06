@@ -128,6 +128,18 @@ COUNTRIES = {
         access="open",
         first_period="2022Q1",
     ),
+    "geo": Country(
+        ccc="GEO",
+        survey="lfs",
+        survey_name="Labour Force Survey (annual database, quarterly identifiers)",
+        agency="Geostat",
+        freq="Q",
+        minlaborage=15,
+        isco_digits=4,
+        isic_digits=2,
+        access="open",
+        first_period="2022Q1",
+    ),
     "zaf": Country(
         ccc="ZAF",
         survey="qlfs",

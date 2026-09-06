@@ -1,0 +1,30 @@
+# Geostat LFS ECSTAT file (SPSS, persons 15+): raw variables retained
+UID               # household id within the quarter
+DiaryID           # household id across quarters (rotating panel)
+MemberNo
+Year
+QuarterNo         # 103 = 2022Q1, +1 per quarter
+Month
+Region
+Urban_Rural       # 1 urban, 2 rural
+Sex               # 1 women, 2 men
+Age
+Employed          # 1 yes
+Unemployed        # 1 yes
+Potential_Labour_Force_PLF   # 1 yes (outside the labour force)
+OutsidetheLabourForce_student
+OutsidetheLabourForce_homemaker
+OutsidetheLabourForce_pensioner
+OutsidetheLabourForce_disabled
+Time_related_underemployment_TRU
+Sector_ownership  # 1 state, 2 private, 3 NGO, 4 international, 97 other
+Status            # 1 employee, 2 own business, 3 family helper, 4 apprentice, 5 helping relative employed elsewhere, 97 other
+Branch            # NACE Rev.2, up to 4 digits (leading zero lost)
+Occupation        # ISCO-08, up to 4 digits (leading zero lost)
+Education         # 1-12
+B12_Agreement_type   # 1 written contract, 2 oral
+B26_Employed_at_local_unit  # size bands
+M_Actually_worked # hours last week, main job
+M_Usually_hours
+Informal_employment
+P_Weights

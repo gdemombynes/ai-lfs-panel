@@ -7,6 +7,7 @@
     python scripts/90_make_fixtures.py --country ecu --period 2025Q1 --n 400
     python scripts/90_make_fixtures.py --country per --period 2025Q1 --n 400
     python scripts/90_make_fixtures.py --country zaf --period 2025Q1 --n 400
+    python scripts/90_make_fixtures.py --country geo --period 2025Q1 --n 400
 
 Fixtures are random samples of public microdata rows in the original file
 layout, so reader and harmonizer tests exercise the real formats.
@@ -225,9 +226,40 @@ def make_zaf(period: Period, n: int, seed: int = 11) -> Path:
     return out
 
 
+def make_geo(period: Period, n: int, seed: int = 11) -> Path:
+    """Sample rows of the ECSTAT file for one quarter (kept as an annual-style zip)."""
+    import pyreadstat
+
+    from lfspanel.fetch.geo import find_zip, quarter_number
+
+    src = find_zip(period)
+    with zipfile.ZipFile(src) as z:
+        member = next(
+            m for m in z.namelist() if m.lower().split("/")[-1].startswith("lfs_ecstat")
+        )
+    import tempfile
+
+    with zipfile.ZipFile(src) as z, tempfile.TemporaryDirectory() as tmp:
+        path = Path(tmp) / "in.sav"
+        path.write_bytes(z.read(member))
+        df, meta = pyreadstat.read_sav(str(path))
+        df = df[df["QuarterNo"] == quarter_number(period)]
+        sample = df.sample(min(n, len(df)), random_state=seed)
+        out_sav = Path(tmp) / "out.sav"
+        pyreadstat.write_sav(
+            sample, str(out_sav), variable_value_labels=meta.variable_value_labels
+        )
+        data = out_sav.read_bytes()
+    out = FIXTURES / "geo" / f"Labour-Force-Survey-{period.year}.zip"
+    out.parent.mkdir(parents=True, exist_ok=True)
+    with zipfile.ZipFile(out, "w", zipfile.ZIP_DEFLATED) as z:
+        z.writestr(f"SPSS_{period.year}_ENG/LFS_ECSTAT_ENG_{period.year}.sav", data)
+    return out
+
+
 BUILDERS = {
     "bra": make_bra, "mex": make_mex, "col": make_col,
-    "arg": make_arg, "ecu": make_ecu, "per": make_per, "zaf": make_zaf,
+    "arg": make_arg, "ecu": make_ecu, "per": make_per, "zaf": make_zaf, "geo": make_geo,
 }  # fmt: skip
 
 

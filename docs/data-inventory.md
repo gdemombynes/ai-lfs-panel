@@ -28,5 +28,7 @@ using any new raw file.
 | HAVE | `zaf/qlfs/docs/QLFS_Trends_2008-<quarter>.xlsx` | Stats SA P0211 QLFS Trends workbook | 2026-09-06 | Public | South Africa validation |
 | HAVE (resource) | `resources/crosswalks/isco88_to_isco08.csv` | ILO correspondence ISCO-88 to ISCO-08 (`external/crosswalks/Correspondence_EN_ISCO_88_to_ISCO_08.xlsx`), built by `scripts/91_build_zaf_crosswalks.py` | 2026-09-06 | ILO | South Africa occupations |
 | HAVE (resource) | `resources/crosswalks/sasco2003_to_isco88.csv` | World Bank GLD `isco88_sasco03_mapping.dta` (Support/B - Country Survey Details/ZAF) | 2026-09-06 | MIT (GLD) | South Africa occupations |
+| HAVE | `geo/lfs/{2022..2025}/Labour-Force-Survey*.zip` (4 files, 14 MB; ECSTAT + demographic SPSS) | Geostat LFS databases page, media ids in `fetch/geo.py` | 2026-09-06 | Open (Geostat) | Georgia panel |
+| HAVE | `geo/lfs/docs/30-Labour-Force-Indicators-Q.xlsx` | Geostat quarterly labour force indicators | 2026-09-06 | Public | Georgia validation |
 | NEED | India PLFS quarterly unit-level files | MoSPI microdata API (key in `.env`) | | MoSPI terms | M3 |
 | MANUAL | GLD harmonized `.dta` for BRA, MEX, COL, ZAF, IND | World Bank GLD server / datalibweb (staff access) | | World Bank internal; do not redistribute | Backfill 2018-2021, validation |

@@ -596,3 +596,66 @@ def trends_zaf(
 
 
 FETCHERS.update({"zaf": trends_zaf})
+
+
+# ---------------------------------------------------------------- Georgia
+GEOSTAT_Q = "https://geostat.ge/media/82098/30-Labour-Force-Indicators-Q.XLSX"
+GEOSTAT_TOL = 0.05
+_GEO_ROMAN = {"I": 1, "II": 2, "III": 3, "IV": 4}
+
+
+def indicators_geo(
+    periods: Iterable[Period],
+    tab_path: Optional[Path] = None,
+    session: Optional[requests.Session] = None,
+) -> pd.DataFrame:
+    """Geostat 'Labour Force Indicators (quarterly)', persons 15+, thousands."""
+    periods = list(periods)
+    if tab_path is None:
+        res = download(
+            GEOSTAT_Q,
+            RAW / "geo" / "lfs" / "docs" / "30-Labour-Force-Indicators-Q.xlsx",
+            session=session or make_session(),
+        )
+        if res.status == "failed":
+            raise FileNotFoundError(res.error)
+        tab_path = res.path
+    wb = openpyxl.load_workbook(tab_path, read_only=True, data_only=True)
+    rows = list(wb.worksheets[0].iter_rows(values_only=True))
+    header = next(
+        r for r in rows if r[1] and re.match(r"^\d{4}_(I|II|III|IV)$", str(r[1]))
+    )
+    cols = {}
+    for i, h in enumerate(header):
+        m = re.match(r"^(\d{4})_(I|II|III|IV)$", str(h or ""))
+        if m:
+            cols[f"{m.group(1)}Q{_GEO_ROMAN[m.group(2)]}"] = i
+    wanted = {
+        "Total 15 +": "pet",
+        "Labour force": "lf",
+        "Employed": "emp",
+        "Unemployed": "unemp",
+    }
+    values: Dict[str, Dict[str, float]] = {}
+    for r in rows:
+        label = str(r[0]).strip() if r[0] else ""
+        key = next((v for k, v in wanted.items() if label.startswith(k)), None)
+        if key is None:
+            continue
+        for period, i in cols.items():
+            try:
+                values.setdefault(period, {}).setdefault(key, 1000 * float(r[i]))
+            except (TypeError, ValueError):
+                pass
+    src = f"Geostat {tab_path.name}"
+    out: List[dict] = []
+    for p in periods:
+        v = values.get(str(p))
+        if v and {"pet", "lf", "emp", "unemp"} <= set(v):
+            out += _rows(
+                p, src, v["pet"], v["lf"], v["emp"], v["unemp"], GEOSTAT_TOL, "15+"
+            )
+    return pd.DataFrame(out)
+
+
+FETCHERS.update({"geo": indicators_geo})
