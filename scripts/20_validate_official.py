@@ -6,13 +6,41 @@ python scripts/20_validate_official.py --country bra [--periods 2025Q1:2025Q4]
 from __future__ import annotations
 
 import argparse
+import re
+from typing import Optional
 
 import pandas as pd
 
 from lfspanel.config import OUTPUT, get_country
 from lfspanel.periods import parse_periods
 from lfspanel.store import partition_path, read_partition
-from lfspanel.validate import age_band, compare_official, headline_rates, load_official
+from lfspanel.validate import (
+    compare_official,
+    headline_rates,
+    load_official,
+    population_filter,
+)
+
+
+def _load(source: str, ccc: str, period: str) -> Optional[pd.DataFrame]:
+    """One quarter's partition, or the four quarters of a calendar year pooled.
+
+    A year label (``"2024"``) pools the quarterly partitions with their
+    quarter-level weights, i.e. the annual average that statistical offices
+    publish for calendar years (India's PLFS calendar-year notes).
+    """
+    if re.fullmatch(r"\d{4}", period):
+        paths = [partition_path(source, ccc, f"{period}Q{q}") for q in range(1, 5)]
+        paths = [p for p in paths if p.exists()]
+        if not paths:
+            print(f"{period}: no quarterly partitions")
+            return None
+        return pd.concat([read_partition(p) for p in paths], ignore_index=True)
+    path = partition_path(source, ccc, period)
+    if not path.exists():
+        print(f"{period}: no partition at {path}")
+        return None
+    return read_partition(path)
 
 
 def main() -> None:
@@ -29,19 +57,22 @@ def main() -> None:
     periods = (
         [str(p) for p in parse_periods(args.periods)]
         if args.periods
-        else sorted(official["period"].unique())
+        else sorted(official["period"].astype(str).unique())
     )
     results = []
     for period in periods:
-        path = partition_path(args.source, country.ccc, period)
-        if not path.exists():
-            print(f"{period}: no partition at {path}")
+        frame = _load(args.source, country.ccc, period)
+        if frame is None:
             continue
-        df = read_partition(path)
-        pop = str(official.loc[official["period"] == period, "population"].iloc[0])
-        min_age, max_age = age_band(pop)
-        rates = headline_rates(df, min_age, max_age)
-        results.append(compare_official(rates, official, period))
+        sub = official[official["period"] == period]
+        for pop in sub["population"].astype(str).unique():
+            min_age, max_age, urban = population_filter(pop)
+            rates = headline_rates(frame, min_age, max_age, urban)
+            rows = compare_official(
+                rates, sub[sub["population"].astype(str) == pop], period
+            )
+            rows.insert(1, "population", pop)
+            results.append(rows)
     if not results:
         return
     out = pd.concat(results, ignore_index=True)

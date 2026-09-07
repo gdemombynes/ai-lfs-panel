@@ -12,13 +12,18 @@ INDICATORS = ["participation_rate", "unemployment_rate", "employment_rate"]
 
 
 def headline_rates(
-    df: pd.DataFrame, min_age: Optional[int] = None, max_age: Optional[int] = None
+    df: pd.DataFrame,
+    min_age: Optional[int] = None,
+    max_age: Optional[int] = None,
+    urban: Optional[int] = None,
 ) -> Dict[str, float]:
     """Weighted participation, unemployment and employment-to-population rates (%)."""
     age_cut = min_age if min_age is not None else int(df["minlaborage"].iloc[0])
     pop = df[df["age"] >= age_cut]
     if max_age is not None:
         pop = pop[pop["age"] <= max_age]
+    if urban is not None:
+        pop = pop[pop["urban"] == urban]
     w = pop["weight"].astype(float)
     lf = pop["lstatus"].isin([1, 2])
     emp = pop["lstatus"] == 1
@@ -50,6 +55,22 @@ def age_band(label: str) -> Tuple[Optional[int], Optional[int]]:
     if m:
         return int(m.group(1)), None
     return None, None
+
+
+def population_filter(label: str) -> Tuple[Optional[int], Optional[int], Optional[int]]:
+    """Population label -> (min_age, max_age, urban).
+
+    ``"15+ urban"`` -> (15, None, 1); ``"15+ rural"`` -> (15, None, 0); labels
+    without a sector word keep ``urban = None`` (both sectors).
+    """
+    text = label.strip().lower()
+    urban = None
+    for word, value in (("urban", 1), ("rural", 0)):
+        if word in text:
+            urban = value
+            text = text.replace(word, "").strip()
+    lo, hi = age_band(text)
+    return lo, hi, urban
 
 
 def employment_by_major_group(df: pd.DataFrame) -> pd.Series:

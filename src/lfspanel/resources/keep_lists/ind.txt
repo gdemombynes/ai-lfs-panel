@@ -1,0 +1,53 @@
+# PLFS person-level file, canonical names (= the 2025 release's variable names).
+# read/ind.py maps the older releases' names onto these (see ALIASES there).
+qtr          # quarter label within the release (Q1-Q8; mapping by year in read/ind.py)
+month        # survey month (2025 files; earlier releases merged from the household file)
+visit        # V1 first visit .. V4 (2025 quarterly file); V1 only in calendar-year files
+sec          # 1 rural, 2 urban
+st           # state / UT code
+dc           # district code
+mfsu         # first-stage unit serial number
+sss          # second-stage stratum
+ssu          # sample household number
+srl          # person serial number
+panel        # rotation panel code
+sex          # 1 male, 2 female
+age
+gedu_lvl     # general education level
+acws         # current weekly status code (11-72 employed, 81-82 unemployed, 91-99 NLF)
+aind_cws     # NIC-2008 division of the CWS activity (2 digits)
+ocu_cws      # NCO-2015 code of the CWS activity (3 digits)
+ern_reg      # earnings, regular salaried (month)
+ern_self     # earnings, self-employed (month)
+hr1          # total hours worked, day 1 .. day 7 of the reference week
+hr2
+hr3
+hr4
+hr5
+hr6
+hr7
+ahr1         # hours available for additional work, day 1 .. day 7
+ahr2
+ahr3
+ahr4
+ahr5
+ahr6
+ahr7
+ern11        # daily wage, activity 1, day 1 .. day 7 (casual labour)
+ern12
+ern13
+ern14
+ern15
+ern16
+ern17
+ern21        # daily wage, activity 2, day 1 .. day 7
+ern22
+ern23
+ern24
+ern25
+ern26
+ern27
+nss          # first-stage units in the sub-sample (old design)
+nsc          # first-stage units, combined sub-samples
+mult         # multiplier, two implied decimals
+no_qtr       # quarters in which the stratum was surveyed (calendar-year files)

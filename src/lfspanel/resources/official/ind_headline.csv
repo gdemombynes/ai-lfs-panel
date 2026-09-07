@@ -1,0 +1,101 @@
+period,population,source_url,tolerance,indicator,value
+2021,15+,"MoSPI, PLFS Key Labour Force Indicators Calendar Year 2023, Statement 2 (CWS, 15+)",0.15,participation_rate,51.8
+2021,15+,"MoSPI, PLFS Key Labour Force Indicators Calendar Year 2023, Statement 2 (CWS, 15+)",0.15,employment_rate,48.0
+2021,15+,"MoSPI, PLFS Key Labour Force Indicators Calendar Year 2023, Statement 2 (CWS, 15+)",0.15,unemployment_rate,7.3
+2021,15+ rural,"MoSPI, PLFS Key Labour Force Indicators Calendar Year 2023, Statement 2 (CWS, 15+)",0.15,participation_rate,53.3
+2021,15+ rural,"MoSPI, PLFS Key Labour Force Indicators Calendar Year 2023, Statement 2 (CWS, 15+)",0.15,employment_rate,49.8
+2021,15+ rural,"MoSPI, PLFS Key Labour Force Indicators Calendar Year 2023, Statement 2 (CWS, 15+)",0.15,unemployment_rate,6.4
+2021,15+ urban,"MoSPI, PLFS Key Labour Force Indicators Calendar Year 2023, Statement 2 (CWS, 15+)",0.15,participation_rate,48.4
+2021,15+ urban,"MoSPI, PLFS Key Labour Force Indicators Calendar Year 2023, Statement 2 (CWS, 15+)",0.15,employment_rate,43.8
+2021,15+ urban,"MoSPI, PLFS Key Labour Force Indicators Calendar Year 2023, Statement 2 (CWS, 15+)",0.15,unemployment_rate,9.4
+2022,15+,"MoSPI, PLFS Key Labour Force Indicators Calendar Year 2023, Statement 2 (CWS, 15+)",0.15,participation_rate,52.8
+2022,15+,"MoSPI, PLFS Key Labour Force Indicators Calendar Year 2023, Statement 2 (CWS, 15+)",0.15,employment_rate,49.8
+2022,15+,"MoSPI, PLFS Key Labour Force Indicators Calendar Year 2023, Statement 2 (CWS, 15+)",0.15,unemployment_rate,5.7
+2022,15+ rural,"MoSPI, PLFS Key Labour Force Indicators Calendar Year 2023, Statement 2 (CWS, 15+)",0.25,participation_rate,54.4
+2022,15+ rural,"MoSPI, PLFS Key Labour Force Indicators Calendar Year 2023, Statement 2 (CWS, 15+)",0.25,employment_rate,51.7
+2022,15+ rural,"MoSPI, PLFS Key Labour Force Indicators Calendar Year 2023, Statement 2 (CWS, 15+)",0.25,unemployment_rate,5.0
+2022,15+ urban,"MoSPI, PLFS Key Labour Force Indicators Calendar Year 2023, Statement 2 (CWS, 15+)",0.15,participation_rate,48.9
+2022,15+ urban,"MoSPI, PLFS Key Labour Force Indicators Calendar Year 2023, Statement 2 (CWS, 15+)",0.15,employment_rate,45.2
+2022,15+ urban,"MoSPI, PLFS Key Labour Force Indicators Calendar Year 2023, Statement 2 (CWS, 15+)",0.15,unemployment_rate,7.6
+2023,15+,"MoSPI, PLFS Key Labour Force Indicators Calendar Year 2023, Statement 2 (CWS, 15+)",0.15,participation_rate,56.2
+2023,15+,"MoSPI, PLFS Key Labour Force Indicators Calendar Year 2023, Statement 2 (CWS, 15+)",0.15,employment_rate,53.4
+2023,15+,"MoSPI, PLFS Key Labour Force Indicators Calendar Year 2023, Statement 2 (CWS, 15+)",0.15,unemployment_rate,5.0
+2023,15+ rural,"MoSPI, PLFS Key Labour Force Indicators Calendar Year 2023, Statement 2 (CWS, 15+)",0.15,participation_rate,58.8
+2023,15+ rural,"MoSPI, PLFS Key Labour Force Indicators Calendar Year 2023, Statement 2 (CWS, 15+)",0.15,employment_rate,56.2
+2023,15+ rural,"MoSPI, PLFS Key Labour Force Indicators Calendar Year 2023, Statement 2 (CWS, 15+)",0.15,unemployment_rate,4.3
+2023,15+ urban,"MoSPI, PLFS Key Labour Force Indicators Calendar Year 2023, Statement 2 (CWS, 15+)",0.15,participation_rate,50.3
+2023,15+ urban,"MoSPI, PLFS Key Labour Force Indicators Calendar Year 2023, Statement 2 (CWS, 15+)",0.15,employment_rate,47.0
+2023,15+ urban,"MoSPI, PLFS Key Labour Force Indicators Calendar Year 2023, Statement 2 (CWS, 15+)",0.15,unemployment_rate,6.7
+2024,15+,"MoSPI, Press note PLFS key indicators January-December 2024 (CWS, 15+)",0.15,participation_rate,56.2
+2024,15+,"MoSPI, Press note PLFS key indicators January-December 2024 (CWS, 15+)",0.15,employment_rate,53.5
+2024,15+,"MoSPI, Press note PLFS key indicators January-December 2024 (CWS, 15+)",0.15,unemployment_rate,4.9
+2024,15+ rural,"MoSPI, Press note PLFS key indicators January-December 2024 (CWS, 15+)",0.15,unemployment_rate,4.2
+2024,15+ urban,"MoSPI, Press note PLFS key indicators January-December 2024 (CWS, 15+)",0.15,participation_rate,51.0
+2024,15+ urban,"MoSPI, Press note PLFS key indicators January-December 2024 (CWS, 15+)",0.15,employment_rate,47.6
+2024,15+ urban,"MoSPI, Press note PLFS key indicators January-December 2024 (CWS, 15+)",0.15,unemployment_rate,6.7
+2021Q4,15+ urban,"PIB PRID 1902106 (PLFS Quarterly Bulletin Oct-Dec 2022), urban CWS 15+; first-visit sample only in our file (participation about 1 pp above the all-visit bulletin)",2.0,participation_rate,47.3
+2021Q4,15+ urban,"PIB PRID 1902106 (PLFS Quarterly Bulletin Oct-Dec 2022), urban CWS 15+; first-visit sample only in our file (participation about 1 pp above the all-visit bulletin)",2.0,employment_rate,43.2
+2021Q4,15+ urban,"PIB PRID 1902106 (PLFS Quarterly Bulletin Oct-Dec 2022), urban CWS 15+; first-visit sample only in our file (participation about 1 pp above the all-visit bulletin)",0.7,unemployment_rate,8.7
+2022Q1,15+ urban,"PIB PRID 1902106 (PLFS Quarterly Bulletin Oct-Dec 2022), urban CWS 15+; first-visit sample only in our file (participation about 1 pp above the all-visit bulletin)",2.0,participation_rate,47.3
+2022Q1,15+ urban,"PIB PRID 1902106 (PLFS Quarterly Bulletin Oct-Dec 2022), urban CWS 15+; first-visit sample only in our file (participation about 1 pp above the all-visit bulletin)",2.0,employment_rate,43.4
+2022Q1,15+ urban,"PIB PRID 1902106 (PLFS Quarterly Bulletin Oct-Dec 2022), urban CWS 15+; first-visit sample only in our file (participation about 1 pp above the all-visit bulletin)",0.7,unemployment_rate,8.2
+2022Q2,15+ urban,"PIB PRID 1902106 (PLFS Quarterly Bulletin Oct-Dec 2022), urban CWS 15+; first-visit sample only in our file (participation about 1 pp above the all-visit bulletin)",2.0,participation_rate,47.5
+2022Q2,15+ urban,"PIB PRID 1902106 (PLFS Quarterly Bulletin Oct-Dec 2022), urban CWS 15+; first-visit sample only in our file (participation about 1 pp above the all-visit bulletin)",2.0,employment_rate,43.9
+2022Q2,15+ urban,"PIB PRID 1902106 (PLFS Quarterly Bulletin Oct-Dec 2022), urban CWS 15+; first-visit sample only in our file (participation about 1 pp above the all-visit bulletin)",0.7,unemployment_rate,7.6
+2022Q3,15+ urban,"PIB PRID 1902106 (PLFS Quarterly Bulletin Oct-Dec 2022), urban CWS 15+; first-visit sample only in our file (participation about 1 pp above the all-visit bulletin)",2.0,participation_rate,47.9
+2022Q3,15+ urban,"PIB PRID 1902106 (PLFS Quarterly Bulletin Oct-Dec 2022), urban CWS 15+; first-visit sample only in our file (participation about 1 pp above the all-visit bulletin)",2.0,employment_rate,44.5
+2022Q3,15+ urban,"PIB PRID 1902106 (PLFS Quarterly Bulletin Oct-Dec 2022), urban CWS 15+; first-visit sample only in our file (participation about 1 pp above the all-visit bulletin)",0.7,unemployment_rate,7.2
+2022Q4,15+ urban,"PIB PRID 1902106 (PLFS Quarterly Bulletin Oct-Dec 2022), urban CWS 15+; first-visit sample only in our file (participation about 1 pp above the all-visit bulletin)",2.0,participation_rate,48.2
+2022Q4,15+ urban,"PIB PRID 1902106 (PLFS Quarterly Bulletin Oct-Dec 2022), urban CWS 15+; first-visit sample only in our file (participation about 1 pp above the all-visit bulletin)",2.0,employment_rate,44.7
+2022Q4,15+ urban,"PIB PRID 1902106 (PLFS Quarterly Bulletin Oct-Dec 2022), urban CWS 15+; first-visit sample only in our file (participation about 1 pp above the all-visit bulletin)",0.7,unemployment_rate,7.2
+2023Q1,15+ urban,"PIB PRID 2005297 (PLFS Quarterly Bulletin Oct-Dec 2023), urban CWS 15+; first-visit sample only in our file (participation about 1 pp above the all-visit bulletin)",2.0,participation_rate,48.5
+2023Q1,15+ urban,"PIB PRID 2005297 (PLFS Quarterly Bulletin Oct-Dec 2023), urban CWS 15+; first-visit sample only in our file (participation about 1 pp above the all-visit bulletin)",2.0,employment_rate,45.2
+2023Q1,15+ urban,"PIB PRID 2005297 (PLFS Quarterly Bulletin Oct-Dec 2023), urban CWS 15+; first-visit sample only in our file (participation about 1 pp above the all-visit bulletin)",0.7,unemployment_rate,6.8
+2023Q2,15+ urban,"PIB PRID 2005297 (PLFS Quarterly Bulletin Oct-Dec 2023), urban CWS 15+; first-visit sample only in our file (participation about 1 pp above the all-visit bulletin)",2.0,participation_rate,48.8
+2023Q2,15+ urban,"PIB PRID 2005297 (PLFS Quarterly Bulletin Oct-Dec 2023), urban CWS 15+; first-visit sample only in our file (participation about 1 pp above the all-visit bulletin)",2.0,employment_rate,45.5
+2023Q2,15+ urban,"PIB PRID 2005297 (PLFS Quarterly Bulletin Oct-Dec 2023), urban CWS 15+; first-visit sample only in our file (participation about 1 pp above the all-visit bulletin)",0.7,unemployment_rate,6.6
+2023Q3,15+ urban,"PIB PRID 2005297 (PLFS Quarterly Bulletin Oct-Dec 2023), urban CWS 15+; first-visit sample only in our file (participation about 1 pp above the all-visit bulletin)",2.0,participation_rate,49.3
+2023Q3,15+ urban,"PIB PRID 2005297 (PLFS Quarterly Bulletin Oct-Dec 2023), urban CWS 15+; first-visit sample only in our file (participation about 1 pp above the all-visit bulletin)",2.0,employment_rate,46.0
+2023Q3,15+ urban,"PIB PRID 2005297 (PLFS Quarterly Bulletin Oct-Dec 2023), urban CWS 15+; first-visit sample only in our file (participation about 1 pp above the all-visit bulletin)",0.7,unemployment_rate,6.6
+2023Q4,15+ urban,"PIB PRID 2005297 (PLFS Quarterly Bulletin Oct-Dec 2023), urban CWS 15+; first-visit sample only in our file (participation about 1 pp above the all-visit bulletin)",2.0,participation_rate,49.9
+2023Q4,15+ urban,"PIB PRID 2005297 (PLFS Quarterly Bulletin Oct-Dec 2023), urban CWS 15+; first-visit sample only in our file (participation about 1 pp above the all-visit bulletin)",2.0,employment_rate,46.6
+2023Q4,15+ urban,"PIB PRID 2005297 (PLFS Quarterly Bulletin Oct-Dec 2023), urban CWS 15+; first-visit sample only in our file (participation about 1 pp above the all-visit bulletin)",0.7,unemployment_rate,6.5
+2024Q1,15+ urban,"PIB PRID 2104358 (PLFS Quarterly Bulletin Oct-Dec 2024), urban CWS 15+; first-visit sample only in our file (participation about 1 pp above the all-visit bulletin)",2.0,participation_rate,50.2
+2024Q1,15+ urban,"PIB PRID 2104358 (PLFS Quarterly Bulletin Oct-Dec 2024), urban CWS 15+; first-visit sample only in our file (participation about 1 pp above the all-visit bulletin)",2.0,employment_rate,46.9
+2024Q1,15+ urban,"PIB PRID 2104358 (PLFS Quarterly Bulletin Oct-Dec 2024), urban CWS 15+; first-visit sample only in our file (participation about 1 pp above the all-visit bulletin)",0.7,unemployment_rate,6.7
+2024Q2,15+ urban,"PIB PRID 2104358 (PLFS Quarterly Bulletin Oct-Dec 2024), urban CWS 15+; first-visit sample only in our file (participation about 1 pp above the all-visit bulletin)",2.0,participation_rate,50.1
+2024Q2,15+ urban,"PIB PRID 2104358 (PLFS Quarterly Bulletin Oct-Dec 2024), urban CWS 15+; first-visit sample only in our file (participation about 1 pp above the all-visit bulletin)",2.0,employment_rate,46.8
+2024Q2,15+ urban,"PIB PRID 2104358 (PLFS Quarterly Bulletin Oct-Dec 2024), urban CWS 15+; first-visit sample only in our file (participation about 1 pp above the all-visit bulletin)",0.7,unemployment_rate,6.6
+2024Q3,15+ urban,"PIB PRID 2104358 (PLFS Quarterly Bulletin Oct-Dec 2024), urban CWS 15+; first-visit sample only in our file (participation about 1 pp above the all-visit bulletin)",2.0,participation_rate,50.4
+2024Q3,15+ urban,"PIB PRID 2104358 (PLFS Quarterly Bulletin Oct-Dec 2024), urban CWS 15+; first-visit sample only in our file (participation about 1 pp above the all-visit bulletin)",2.0,employment_rate,47.2
+2024Q3,15+ urban,"PIB PRID 2104358 (PLFS Quarterly Bulletin Oct-Dec 2024), urban CWS 15+; first-visit sample only in our file (participation about 1 pp above the all-visit bulletin)",0.7,unemployment_rate,6.4
+2024Q4,15+ urban,"PIB PRID 2104358 (PLFS Quarterly Bulletin Oct-Dec 2024), urban CWS 15+; first-visit sample only in our file (participation about 1 pp above the all-visit bulletin)",2.0,participation_rate,50.4
+2024Q4,15+ urban,"PIB PRID 2104358 (PLFS Quarterly Bulletin Oct-Dec 2024), urban CWS 15+; first-visit sample only in our file (participation about 1 pp above the all-visit bulletin)",2.0,employment_rate,47.2
+2024Q4,15+ urban,"PIB PRID 2104358 (PLFS Quarterly Bulletin Oct-Dec 2024), urban CWS 15+; first-visit sample only in our file (participation about 1 pp above the all-visit bulletin)",0.7,unemployment_rate,6.4
+2025Q2,15+,"MoSPI, PLFS Quarterly Bulletin October-December 2025, Statements 1, 2, 5 (CWS, 15+)",0.06,participation_rate,55.0
+2025Q2,15+,"MoSPI, PLFS Quarterly Bulletin October-December 2025, Statements 1, 2, 5 (CWS, 15+)",0.06,employment_rate,52.0
+2025Q2,15+,"MoSPI, PLFS Quarterly Bulletin October-December 2025, Statements 1, 2, 5 (CWS, 15+)",0.06,unemployment_rate,5.4
+2025Q2,15+ rural,"MoSPI, PLFS Quarterly Bulletin October-December 2025, Statements 1, 2, 5 (CWS, 15+)",0.06,participation_rate,57.1
+2025Q2,15+ rural,"MoSPI, PLFS Quarterly Bulletin October-December 2025, Statements 1, 2, 5 (CWS, 15+)",0.06,employment_rate,54.4
+2025Q2,15+ rural,"MoSPI, PLFS Quarterly Bulletin October-December 2025, Statements 1, 2, 5 (CWS, 15+)",0.06,unemployment_rate,4.8
+2025Q2,15+ urban,"MoSPI, PLFS Quarterly Bulletin October-December 2025, Statements 1, 2, 5 (CWS, 15+)",0.06,participation_rate,50.6
+2025Q2,15+ urban,"MoSPI, PLFS Quarterly Bulletin October-December 2025, Statements 1, 2, 5 (CWS, 15+)",0.06,employment_rate,47.1
+2025Q2,15+ urban,"MoSPI, PLFS Quarterly Bulletin October-December 2025, Statements 1, 2, 5 (CWS, 15+)",0.06,unemployment_rate,6.8
+2025Q3,15+,"MoSPI, PLFS Quarterly Bulletin October-December 2025, Statements 1, 2, 5 (CWS, 15+)",0.06,participation_rate,55.1
+2025Q3,15+,"MoSPI, PLFS Quarterly Bulletin October-December 2025, Statements 1, 2, 5 (CWS, 15+)",0.06,employment_rate,52.2
+2025Q3,15+,"MoSPI, PLFS Quarterly Bulletin October-December 2025, Statements 1, 2, 5 (CWS, 15+)",0.06,unemployment_rate,5.2
+2025Q3,15+ rural,"MoSPI, PLFS Quarterly Bulletin October-December 2025, Statements 1, 2, 5 (CWS, 15+)",0.06,participation_rate,57.2
+2025Q3,15+ rural,"MoSPI, PLFS Quarterly Bulletin October-December 2025, Statements 1, 2, 5 (CWS, 15+)",0.06,employment_rate,54.7
+2025Q3,15+ rural,"MoSPI, PLFS Quarterly Bulletin October-December 2025, Statements 1, 2, 5 (CWS, 15+)",0.06,unemployment_rate,4.4
+2025Q3,15+ urban,"MoSPI, PLFS Quarterly Bulletin October-December 2025, Statements 1, 2, 5 (CWS, 15+)",0.06,participation_rate,50.7
+2025Q3,15+ urban,"MoSPI, PLFS Quarterly Bulletin October-December 2025, Statements 1, 2, 5 (CWS, 15+)",0.06,employment_rate,47.2
+2025Q3,15+ urban,"MoSPI, PLFS Quarterly Bulletin October-December 2025, Statements 1, 2, 5 (CWS, 15+)",0.06,unemployment_rate,6.9
+2025Q4,15+,"MoSPI, PLFS Quarterly Bulletin October-December 2025, Statements 1, 2, 5 (CWS, 15+)",0.06,participation_rate,55.8
+2025Q4,15+,"MoSPI, PLFS Quarterly Bulletin October-December 2025, Statements 1, 2, 5 (CWS, 15+)",0.06,employment_rate,53.1
+2025Q4,15+,"MoSPI, PLFS Quarterly Bulletin October-December 2025, Statements 1, 2, 5 (CWS, 15+)",0.06,unemployment_rate,4.8
+2025Q4,15+ rural,"MoSPI, PLFS Quarterly Bulletin October-December 2025, Statements 1, 2, 5 (CWS, 15+)",0.06,participation_rate,58.4
+2025Q4,15+ rural,"MoSPI, PLFS Quarterly Bulletin October-December 2025, Statements 1, 2, 5 (CWS, 15+)",0.06,employment_rate,56.1
+2025Q4,15+ rural,"MoSPI, PLFS Quarterly Bulletin October-December 2025, Statements 1, 2, 5 (CWS, 15+)",0.06,unemployment_rate,4.0
+2025Q4,15+ urban,"MoSPI, PLFS Quarterly Bulletin October-December 2025, Statements 1, 2, 5 (CWS, 15+)",0.06,participation_rate,50.4
+2025Q4,15+ urban,"MoSPI, PLFS Quarterly Bulletin October-December 2025, Statements 1, 2, 5 (CWS, 15+)",0.06,employment_rate,47.1
+2025Q4,15+ urban,"MoSPI, PLFS Quarterly Bulletin October-December 2025, Statements 1, 2, 5 (CWS, 15+)",0.06,unemployment_rate,6.7

@@ -34,5 +34,6 @@ using any new raw file.
 | HAVE (resource) | `resources/official/phl_headline.csv` | PSA OpenSTAT PXWeb API, table 0011B3FKEI1 (via curl: TLS 1.3 only) | 2026-09-06 | Public | Philippines validation |
 | HAVE (manual) | `nga/nlfs/{2024Q1,2024Q3,2024Q4,2025Q1,2025Q2}/` (SPSS, Stata, zips; 830 MB) | NBS microdata catalogue (login), ids in `fetch/nga.py`; 2022Q4-2023Q3 and 2024Q2 still to download | 2026-09-06 | NBS terms of use | Nigeria panel |
 | HAVE | `nga/nlfs/docs/NLFS_Q1_2024_Report.pdf`, `NLFS_Q2_2024.pdf` | NBS quarterly reports | 2026-09-06 | Public | Nigeria validation (hand-entered `resources/official/nga_headline.csv`) |
-| NEED | India PLFS quarterly unit-level files | MoSPI microdata API (key in `.env`) | | MoSPI terms | M3 |
+| HAVE | `ind/plfs/{cy2021..cy2025,q2025}/*STATA*.zip` (6 Stata zips, 139 MB; layouts and READMEs alongside) | MoSPI microdata portal (NADA API, study ids in `fetch/ind.py`; key `IND_API` in `.env`; portal certificate chain needs `curl -k`) | 2026-09-07 | MoSPI terms of use (registered access) | India panel 2021Q1-2025Q4 |
+| HAVE (resource) | `resources/official/ind_headline.csv` | hand-entered from MoSPI calendar-year notes (2021-2024), PIB quarterly-bulletin releases 1902106, 2005297, 2104358 (urban 2021Q4-2024Q4) and the Oct-Dec 2025 quarterly bulletin (2025Q2-Q4) | 2026-09-07 | Public | India validation |
 | MANUAL | GLD harmonized `.dta` for BRA, MEX, COL, ZAF, IND | World Bank GLD server / datalibweb (staff access) | | World Bank internal; do not redistribute | Backfill 2018-2021, validation |

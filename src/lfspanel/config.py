@@ -184,9 +184,9 @@ COUNTRIES = {
         freq="Q",
         minlaborage=15,
         isco_digits=3,
-        isic_digits=4,
+        isic_digits=2,  # CWS industry is recorded at the NIC division
         access="api",
-        first_period="2022Q1",
+        first_period="2021Q1",
     ),
 }
 

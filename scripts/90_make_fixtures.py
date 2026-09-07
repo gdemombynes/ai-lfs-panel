@@ -10,6 +10,7 @@
     python scripts/90_make_fixtures.py --country geo --period 2025Q1 --n 400
     python scripts/90_make_fixtures.py --country phl --period 2025Q1 --n 400
     python scripts/90_make_fixtures.py --country nga --period 2024Q3 --n 400
+    python scripts/90_make_fixtures.py --country ind --period 2025Q2 --n 400
 
 Fixtures are random samples of public microdata rows in the original file
 layout, so reader and harmonizer tests exercise the real formats.
@@ -19,6 +20,7 @@ from __future__ import annotations
 
 import argparse
 import random
+import re
 import zipfile
 from pathlib import Path
 
@@ -304,10 +306,56 @@ def make_nga(period: Period, n: int, seed: int = 11) -> Path:
     return out
 
 
+def make_ind(period: Period, n: int, seed: int = 11) -> Path:
+    """Sample one quarter of a PLFS Stata release (person + household members)."""
+    import tempfile
+
+    from lfspanel.fetch.ind import find_zip, release_for
+    from lfspanel.read.ind import ALIASES, HH_ALIASES, quarter_label
+
+    rel = release_for(period)
+    src = find_zip(period)
+    label = quarter_label(rel, period)
+    qtr_col = ALIASES[rel.label].get("qtr", "qtr")
+    hh_alias = HH_ALIASES.get(rel.label, {})
+    with zipfile.ZipFile(src) as z, tempfile.TemporaryDirectory() as tmp:
+        names = z.namelist()
+        pmember = next(
+            m for m in names if re.search(rel.person_member, Path(m).name, re.I)
+        )
+        hmember = next(m for m in names if re.search(rel.hh_member, Path(m).name, re.I))
+        ppath = Path(tmp) / "p.dta"
+        ppath.write_bytes(z.read(pmember))
+        parts = []
+        for chunk in pd.read_stata(
+            ppath, chunksize=200_000, convert_categoricals=False
+        ):
+            parts.append(chunk[chunk[qtr_col].astype(str).str.strip() == label])
+        persons = pd.concat(parts, ignore_index=True)
+        sample = persons.sample(min(n, len(persons)), random_state=seed)
+        hpath = Path(tmp) / "h.dta"
+        hpath.write_bytes(z.read(hmember))
+        hh = pd.read_stata(hpath, convert_categoricals=False)
+        keys = ["mfsu", "sss", "ssu"]
+        hh_cols = [hh_alias.get(k, k) for k in keys]
+        p_cols = [ALIASES[rel.label].get(k, k) for k in keys]
+        hh_key = hh[hh_cols].astype(str).agg("|".join, axis=1)
+        p_key = sample[p_cols].astype(str).agg("|".join, axis=1)
+        hh_sample = hh[hh_key.isin(set(p_key))]
+        out = FIXTURES / "ind" / rel.label / src.name
+        out.parent.mkdir(parents=True, exist_ok=True)
+        with zipfile.ZipFile(out, "w", zipfile.ZIP_DEFLATED) as zout:
+            for member, frame in ((pmember, sample), (hmember, hh_sample)):
+                buf = Path(tmp) / "out.dta"
+                frame.to_stata(buf, write_index=False, version=118, value_labels=None)
+                zout.writestr(member, buf.read_bytes())
+    return out
+
+
 BUILDERS = {
     "bra": make_bra, "mex": make_mex, "col": make_col,
     "arg": make_arg, "ecu": make_ecu, "per": make_per, "zaf": make_zaf, "geo": make_geo,
-    "phl": make_phl, "nga": make_nga,
+    "phl": make_phl, "nga": make_nga, "ind": make_ind,
 }  # fmt: skip
 
 
