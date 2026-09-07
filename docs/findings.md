@@ -1,4 +1,4 @@
-# Findings (first pass, nine countries, 2026-09-06)
+# Findings (first pass, nine countries pooled plus India, 2026-09-07)
 
 Question: since generative AI became widely available (reference quarter
 2022 Q4), has employment in AI-exposed occupations grown more slowly than in
@@ -6,7 +6,8 @@ less exposed occupations, and is any gap concentrated among young workers?
 Design and caveats: `docs/design/analysis-plan.md`.
 
 Sample: Brazil, Mexico, Colombia, Argentina (urban), Ecuador, Peru, South
-Africa, Georgia and the Philippines, 2021 Q1 to 2026 Q2 (Brazil, Mexico, Argentina and
+Africa, Georgia and the Philippines in the pooled estimates, with India
+reported on its own (see below), 2021 Q1 to 2026 Q2 (Brazil, Mexico, Argentina and
 Georgia start in 2021 Q1, Ecuador in 2021 Q3, the rest in 2022 Q1; 2026 Q1
 for Argentina and Ecuador, 2025 Q4 for Georgia and the Philippines, whose July 2025 round is not
 released). Seven pre-treatment quarters are available for the countries with
@@ -61,6 +62,23 @@ uninformative until the round design is handled as a break. Brazil's index by te
 by 2026 against 1 % for the least exposed tercile, consistent with a
 continued shift of employment toward clerical, professional and service
 occupations rather than displacement.
+
+India (`output/tables/did_log_emp_withIND.csv`, country subset) is kept out
+of the pooled estimates: its baseline employment would carry half of the
+pooled weight, its 2021Q3-2025Q1 quarters are first-visit samples of about
+40,000 employed persons at 3-digit occupation, and the 2025Q2 redesign
+multiplies the sample by five and changes the weights, so the India rows
+would dominate a pooled coefficient with noise rather than information
+(pooled with India: -0.041, SE 0.124). On its own India shows no relative
+employment loss in exposed occupations: the difference in differences is
+-0.071 (SE 0.229), the event-study coefficients for 2023-2024 sit between
+-0.02 and +0.10 (SE 0.04-0.08), and the 2025 quarters swing to -0.04 to
+-0.09 with standard errors of 0.15-0.17 across the design break. The
+employment index by quintile (`output/figures/emp_index_q5_IND.png`) puts the
+most exposed quintile at 118 in 2025 (2022 = 100), between the least exposed
+quintile (112) and the middle (130); India's 2021 first half is coded in
+NCO-2004 and is not comparable at occupation level, which is why the index
+starts in 2022.
 
 Young workers (15-29) in high-exposure occupations show no relative
 employment loss either (post x high x young 0.014, SE 0.012; young-only
@@ -133,10 +151,14 @@ the result to probe first.
 - Cells fixed at 30 baseline observations drop 40-70 % of cells in the
   smaller surveys (Ecuador, Peru, Argentina); the `--keep-small` variant of
   `41_event_study.py` keeps them.
+- India's 2025Q2 redesign (all four visits, quarterly multipliers, sample
+  times five) and its NCO-2004 quarters (2021Q1-Q2) are breaks the cell
+  design does not yet model; India is therefore reported alone.
 - Peru's positive effect coincides with strong post-2023 recovery in
   commerce and services; Ecuador's negative effect with its 2024 energy
   crisis. Neither is identified as an AI effect.
 
-Regenerate: `python scripts/30_attach_exposure.py && python scripts/40_build_cells.py
+Regenerate (pooled tables exclude India with `--exclude IND`; the
+`--tag withIND` run adds India's own rows): `python scripts/30_attach_exposure.py && python scripts/40_build_cells.py
 && python scripts/41_event_study.py --outcome log_emp && python scripts/41_event_study.py
 --outcome new_hire_share && python scripts/42_figures.py`.

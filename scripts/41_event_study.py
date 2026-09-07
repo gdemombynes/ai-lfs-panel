@@ -2,7 +2,7 @@
 
     python scripts/41_event_study.py [--outcome log_emp|emp_ratio|new_hire_share]
                                      [--treat high|high_q5|high_d10|score_w]
-                                     [--keep-small]
+                                     [--keep-small] [--exclude IND,...] [--tag name]
 
 Reference quarter 2022Q4; cell and country x age x sex x quarter fixed
 effects; baseline-employment weights; clusters country x occupation.
@@ -37,8 +37,15 @@ def main() -> None:
     ap.add_argument(
         "--keep-small", action="store_true", help="keep cells under 30 observations"
     )
+    ap.add_argument(
+        "--exclude", default="", help="comma-separated country codes to leave out"
+    )
+    ap.add_argument("--tag", default="", help="suffix added to the output file names")
     args = ap.parse_args()
     cells = pd.read_parquet(CELLS_PATH)
+    excluded = [c.strip().upper() for c in args.exclude.split(",") if c.strip()]
+    if excluded:
+        cells = cells[~cells["countrycode"].isin(excluded)]
     exposure = load_exposure_table()
     frame = event_study_frame(cells, exposure, drop_small=not args.keep_small)
     tables = OUTPUT / "tables"
@@ -61,15 +68,17 @@ def main() -> None:
             f"{name:12s} cells={n_cells:>7,} clusters={n_cl:>5}  post={mean_post:+.4f}"
         )
     suffix = f"{args.outcome}" + ("" if args.treat == "high" else f"_{args.treat}")
+    suffix += f"_{args.tag}" if args.tag else ""
     pd.concat(es).to_csv(tables / f"event_study_{suffix}.csv", index=False)
     pd.concat(did).to_csv(tables / f"did_{suffix}.csv", index=False)
     if args.outcome == "log_emp" and args.treat == "high":
         totals = occupation_totals(cells)
         idx = employment_index(totals, exposure)
-        idx.to_csv(tables / "employment_index.csv", index=False)
+        tag = f"_{args.tag}" if args.tag else ""
+        idx.to_csv(tables / f"employment_index{tag}.csv", index=False)
         q5 = employment_index(totals, exposure, group="quintile")
         pd.concat([q5, pooled_index(q5)]).to_csv(
-            tables / "employment_index_q5.csv", index=False
+            tables / f"employment_index_q5{tag}.csv", index=False
         )
     print(pd.concat(did).round(4).to_string(index=False))
 

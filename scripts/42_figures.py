@@ -64,9 +64,9 @@ def _draw_index(ax, idx: pd.DataFrame, cc: str, group: str, label: str) -> None:
     ax.set_title(NAMES.get(cc, cc), fontsize=10)
 
 
-def plot_index(idx: pd.DataFrame, cc: str, path, group: str = "tercile") -> None:
+def plot_index(idx: pd.DataFrame, cc: str, path, label: str = "tercile") -> None:
     fig, ax = plt.subplots(figsize=(7, 4))
-    _draw_index(ax, idx, cc, group, group if group != "group" else "quintile")
+    _draw_index(ax, idx, cc, "group", label)
     ax.set_ylabel("employment, 2022 = 100")
     ax.legend(fontsize=8)
     fig.tight_layout()
@@ -120,7 +120,7 @@ def main() -> None:
     if q5_path.exists():
         q5 = pd.read_csv(q5_path)
         for cc in sorted(q5["countrycode"].unique()):
-            plot_index(q5, cc, FIG / f"emp_index_q5_{cc}.png", group="group")
+            plot_index(q5, cc, FIG / f"emp_index_q5_{cc}.png", label="quintile")
             n += 1
         plot_index_panel(q5, FIG / "emp_index_q5_panel.png")
         n += 1
