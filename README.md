@@ -27,6 +27,7 @@ Companion inventory of where LFS microdata are published:
 | Georgia (LFS) | Geostat annual zips, quarter ids | ECSTAT .sav per quarter | 2021Q1-2025Q4, 20 quarters | 100/100 checks pass, rates identical to Geostat's quarterly indicators to 3 decimals (`output/tables/validation_official_geo.csv`) |
 | Philippines (LFS) | PSADA, manual download | PUF CSV, full-sample rounds | 2021Q1-2025Q4, 19 quarters (2025Q3 not released) | 93/95 checks pass, identical to PSA OpenSTAT to 3 decimals except 2025Q4 (0.2 pp, see note) (`output/tables/validation_official_phl.csv`) |
 | Nigeria (NLFS) | NBS catalogue, manual download | SPSS / Stata / zip per release | 2024Q1, 2024Q3-2025Q2, 5 quarters | 3/3 checks pass on 2024Q1, the only quarter with a published report |
+| Uruguay (ECH) | INE NADA, terms form then open download (`curl -k`) | three monthly CSVs stacked, implantation base merged for tenure | 2021Q3-2025Q4, 18 quarters (person-months, weight W/3) | 54/54 checks pass, within 0.09 pp of INE's monthly rates from 2022Q2 (`output/tables/validation_official_ury.csv`) |
 | India (PLFS) | MoSPI NADA API (`curl -k`, key in `.env`) | Stata person file per release, quarter selected by label | 2021Q1-2025Q4, 20 quarters (first-visit files to 2025Q1, all-visit quarterly file from 2025Q2) | 99/100 checks pass: calendar-year CWS rates within 0.23 pp, 2025 quarters within 0.05 pp of the bulletins (`output/tables/validation_official_ind.csv`) |
 
 ## Compatibility audit

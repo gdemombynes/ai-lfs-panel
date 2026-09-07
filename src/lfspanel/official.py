@@ -6,7 +6,9 @@ source_url`` for the indicators produced by ``lfspanel.validate.headline_rates``
 
 from __future__ import annotations
 
+import html
 import re
+import subprocess
 from pathlib import Path
 from typing import Dict, Iterable, List, Optional
 
@@ -674,7 +676,6 @@ def _curl_json(url: str, body: Optional[dict] = None) -> dict:
     """GET or POST JSON through curl (the host only speaks TLS 1.3, which the
     Python ssl module on this machine cannot negotiate)."""
     import json
-    import subprocess
 
     cmd = ["curl", "-sS", "-L", "-m", "120", "-A", "Mozilla/5.0 (Macintosh)", url]
     if body is not None:
@@ -764,3 +765,75 @@ def openstat_phl(
 
 
 FETCHERS.update({"phl": openstat_phl})
+
+
+# ------------------------------------------------------------- Uruguay
+# INE's monthly "Actividad, Empleo y Desempleo" publication pages on gub.uy
+# state the month's activity, employment and unemployment rates (persons
+# 14+, whole country) in one sentence. A quarter's official value is the mean
+# of its three months; the harmonized quarter stacks the same three months
+# with the monthly weight divided by three, so the two agree to about 0.05 pp.
+GUBUY_PUB = (
+    "https://www.gub.uy/instituto-nacional-estadistica/comunicacion/publicaciones/"
+    "actividad-empleo-desempleo-ech-{mes}-{yyyy}"
+)
+GUBUY_MONTHS = [
+    "enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto",
+    "setiembre", "octubre", "noviembre", "diciembre",
+]  # fmt: skip
+URY_TOL = 0.15
+_URY_RATES = re.compile(
+    r"tasa de actividad[^0-9]{0,60}(\d{1,2},\d)\s*%.{0,80}?"
+    r"tasa de empleo[^0-9]{0,60}(\d{1,2},\d)\s*%.{0,80}?"
+    r"tasa de desempleo[^0-9]{0,60}(\d{1,2},\d)\s*%",
+    re.I | re.S,
+)
+
+
+def _gubuy_text(url: str) -> str:
+    proc = subprocess.run(
+        ["curl", "-sS", "-k", "-L", "-A", "Mozilla/5.0", "-m", "60", url],
+        capture_output=True,
+        timeout=90,
+    )
+    text = proc.stdout.decode("utf-8", "ignore")
+    text = re.sub(r"<script.*?</script>|<style.*?</style>", "", text, flags=re.S)
+    return re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", " ", text)))
+
+
+def month_rates_ury(year: int, month: int) -> Optional[Dict[str, float]]:
+    """Activity, employment and unemployment rates of one month, or None."""
+    url = GUBUY_PUB.format(mes=GUBUY_MONTHS[month - 1], yyyy=year)
+    m = _URY_RATES.search(_gubuy_text(url))
+    if not m:
+        return None
+    lfpr, epr, ur = (float(g.replace(",", ".")) for g in m.groups())
+    return {
+        "participation_rate": lfpr,
+        "employment_rate": epr,
+        "unemployment_rate": ur,
+        "url": url,
+    }
+
+
+def informes_ury(periods: List[Period]) -> pd.DataFrame:
+    out = []
+    for period in periods:
+        months = [month_rates_ury(period.year, m) for m in period.months]
+        found = [r for r in months if r]
+        if len(found) < 3:
+            print(f"{period}: {len(found)} of 3 monthly reports found, skipped")
+            continue
+        base = {
+            "period": str(period),
+            "population": "14+",
+            "source_url": "; ".join(r["url"] for r in found),
+            "tolerance": URY_TOL,
+        }
+        for ind in ("participation_rate", "employment_rate", "unemployment_rate"):
+            value = round(sum(r[ind] for r in found) / 3, 3)
+            out.append(dict(base, indicator=ind, value=value))
+    return pd.DataFrame(out)
+
+
+FETCHERS.update({"ury": informes_ury})

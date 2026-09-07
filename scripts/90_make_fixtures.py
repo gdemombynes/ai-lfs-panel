@@ -11,6 +11,7 @@
     python scripts/90_make_fixtures.py --country phl --period 2025Q1 --n 400
     python scripts/90_make_fixtures.py --country nga --period 2024Q3 --n 400
     python scripts/90_make_fixtures.py --country ind --period 2025Q2 --n 400
+    python scripts/90_make_fixtures.py --country ury --period 2025Q1 --n 400
 
 Fixtures are random samples of public microdata rows in the original file
 layout, so reader and harmonizer tests exercise the real formats.
@@ -352,10 +353,23 @@ def make_ind(period: Period, n: int, seed: int = 11) -> Path:
     return out
 
 
+def make_ury(period: Period, n: int, seed: int = 11) -> Path:
+    """Sample rows of the first monthly file of the quarter (latin-1 CSV)."""
+    from lfspanel.fetch.ury import month_file
+
+    src = month_file(period, period.months[0])
+    df = pd.read_csv(src, dtype=str, keep_default_na=False, encoding="latin-1")
+    sample = df.sample(min(n, len(df)), random_state=seed)
+    out = FIXTURES / "ury" / src.name
+    out.parent.mkdir(parents=True, exist_ok=True)
+    sample.to_csv(out, index=False, encoding="latin-1")
+    return out
+
+
 BUILDERS = {
     "bra": make_bra, "mex": make_mex, "col": make_col,
     "arg": make_arg, "ecu": make_ecu, "per": make_per, "zaf": make_zaf, "geo": make_geo,
-    "phl": make_phl, "nga": make_nga, "ind": make_ind,
+    "phl": make_phl, "nga": make_nga, "ind": make_ind, "ury": make_ury,
 }  # fmt: skip
 
 

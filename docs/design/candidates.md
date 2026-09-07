@@ -11,13 +11,13 @@ rule, occupation coding.
 ## In the panel
 
 Brazil, Mexico, Colombia, Argentina (urban), Ecuador, Peru, South Africa,
-Georgia, Philippines, Nigeria (patchy), India.
+Georgia, Philippines, Nigeria (patchy), India, Uruguay (added 2026-09-07).
 
 ## Tier 1: public or registration-only microdata, quarterly, scriptable now
 
 | Country | Survey, source | Frequency and window | Occupation | Access | Sample | Notes |
 |---|---|---|---|---|---|---|
-| Uruguay | ECH, INE ANDA catalogue (ids 767 = 2024, 775/779 = 2025) | monthly panel since 2021 (implantation + follow-up files), semester releases; 2025 S2 out | CIUO-08, 4 digits (confirm on download) | registration, public-use terms | about 40,000 households a year | small country, but clean 4-digit coding and timely; clerical-heavy labour market |
+| Uruguay (done) | ECH, INE catalogue (ids 716-779) | monthly bases since July 2021 | CIUO-08, 4 digits | no registration; terms form on each entry | 20,800 persons a month | in the panel from 2021Q3 |
 | Costa Rica | ECE, INEC PAD/NADA (id 331 = 2024, 369 = 2025) | quarterly, one bundle per year, 2010-2025 | COCR-2011 (ISCO-08 based), 4 digits | registration | about 6,000 households a quarter (2-digit cells) | BPO exporter; INEC re-based the series in 2022-2023 (check the break) |
 | Bolivia | ECE, INE ANDA (id 170 = 2025 Q2, 254 = 2025 Q3) | quarterly, 2022Q2-2025Q3 online | COB-2009 (ISCO-08 based), 4 digits | registration, public-use files | about 9,000 households a quarter (2-digit cells) | urban plus rural; weights by quarter |
 | Palestine (West Bank) | LFS, PCBS microdata catalogue (ids 738-742 = 2024Q3-2025Q2) | quarterly, every quarter since 1995 | ISCO-08, 4 digits | licensed terms, online request | about 4,300 households a quarter (2-digit cells) | Gaza not surveyed since late 2023; West Bank only, a war-time series |

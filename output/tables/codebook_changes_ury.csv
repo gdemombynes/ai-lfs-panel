@@ -1,0 +1,49 @@
+period,previous,variable,change,detail,share,country
+2021Q4,2021Q3,GR,codes_added,"4,5,6",0.4282,ury
+2021Q4,2021Q3,f307,missing_share_jump,0.48 -> 0.77,,ury
+2021Q4,2021Q3,f308,missing_share_jump,0.48 -> 0.77,,ury
+2022Q1,2021Q4,GR,codes_added,"7,8,9",0.3738,ury
+2022Q1,2021Q4,GR,codes_removed,1,0.1828,ury
+2022Q1,2021Q4,f71_2,missing_share_jump,0.47 -> 0.00,,ury
+2022Q1,2021Q4,f72_2,missing_share_jump,0.47 -> 0.00,,ury
+2022Q2,2022Q1,GR,codes_added,"10,11,12",0.3563,ury
+2022Q2,2022Q1,GR,codes_removed,"2,3,4",0.2886,ury
+2022Q3,2022Q2,GR,codes_added,"13,14,15",0.3613,ury
+2022Q3,2022Q2,GR,codes_removed,"5,6,7",0.314,ury
+2022Q3,2022Q2,nom_dpto,missing_share_jump,1.00 -> 0.00,,ury
+2022Q3,2022Q2,nom_dpto,codes_added,"Artigas,Canelones,Cerro Largo,Colonia,Durazno,Flores,Florida,Lavalleja,Maldonado,Montevideo,Paysandú,Rivera,Rocha,Río Negro,Salto,San José,Soriano,Tacuarembó,Treinta y Tres",1.0,ury
+2022Q4,2022Q3,GR,codes_added,"16,17,18",0.3631,ury
+2022Q4,2022Q3,GR,codes_removed,"10,8,9",0.3149,ury
+2023Q1,2022Q4,GR,codes_added,"19,20,21",0.3727,ury
+2023Q1,2022Q4,GR,codes_removed,"11,12,13",0.3068,ury
+2023Q1,2022Q4,e201_1c,missing_share_jump,0.00 -> 0.14,,ury
+2023Q1,2022Q4,e201_1d,missing_share_jump,0.00 -> 0.25,,ury
+2023Q1,2022Q4,e51_11,missing_share_jump,0.00 -> 0.25,,ury
+2023Q2,2023Q1,GR,codes_added,"22,23,24",0.3706,ury
+2023Q2,2023Q1,GR,codes_removed,"14,15,16",0.309,ury
+2023Q2,2023Q1,e201_1c,missing_share_jump,0.14 -> 0.00,,ury
+2023Q2,2023Q1,e201_1d,missing_share_jump,0.25 -> 0.00,,ury
+2023Q2,2023Q1,e51_11,missing_share_jump,0.25 -> 0.00,,ury
+2023Q3,2023Q2,GR,codes_added,"25,26,27",0.3673,ury
+2023Q3,2023Q2,GR,codes_removed,"17,18,19",0.3059,ury
+2023Q3,2023Q2,e197_1,codes_removed,2,0.0376,ury
+2023Q4,2023Q3,GR,codes_added,"28,29,30",0.3596,ury
+2023Q4,2023Q3,GR,codes_removed,"20,21,22",0.3062,ury
+2024Q1,2023Q4,GR,codes_added,"31,32,33",0.3613,ury
+2024Q1,2023Q4,GR,codes_removed,"23,24,25",0.3157,ury
+2024Q2,2024Q1,GR,codes_added,"34,35,36",0.3577,ury
+2024Q2,2024Q1,GR,codes_removed,"26,27,28",0.3111,ury
+2024Q3,2024Q2,GR,codes_added,"37,38,39",0.3737,ury
+2024Q3,2024Q2,GR,codes_removed,"29,30,31",0.3226,ury
+2024Q4,2024Q3,GR,codes_added,"40,41,42",0.3665,ury
+2024Q4,2024Q3,GR,codes_removed,"32,33,34",0.3159,ury
+2025Q1,2024Q4,GR,codes_added,"43,44,45",0.3664,ury
+2025Q1,2024Q4,GR,codes_removed,"35,36,37",0.301,ury
+2025Q2,2025Q1,GR,codes_added,"46,47,48",0.3527,ury
+2025Q2,2025Q1,GR,codes_removed,"38,39,40",0.3126,ury
+2025Q3,2025Q2,GR,codes_added,"49,50,51",0.3645,ury
+2025Q3,2025Q2,GR,codes_removed,"41,42,43",0.3238,ury
+2025Q3,2025Q2,nom_dpto,codes_added,"Paysand<fa>,R<ed>o Negro,San Jos<e9>,Tacuaremb<f3>",0.1202,ury
+2025Q3,2025Q2,nom_dpto,codes_removed,"Paysandú,Río Negro,San José,Tacuarembó",0.1182,ury
+2025Q4,2025Q3,GR,codes_added,"52,53,54",0.3728,ury
+2025Q4,2025Q3,GR,codes_removed,"44,45,46",0.314,ury

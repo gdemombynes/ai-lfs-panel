@@ -176,6 +176,18 @@ COUNTRIES = {
         access="manual",
         first_period="2022Q1",
     ),
+    "ury": Country(
+        ccc="URY",
+        survey="ech",
+        survey_name="Encuesta Continua de Hogares",
+        agency="INE Uruguay",
+        freq="M",
+        minlaborage=14,
+        isco_digits=4,
+        isic_digits=4,
+        access="open",
+        first_period="2021Q3",
+    ),
     "ind": Country(
         ccc="IND",
         survey="plfs",

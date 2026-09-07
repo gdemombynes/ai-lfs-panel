@@ -1,0 +1,37 @@
+# INE Uruguay ECH monthly follow-up files (persons 14+), 2025 names; read/ury.py
+# maps older years onto these where they differ.
+ID           # household id (within year)
+nper         # person number
+anio
+mes
+ronda        # interview number within the rotating panel (1-6)
+GR           # rotation group
+region       # 1 Montevideo, 2 towns 5000+, 3 towns <5000 and rural
+REGION_4     # as region, 3 towns <5000, 4 rural (from 2022)
+dpto         # department code 1-19
+nom_dpto
+e26          # sex: 1 man, 2 woman
+e27          # age
+NIV_EDU      # 4-level education summary
+e51_2        # years passed, primary
+e197_1       # completed primary: 1 yes
+e51_4_a      # years passed, lower secondary (liceo)
+e51_4_b      # years passed, lower secondary (UTU)
+e51_5        # years passed, upper secondary (liceo)
+e51_6        # years passed, upper secondary (UTU)
+e201_1c      # completed upper secondary liceo: 1 yes
+e201_1d      # completed upper secondary UTU: 1 yes
+e51_8        # years, tertiary technical
+e51_9        # years, teacher training
+e51_10       # years, university
+e51_11       # years, postgraduate
+POBPCOAC     # activity status: 2 employed, 3-5 unemployed, 6-11 inactive
+SUBEMPLEO    # 1 time-related underemployed
+f73          # status in employment
+f82          # contributes to a pension fund: 1 yes, 2 no
+f85          # usual weekly hours, main job
+f71_2        # occupation, CIUO-08 (4 digits)
+f72_2        # industry, CIIU Rev.4 (4 digits)
+W            # monthly person weight
+f307         # year started current job (implantation file only)
+f308         # month started current job (implantation file only)

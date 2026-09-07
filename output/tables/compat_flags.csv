@@ -39,3 +39,5 @@ PHL,2023Q4,jump,lfpr,63.946,60.035,3.911,3.0,participation rate 15+ changed by +
 PHL,2023Q4,jump,n_rows,176194.0,709177.0,-75.155,30.0,sample size changed by -75.2%
 PHL,2024Q1,jump,n_rows,698660.0,176194.0,296.529,30.0,sample size changed by +296.5%
 PHL,2024Q2,jump,n_rows,172568.0,698660.0,-75.3,30.0,sample size changed by -75.3%
+URY,2021Q4,jump,miss_tenure_pct,76.941,48.194,28.746,10.0,tenure missing among employed changed by +28.7 pts
+URY,2021Q4,jump,n_rows,52379.0,23167.0,126.093,30.0,sample size changed by +126.1%
