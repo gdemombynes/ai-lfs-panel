@@ -29,6 +29,11 @@ from lfspanel.harmonize.common import (
 from lfspanel.periods import Period
 
 COUNTRY = get_country("mex")
+SECTION10 = {
+    "A": 1, "B": 2, "C": 3, "D": 4, "E": 4, "F": 5, "G": 6, "H": 7, "I": 6, "J": 7,
+    "K": 8, "L": 8, "M": 8, "N": 8, "O": 9, "P": 10, "Q": 10, "R": 10, "S": 10,
+    "T": 10, "U": 10,
+}  # fmt: skip
 
 ENT_NAMES = {
     "01": "Aguascalientes", "02": "Baja California", "03": "Baja California Sur",
@@ -157,6 +162,18 @@ def harmonize(
     df["industrycat_isic"] = isic.astype("string")
     df["isic_digits"] = isic.str.rstrip("0").str.len().clip(1, 4).astype("Int8")
     df["industrycat10"] = industrycat10_from_isic(df["industrycat_isic"])
+    # ENOE groups some activities at the ISIC section only (5411 = every
+    # professional, scientific and technical service; 5611 = business support,
+    # employment and secretarial services; "insufficiently specified" codes):
+    # the crosswalk carries them as 000<section>, which has no digits and no
+    # division, so the 10-category industry comes from the section letter.
+    section = isic.str.extract(r"^000([A-Z])$")[0]
+    df["isic_digits"] = df["isic_digits"].mask(
+        true_only(isic.str.startswith("000")), pd.NA
+    )
+    df["industrycat10"] = df["industrycat10"].mask(
+        true_only(section.notna()), section.map(SECTION10).astype("Int8")
+    )
     df["industrycat4"] = industrycat4_from_10(df["industrycat10"])
 
     sinco = raw["p3"].str.zfill(4).where(raw["p3"] != "")

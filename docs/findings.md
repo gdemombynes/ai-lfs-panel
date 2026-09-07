@@ -84,6 +84,61 @@ Young workers (15-29) in high-exposure occupations show no relative
 employment loss either (post x high x young 0.014, SE 0.012; young-only
 difference in differences +0.038, SE 0.016).
 
+## IT and business-process services: the industry view
+
+Call-centre agents are too narrow a group for most of these surveys, so
+`output/tables/itbpo_by_country.csv` and `output/figures/itbpo_by_country.png`
+take the industry route: workers whose employer is in ISIC Rev.4 divisions
+62 (computer programming and consultancy), 63 (information services, data
+processing, hosting) or 82 (office and business support, which contains
+call centres). Industry is coded at two digits or better in every country,
+so the block is comparable, with two exceptions: South Africa's SIC 88
+"business activities" lumps security, cleaning and recruitment into one
+group that the crosswalk sends to 82, so South Africa is ISIC 62 only; and
+Mexico's ENOE classifier puts computer services inside a single
+professional-services code, so Mexico uses its "business support,
+employment and secretarial services" code (ENOE 5611) alone. The block is
+1 to 2 % of employment in most countries, 4 % in the Philippines, and holds
+1,000 to 17,000 sample workers a year, enough for annual shares.
+
+Employment in the block rose faster than total employment where the
+sector exports (Philippines +28 % by 2025 against +6 % overall, Colombia
++22 % against +8 %, Brazil +9 % against +6 %, India +9 %, matching the
+economy) and fell where it serves the domestic market (Ecuador -13 %, Peru
+-14 %, Argentina -12 % to 2025). The split by occupation is the informative
+part: within the block, professional and technical occupations grew in
+every country while clerical and service occupations, the agents and
+back-office staff, fell in Brazil (-12 % by 2026 against +28 % for
+professionals), Ecuador (-27 %), Peru (-29 %) and Argentina, and rose only
+where the sector as a whole was expanding (Colombia, Philippines, India).
+
+The under-25 share of the block fell in all ten countries, by far more than
+in the economy at large:
+
+| Country | Under-25 share of IT-BPO workers, 2022 -> latest | Under-25 share, all employment |
+|---|---|---|
+| Brazil | 24.7 -> 19.0 (2026) | 14.8 -> 13.8 |
+| Colombia | 23.3 -> 16.6 (2026) | 12.9 -> 11.9 |
+| Mexico (ENOE 5611) | 22.4 -> 18.6 (2026) | 15.8 -> 14.2 |
+| Ecuador | 21.6 -> 11.7 (2026) | 16.3 -> 14.5 |
+| Peru | 25.0 -> 15.3 (2026) | 16.1 -> 13.8 |
+| Philippines | 20.8 -> 14.7 (2025) | 13.3 -> 11.6 |
+| India | 17.4 -> 14.7 (2025) | 11.7 -> 11.5 |
+| Argentina | 13.6 -> 12.4 (2026) | 10.8 -> 10.2 |
+| South Africa (ISIC 62) | 9.0 -> 7.5 (2026) | 6.5 -> 6.2 |
+| Georgia | 15.9 -> 27.2 (2025; 56 to 92 sample workers) | 5.8 -> 6.2 |
+
+A drop of 3 to 10 points in the youth share of a sector whose headcount is
+flat or growing means that entry into it slowed while incumbents stayed,
+the same reading as the call-centre cells and the young new-hire share in
+the occupation analysis, now visible in every country with a usable
+industry code. It is a description, not an estimate: sector growth, the
+2024-2025 slowdown in outsourcing demand and generative AI all point the
+same way, and the industry block mixes software engineers with agents.
+Separating the two occupation groups is the next step, and the block is a
+natural treated group for a sector-level difference in differences against
+other white-collar service industries.
+
 ## Treatment definition: terciles, quintiles, deciles
 
 The main results use the top employment-weighted tercile of the ILO score as

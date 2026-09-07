@@ -31,7 +31,7 @@ Universe: complete interviews (`r_def == 0`) of usual residents
 | nlfreason | c_inac5c | 1 student 2 housework 3 retired 4 disabled 5 other |
 | empstat | pos_ocu | 1 -> 1 paid employee, 2 -> 3 employer, 3 -> 4 own account, 4 -> 2 unpaid |
 | ocusec | p4b, p4c, p4d1, p4d2, p4a | GLD rule (private if p4b 4, or 5 with p4c 1-2; institutions public if government-administered …) |
-| industry | p4a SCIAN 4-digit | `scian2018_to_isic4.csv`; `isic_digits` = significant digits of the ISIC code (many map at 2-3 digits) |
+| industry | p4a, INEGI's 4-digit ENOE activity classifier (SCIAN 2018 branches and subsectors) | `scian2018_to_isic4.csv` (GLD); `isic_digits` = significant digits of the ISIC code (many map at 2-3 digits). ENOE 5411 covers every professional, scientific and technical service (ISIC 62 and 69-75) and 5611 business support, employment and secretarial services (ISIC 78 and 82); these and the "insufficiently specified" sector codes carry a section-only code `000<letter>` with `isic_digits` missing and `industrycat10` from the section (fixed 2026-09-07: they used to leave `industrycat10` missing for 4 % of workers). 5616 combined facilities support now maps to 8110 |
 | occupation | p3 SINCO 2019 4-digit | `sinco2019_to_isco08.csv`, then validated against the ISCO-08 structure; about 40 % of employment at 4 digits, the rest at 1-3 because the INEGI correspondence stops at group level; 0.06 % unmapped |
 | wage_no_compen | ingocup | monthly labour income, 0 for unpaid workers, NA if 0 |
 | whours | hrsocup | hours worked in the reference week, NA if 0 |
