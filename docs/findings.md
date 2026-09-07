@@ -65,20 +65,31 @@ occupations rather than displacement.
 
 India (`output/tables/did_log_emp_withIND.csv`, country subset) is kept out
 of the pooled estimates: its baseline employment would carry half of the
-pooled weight, its 2021Q3-2025Q1 quarters are first-visit samples of about
-40,000 employed persons at 3-digit occupation, and the 2025Q2 redesign
-multiplies the sample by five and changes the weights, so the India rows
-would dominate a pooled coefficient with noise rather than information
-(pooled with India: -0.041, SE 0.124). On its own India shows no relative
-employment loss in exposed occupations: the difference in differences is
--0.071 (SE 0.229), the event-study coefficients for 2023-2024 sit between
--0.02 and +0.10 (SE 0.04-0.08), and the 2025 quarters swing to -0.04 to
--0.09 with standard errors of 0.15-0.17 across the design break. The
-employment index by quintile (`output/figures/emp_index_q5_IND.png`) puts the
-most exposed quintile at 118 in 2025 (2022 = 100), between the least exposed
-quintile (112) and the middle (130); India's 2021 first half is coded in
-NCO-2004 and is not comparable at occupation level, which is why the index
-starts in 2022.
+pooled weight and its pre-2025 quarters are first-visit samples of about
+40,000 employed persons at 3-digit occupation, so the India rows would
+dominate a pooled coefficient with noise rather than information (pooled
+with India: -0.041, SE 0.124). Two rules in `analysis.build_cells` keep the
+India series comparable across its breaks: cells start in 2021Q3, because
+the first half of 2021 is coded in NCO-2004, and from 2025Q2 only
+first-visit records enter, reweighted to the full sample's population by
+quarter and sector, because the 2025 quarterly file pools first visits with
+three revisits while every earlier file holds first visits only
+(`FIRST_VISIT_RULES`, `MIN_PERIOD`). The 2025 sampling redesign itself
+remains a level break that the fixed effects absorb only if it is uniform
+across occupations.
+
+On its own India shows no relative employment loss in exposed occupations.
+The tercile difference in differences is -0.077 (SE 0.184; -0.052, SE 0.158,
+on the comparable 2021Q3-2024Q4 window alone) and the event-study
+coefficients for 2023-2024 lie between -0.02 and +0.10 (SE 0.04-0.08); the
+2025 quarters sit at -0.00 to -0.14 with standard errors of 0.14-0.17, so
+the redesign year adds nothing either way. The top quintile grows faster
+than the rest, +0.20 (SE 0.05) with or without 2025, which is India's
+expansion of clerical, finance and professional employment rather than a
+sign of displacement; the young-worker interaction is -0.05 (SE 0.05). The
+employment index by quintile (`output/figures/emp_index_q5_IND.png`) puts
+the most exposed quintile at 118 in 2025 (2022 = 100), between the least
+exposed quintile (112) and the middle (130).
 
 Young workers (15-29) in high-exposure occupations show no relative
 employment loss either (post x high x young 0.014, SE 0.012; young-only
@@ -206,9 +217,10 @@ the result to probe first.
 - Cells fixed at 30 baseline observations drop 40-70 % of cells in the
   smaller surveys (Ecuador, Peru, Argentina); the `--keep-small` variant of
   `41_event_study.py` keeps them.
-- India's 2025Q2 redesign (all four visits, quarterly multipliers, sample
-  times five) and its NCO-2004 quarters (2021Q1-Q2) are breaks the cell
-  design does not yet model; India is therefore reported alone.
+- India's 2025 redesign is handled at the cell level (first visits only
+  from 2025Q2, cells from 2021Q3), which removes the visit-composition and
+  classification breaks but not the change of sampling frame; India is
+  therefore reported alone.
 - Peru's positive effect coincides with strong post-2023 recovery in
   commerce and services; Ecuador's negative effect with its 2024 energy
   crisis. Neither is identified as an AI effect.

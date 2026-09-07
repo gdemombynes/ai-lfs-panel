@@ -2,7 +2,8 @@
 
     python scripts/41_event_study.py [--outcome log_emp|emp_ratio|new_hire_share]
                                      [--treat high|high_q5|high_d10|score_w]
-                                     [--keep-small] [--exclude IND,...] [--tag name]
+                                     [--keep-small] [--exclude IND,...]
+                                     [--countries IND,...] [--end 2024Q4] [--tag name]
 
 Reference quarter 2022Q4; cell and country x age x sex x quarter fixed
 effects; baseline-employment weights; clusters country x occupation.
@@ -40,12 +41,21 @@ def main() -> None:
     ap.add_argument(
         "--exclude", default="", help="comma-separated country codes to leave out"
     )
+    ap.add_argument(
+        "--countries", default="", help="comma-separated country codes to keep"
+    )
+    ap.add_argument("--end", default="", help="last period to keep, e.g. 2024Q4")
     ap.add_argument("--tag", default="", help="suffix added to the output file names")
     args = ap.parse_args()
     cells = pd.read_parquet(CELLS_PATH)
     excluded = [c.strip().upper() for c in args.exclude.split(",") if c.strip()]
     if excluded:
         cells = cells[~cells["countrycode"].isin(excluded)]
+    kept = [c.strip().upper() for c in args.countries.split(",") if c.strip()]
+    if kept:
+        cells = cells[cells["countrycode"].isin(kept)]
+    if args.end:
+        cells = cells[cells["period"] <= args.end]
     exposure = load_exposure_table()
     frame = event_study_frame(cells, exposure, drop_small=not args.keep_small)
     tables = OUTPUT / "tables"

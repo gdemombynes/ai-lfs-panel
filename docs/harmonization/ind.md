@@ -62,7 +62,12 @@ in line with the neighbouring quarters.
 Series notes: 2021Q1-2025Q1 are first-visit samples of about 100,000 persons
 per quarter (290,000 in 2025Q1); 2025Q2 onwards are all-visit samples of about
 560,000. The 2025Q1 quarter is the only one with the times-four rule and has
-no published quarterly rates. Treat 2025Q2 as a design break.
+no published quarterly rates. Treat 2025Q2 as a design break: the analysis
+layer (`lfspanel.analysis.FIRST_VISIT_RULES`, `MIN_PERIOD`) builds India's
+cells from first-visit records only from 2025Q2, reweighted to the full
+sample's population by quarter and sector, and starts them in 2021Q3; the
+harmonized partitions themselves keep every visit with the official weights
+so that validation against the bulletins stays exact.
 
 ## Validation
 

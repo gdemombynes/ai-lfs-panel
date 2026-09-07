@@ -47,28 +47,70 @@ def cell_depth(con: duckdb.DuckDBPyConnection) -> Dict[str, int]:
     return out
 
 
+# Sub-samples that keep a country's series comparable across a survey
+# redesign: from ``from_period`` on, only records with ``visit_no`` equal to
+# ``visit`` enter the cells, reweighted so each period x urban stratum keeps
+# the full sample's population. India's 2025 quarterly file pools first
+# visits with three revisits while every earlier file holds first visits
+# only (docs/harmonization/ind.md).
+FIRST_VISIT_RULES: Dict[str, Tuple[str, int]] = {"IND": ("2025Q2", 1)}
+# Quarters whose occupation coding is not comparable with the rest of the
+# country's series (India's 2021H1 uses NCO-2004) start the cells later.
+MIN_PERIOD: Dict[str, str] = {"IND": "2021Q3"}
+
+
+def _visit_clauses(cc: str) -> Tuple[str, str, str]:
+    """(scale CTE, weight expression, extra WHERE) for a country's visit rule."""
+    if cc not in FIRST_VISIT_RULES:
+        return "", "weight", ""
+    start, visit = FIRST_VISIT_RULES[cc]
+    cte = f"""
+        WITH scale AS (
+            SELECT period, urban,
+                   sum(weight) / sum(CASE WHEN visit_no = {visit} THEN weight END) AS f
+            FROM harmonized
+            WHERE countrycode = '{cc}' AND period >= '{start}'
+            GROUP BY 1, 2
+        )"""
+    weight = "e.weight * coalesce(s.f, 1)"
+    where = f" AND NOT (e.period >= '{start}' AND coalesce(e.visit_no, 0) <> {visit})"
+    return cte, weight, where
+
+
+def _min_period_clause(cc: str) -> str:
+    return f" AND e.period >= '{MIN_PERIOD[cc]}'" if cc in MIN_PERIOD else ""
+
+
 def build_cells(
     con: duckdb.DuckDBPyConnection, depth: Dict[str, int], min_age: int = 15
 ) -> pd.DataFrame:
     frames = []
     for cc, d in sorted(depth.items()):
+        cte, w, extra = _visit_clauses(cc)
+        extra += _min_period_clause(cc)
+        join = (
+            "LEFT JOIN scale s ON s.period = e.period AND s.urban = e.urban"
+            if cte
+            else ""
+        )
         frames.append(
             con.execute(
                 f"""
-                SELECT countrycode, period, substr(occup_isco, 1, {d}) AS isco,
-                       age_group, male,
+                {cte}
+                SELECT e.countrycode, e.period, substr(e.occup_isco, 1, {d}) AS isco,
+                       e.age_group, e.male,
                        count(*) AS n,
-                       sum(weight) AS emp,
-                       sum(weight * tenure_lt12) / sum(CASE WHEN tenure_lt12 IS NOT NULL THEN weight END)
+                       sum({w}) AS emp,
+                       sum({w} * e.tenure_lt12) / sum(CASE WHEN e.tenure_lt12 IS NOT NULL THEN {w} END)
                            AS new_hire_share,
-                       sum(CASE WHEN tenure_lt12 IS NOT NULL THEN weight END) / sum(weight)
+                       sum(CASE WHEN e.tenure_lt12 IS NOT NULL THEN {w} END) / sum({w})
                            AS tenure_coverage,
-                       sum(weight * socialsec) / sum(CASE WHEN socialsec IS NOT NULL THEN weight END)
+                       sum({w} * e.socialsec) / sum(CASE WHEN e.socialsec IS NOT NULL THEN {w} END)
                            AS formal_share,
-                       sum(CASE WHEN empstat = 1 THEN weight ELSE 0 END) / sum(weight) AS employee_share
-                FROM employed
-                WHERE countrycode = '{cc}' AND occup_isco_digits >= {d}
-                  AND age >= {min_age} AND age_group IS NOT NULL AND male IS NOT NULL
+                       sum(CASE WHEN e.empstat = 1 THEN {w} ELSE 0 END) / sum({w}) AS employee_share
+                FROM employed e {join}
+                WHERE e.countrycode = '{cc}' AND e.occup_isco_digits >= {d}
+                  AND e.age >= {min_age} AND e.age_group IS NOT NULL AND e.male IS NOT NULL{extra}
                 GROUP BY 1, 2, 3, 4, 5
                 """
             )
