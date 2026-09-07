@@ -24,8 +24,8 @@ whole population as the base, so `population = "all"` in
 | nlfreason | CAT_INAC | 1 retired -> 3, 2 rentier -> 5, 3 student -> 1, 4 housework -> 2, 5 minor -> 5, 6 disabled -> 4, 7 other -> 5 |
 | empstat | CAT_OCUP | 1 employer -> 3, 2 own account -> 4, 3 employee -> 1, 4 unpaid family -> 2, 9 -> 5 |
 | ocusec | PP04A | 1 state -> 1; 2 private, 3 other -> 2 |
-| industry | PP04B_COD, CAES Mercosur 1.0 | two-digit divisions equal ISIC Rev.4 divisions (`isic_digits = 2`); INDEC's own commerce divisions 40 and 48 map to section G (`4700`, `isic_digits = 1`) |
-| occupation | PP04D_COD, CNO 2017 (5 digits) | `cno2017_to_isco08_2d.csv` (occupationcross, 562 codes) to ISCO-08 **2 digits**; codes mapping to 0000/9900 (ill-defined) -> NA; about 5 % of CNO codes are not in the crosswalk |
+| industry | PP04B_COD, CAES Mercosur 1.0 | two-digit divisions equal ISIC Rev.4 divisions (`isic_digits = 2`); INDEC's own commerce divisions 40 and 48 map to section G (`4700`, `isic_digits = 1`). About 1 % of codes are reported at the division only (two characters, e.g. "45"); they are read as the division rather than padded to "0045" (fixed 2026-09-07) |
+| occupation | PP04D_COD, CNO 2017 (5 digits) | `cno2017_to_isco08_2d.csv` (occupationcross, 562 codes) to ISCO-08 **2 digits**; codes mapping to 0000/9900 (ill-defined) -> NA. About 5 % of CNO codes (e.g. 80313, 82113) are not in the crosswalk; they take the modal ISCO-08 target of the crosswalk codes sharing their first three digits, then their first two (fixed 2026-09-07) |
 | wage_no_compen | P21 | monthly income from the main job (> 0); 0 for unpaid |
 | whours | PP3E_TOT | hours last week in the main job; 999 -> NA |
 | contract | | not asked |

@@ -44,7 +44,8 @@ QUARTER_LABELS: Dict[str, Dict[str, int]] = {
 _BQ = {
     "qtr": "qtr_cperv1", "visit": "visit_cperv1", "sec": "b1q3_cperv1",
     "st": "state_cperv1", "dc": "distcode_cperv1", "mfsu": "b1q1_cperv1",
-    "sss": "b1q14_cperv1", "ssu": "b1q15_cperv1", "srl": "b4q1_cperv1",
+    "hg": "b1q13_cperv1", "sss": "b1q14_cperv1", "ssu": "b1q15_cperv1",
+    "srl": "b4q1_cperv1",
     "panel": "panel_cperv1", "sex": "b4q5_cperv1", "age": "b4q6_perv1",
     "gedu_lvl": "b4q8_cperv1", "acws": "b6q5_cperv1", "aind_cws": "b6q6_cperv1",
     "ocu_cws": "b6q7_cperv1", "ern_reg": "b6q9_cperv1", "ern_self": "b6q10_cperv1",
@@ -73,7 +74,8 @@ _BQ21["age"] = "b4q6_cperv1"
 
 _DESC = {
     "qtr": "Quarter", "visit": "Visit", "sec": "Sector", "st": "State_UT_Code",
-    "dc": "District_Code", "mfsu": "FSU", "sss": "Second_Stage_Stratum_No",
+    "dc": "District_Code", "mfsu": "FSU", "hg": "Sample_Sg_Sb_No",
+    "sss": "Second_Stage_Stratum_No",
     "ssu": "Sample_Household_Number", "srl": "Person_Serial_No", "panel": "Panel",
     "sex": "Sex", "age": "Age", "gedu_lvl": "General_Education_Level",
     "acws": "CWS_Status_Code", "aind_cws": "CWS_Industry_Code",
@@ -99,16 +101,17 @@ ALIASES: Dict[str, Dict[str, str]] = {
 # household file: survey month and the join keys, for releases without a
 # person-level month
 HH_ALIASES: Dict[str, Dict[str, str]] = {
-    "cy2021": {"qtr": "qtr_chhv1", "mfsu": "b1q1_chhv1", "sss": "b1q14_chhv1",
-               "ssu": "b1q15_chhv1", "month": "b1q9_chhv1"},
-    "cy2022": {"qtr": "qtr_chhv1", "mfsu": "b1q1_chhv1", "sss": "b1q14_chhv1",
-               "ssu": "b1q15_chhv1", "month": "b1q9_chhv1"},
-    "cy2023": {"qtr": "qtr_chhv1", "mfsu": "b1q1_chhv1", "sss": "b1q14_chhv1",
-               "ssu": "b1q15_chhv1", "month": "b1q9_chhv1"},
-    "cy2024": {"qtr": "Quarter", "mfsu": "FSU", "sss": "Second_Stage_Stratum_No",
-               "ssu": "Sample_Household_Number", "month": "Month_of_Survey"},
+    "cy2021": {"qtr": "qtr_chhv1", "mfsu": "b1q1_chhv1", "hg": "b1q13_chhv1",
+               "sss": "b1q14_chhv1", "ssu": "b1q15_chhv1", "month": "b1q9_chhv1"},
+    "cy2022": {"qtr": "qtr_chhv1", "mfsu": "b1q1_chhv1", "hg": "b1q13_chhv1",
+               "sss": "b1q14_chhv1", "ssu": "b1q15_chhv1", "month": "b1q9_chhv1"},
+    "cy2023": {"qtr": "qtr_chhv1", "mfsu": "b1q1_chhv1", "hg": "b1q13_chhv1",
+               "sss": "b1q14_chhv1", "ssu": "b1q15_chhv1", "month": "b1q9_chhv1"},
+    "cy2024": {"qtr": "Quarter", "mfsu": "FSU", "hg": "Sample_Sg_Sb_No",
+               "sss": "Second_Stage_Stratum_No", "ssu": "Sample_Household_Number",
+               "month": "Month_of_Survey"},
 }  # fmt: skip
-OPTIONAL = {"month", "nss", "no_qtr", "ern_reg", "ern_self"} | {
+OPTIONAL = {"month", "nss", "no_qtr", "ern_reg", "ern_self", "hg"} | {
     f"{p}{d}" for p in ("hr", "ahr", "ern1", "ern2") for d in DAYS
 }
 
@@ -198,7 +201,8 @@ def read_raw(
             hh_alias = HH_ALIASES[rel.label]
             hpath = _extract(z, _member(z, rel.hh_member), tmp)
             hh = _read_selected(hpath, hh_alias, "qtr", label)
-            keys = ["mfsu", "sss", "ssu"]
+            keys = ["mfsu", "hg", "sss", "ssu"]
+            hh["hg"] = hh["hg"] if "hg" in hh.columns else ""
             for c in keys:
                 hh[c] = _to_text(hh[c])
                 df[c] = _to_text(df[c])

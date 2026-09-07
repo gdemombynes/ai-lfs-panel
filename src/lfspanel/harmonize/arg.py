@@ -84,9 +84,12 @@ def harmonize(
     df["ocusec"] = to_int(raw["PP04A"]).map({1: 1, 2: 2, 3: 2}).astype("Int8")
 
     caes = raw["PP04B_COD"].str.strip()
-    caes = caes.where(caes != "").str.zfill(4)
+    caes = caes.where(caes != "")
+    # codes reported at the division only ("45") are two characters long;
+    # full CAES codes have four, with the division in the first two
+    div = caes.where(caes.str.len() > 2, caes.str.zfill(2) + "00").str.zfill(4).str[:2]
+    caes = caes.where(caes.str.len() > 2, caes.str.zfill(2)).str.zfill(4)
     df["industry_orig"] = caes.astype("string")
-    div = caes.str[:2]
     isic = (div + "00").mask(true_only(div.isin(COMMERCE_DIVISIONS)), "4700")
     df["industrycat_isic"] = isic.astype("string")
     df["isic_digits"] = (
@@ -101,7 +104,19 @@ def harmonize(
     cno = cno.where(cno != "").str.zfill(5)
     df["occup_orig"] = cno.astype("string")
     xw = load_crosswalk("cno2017_to_isco08_2d").set_index("cno2017")["isco08"]
-    mapped = cno.map(xw).where(lambda s: ~s.isin(["0000", "9900"]))
+    mapped = cno.map(xw)
+    # CNO codes absent from the crosswalk take the modal ISCO-08 target of
+    # the crosswalk codes sharing their first three digits (occupational
+    # character and hierarchy) and fifth digit (qualification), then two
+    # digits and qualification, then the prefixes alone
+    valid = xw[~xw.isin(["0000", "9900"])]
+    idx = pd.Series(valid.index, index=valid.index)
+    for k, with_skill in ((3, True), (2, True), (3, False), (2, False)):
+        key = idx.str[:k] + (idx.str[4] if with_skill else "")
+        by_key = valid.groupby(key.values).agg(lambda s: s.value_counts().index[0])
+        probe = cno.str[:k] + (cno.str[4] if with_skill else "")
+        mapped = mapped.fillna(probe.map(by_key))
+    mapped = mapped.where(lambda s: ~s.isin(["0000", "9900"]))
     isco, digits = map_isco_codes(mapped)
     df["occup_isco"], df["occup_isco_digits"] = isco, digits
     df["occup"] = isco_major(df["occup_isco"])

@@ -105,7 +105,8 @@ def test_schema_and_status(case):
     assert out["urban"].isin([0, 1]).all() and out["male"].isin([0, 1]).all()
     assert out["subnatid1"].str.contains(" - ").all()
     assert (out["int_month"].dropna().between(1, 12)).all()
-    assert out["hhid"].str.len().eq(11).all()
+    assert out["hhid"].str.len().eq(12).all()
+    assert not out["pid"].duplicated().any()
 
 
 def test_job_characteristics(case):

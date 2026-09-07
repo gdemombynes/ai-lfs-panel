@@ -42,7 +42,7 @@ in line with the neighbouring quarters.
 |---|---|---|
 | int_month | month (2025) / household file `Month of survey` (earlier) | |
 | wave | qtr | release quarter label |
-| hhid, pid | sector + state + FSU + second-stage stratum + household no.; + person serial | stable across visits |
+| hhid, pid | sector + state + FSU + hamlet group/sub-block + second-stage stratum + household no.; + person serial | stable across visits; the hamlet-group digit is needed for uniqueness before 2025 |
 | rotation_group, visit_no | panel; visit (V1-V4) | |
 | urban | sec | 2 -> 1 |
 | subnatid1 | st | 36 states / union territories (GLD list) |

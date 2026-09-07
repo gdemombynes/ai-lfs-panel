@@ -11,7 +11,7 @@ longer carry module 05.
 | Target | Source | Recode |
 |---|---|---|
 | int_month | MES | |
-| hhid, pid | CONGLOMERADO-SELVIV-HOGAR; + C201 | |
+| hhid, pid | MES-CONGLOMERADO-SELVIV-HOGAR; + C201 | conglomerado numbers restart each month of the quarterly file (fixed 2026-09-07; about 120 duplicate ids per quarter before) |
 | weight | FAC_T300 | quarterly employment weight, defined only for persons 14+ who answered the module; others dropped (children, non-residents, 932 unclassified rows in 2023Q2) |
 | urban | AREA | 1 urban -> 1, 2 rural -> 0 |
 | subnatid1 | | **NA**: the national file has no department code (only the 27 main cities from 2024Q2) |

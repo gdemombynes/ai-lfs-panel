@@ -29,6 +29,14 @@ Companion inventory of where LFS microdata are published:
 | Nigeria (NLFS) | NBS catalogue, manual download | SPSS / Stata / zip per release | 2024Q1, 2024Q3-2025Q2, 5 quarters | 3/3 checks pass on 2024Q1, the only quarter with a published report |
 | India (PLFS) | MoSPI NADA API (`curl -k`, key in `.env`) | Stata person file per release, quarter selected by label | 2021Q1-2025Q4, 20 quarters (first-visit files to 2025Q1, all-visit quarterly file from 2025Q2) | 99/100 checks pass: calendar-year CWS rates within 0.23 pp, 2025 quarters within 0.05 pp of the bulletins (`output/tables/validation_official_ind.csv`) |
 
+## Compatibility audit
+
+`26_compatibility_check.py` profiles every country-quarter (sample,
+population, headline rates, missingness, coding depth, code validity, id
+and period integrity), flags level problems and quarter-to-quarter jumps,
+and writes `docs/compatibility.md` with coverage and variable-availability
+tables for the whole panel.
+
 ## Codebook drift
 
 `10_harmonize.py` writes a fingerprint of every raw variable's code set per

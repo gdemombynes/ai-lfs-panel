@@ -63,8 +63,16 @@ def harmonize(
     df["int_year"] = df["year"]
     df["int_month"] = to_int(raw["mes"]).astype("Int8")
     df["wave"] = f"Q{period.quarter}"
+    # conglomerado numbers restart each month of the quarterly file, so the
+    # month is part of the household id
     df["hhid"] = (
-        raw["conglomerado"] + "-" + raw["selviv"] + "-" + raw["hogar"]
+        raw["mes"].str.zfill(2)
+        + "-"
+        + raw["conglomerado"]
+        + "-"
+        + raw["selviv"]
+        + "-"
+        + raw["hogar"]
     ).astype("string")
     df["pid"] = (df["hhid"] + "-" + raw["c201"]).astype("string")
     df["rotation_group"] = pd.NA

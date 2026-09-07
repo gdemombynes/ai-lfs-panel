@@ -30,6 +30,7 @@ python scripts/10_harmonize.py --country bra --periods 2025Q1:2025Q4
 python scripts/11_build_duckdb.py
 python scripts/03_fetch_official.py --country bra --periods 2022Q1:2026Q2
 python scripts/20_validate_official.py --country bra
+python scripts/26_compatibility_check.py            # cross-country, cross-quarter audit
 python scripts/04_fetch_external.py                 # ILO exposure scores
 python scripts/30_attach_exposure.py && python scripts/40_build_cells.py
 python scripts/41_event_study.py --outcome log_emp && python scripts/42_figures.py
@@ -55,6 +56,10 @@ python scripts/41_event_study.py --outcome log_emp && python scripts/42_figures.
   resolve every flagged code change (alias, recode, or a documented break).
 - Validation is not optional: a new country-quarter is done only when
   `20_validate_official.py` passes against the published headline rates.
+- After any harmonization change run `scripts/26_compatibility_check.py`; it
+  rewrites `docs/compatibility.md` and every new level problem or
+  quarter-to-quarter jump in `output/tables/compat_flags.csv` needs a fix or
+  a note in the country's harmonization doc.
 - Secrets only via `.env` (see `.env.example`); never in code or commits.
 - Never pass a nullable condition straight to `Series.mask`: pandas treats a
   missing condition as True. Wrap it in `harmonize.common.true_only()`.

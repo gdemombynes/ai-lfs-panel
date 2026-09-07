@@ -120,6 +120,7 @@ def harmonize(
         raw["sec"].str.zfill(1)
         + raw["st"].str.zfill(2)
         + raw["mfsu"].str.zfill(5)
+        + raw["hg"].str.zfill(1)
         + raw["sss"].str.zfill(1)
         + raw["ssu"].str.zfill(2)
     )

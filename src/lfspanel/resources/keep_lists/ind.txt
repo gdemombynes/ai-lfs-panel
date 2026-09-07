@@ -7,6 +7,7 @@ sec          # 1 rural, 2 urban
 st           # state / UT code
 dc           # district code
 mfsu         # first-stage unit serial number
+hg           # hamlet group / sub-block (old design; absent from 2025 files)
 sss          # second-stage stratum
 ssu          # sample household number
 srl          # person serial number

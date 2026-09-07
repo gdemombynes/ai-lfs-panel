@@ -159,6 +159,7 @@ def harmonize(
     df["industry_orig"] = scian.astype("string")
     xw = load_crosswalk("scian2018_to_isic4").set_index("scian")["isic"]
     isic = scian.map(xw)
+    isic = isic.where(isic != "0000", pd.NA)  # activity not specified
     df["industrycat_isic"] = isic.astype("string")
     df["isic_digits"] = isic.str.rstrip("0").str.len().clip(1, 4).astype("Int8")
     df["industrycat10"] = industrycat10_from_isic(df["industrycat_isic"])
