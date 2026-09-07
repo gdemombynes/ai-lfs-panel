@@ -113,7 +113,7 @@ def quarter_profile(con: duckdb.DuckDBPyConnection) -> pd.DataFrame:
            {_pct(f"sum(CASE WHEN {emp} AND industrycat10 = 1 THEN weight END)", f"sum(CASE WHEN {emp} AND industrycat10 IS NOT NULL THEN weight END)")} AS agri_pct,
            {_pct(f"count(CASE WHEN {emp} AND occup IS NOT NULL AND CAST(occup AS VARCHAR) <> substr(occup_isco, 1, 1) THEN 1 END)", f"count(CASE WHEN {emp} AND occup_isco IS NOT NULL THEN 1 END)")} AS occup_mismatch_pct,
            count(*) - count(DISTINCT pid) AS dup_pid,
-           {_pct("count(*) - count(DISTINCT pid)", "count(*)")} AS dup_pid_pct,
+           {_pct("(count(*) - count(DISTINCT pid))", "count(*)")} AS dup_pid_pct,
            count(CASE WHEN weight IS NULL OR weight <= 0 THEN 1 END) AS bad_weight,
            count(CASE WHEN age < 0 OR age > 120 THEN 1 END) AS bad_age,
            count(CASE WHEN age < minlaborage AND lstatus IS NOT NULL THEN 1 END) AS status_below_min,
