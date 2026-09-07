@@ -96,3 +96,26 @@ release boundaries (variable renames, `nss`/`no_qtr` dropped in 2025, visits
 V2-V4 appearing in 2025Q2). Distribution flags are the kharif-season swings
 in agriculture (industry 1, occupation 6) every third quarter and the 2025Q1
 design change in `empstat`.
+
+## Call centres in PLFS
+
+The CWS job carries occupation at 3 digits and industry at 2, so contact
+centre clerks (ISCO 4222) cannot be separated from other client-information
+workers (ISCO 422) and call centres (NIC 82200) cannot be separated from
+office support (NIC 82). The usual principal activity in the first-visit
+files does carry a 5-digit NIC code. Workers whose principal industry is
+82200 "activities of call centres" (`output/tables/callcentre_ind_nic82200.csv`,
+first-visit files, weights as above):
+
+| Year | Sample | Employment | Under 25 | Under 30 | Women | Occupations |
+|---|---|---|---|---|---|---|
+| 2022 | 87 | 221,000 | 40.7 % | 66.0 % | 38.1 % | 524 other sales (telemarketers), 422, 333 |
+| 2023 | 74 | 160,000 | 36.4 % | 77.5 % | 41.2 % | 524, 413, 521 |
+| 2024 | 78 | 261,000 | 29.7 % | 70.1 % | 31.4 % | 524, 521, 422 |
+| 2025 | 224 | 259,000 | 26.6 % | 64.6 % | 45.4 % | 524, 422, 352 |
+
+PLFS finds a quarter of a million call-centre workers, a fraction of the
+industry's own headcounts, and fewer than a hundred sample cases a year before
+2025, so the fall in the under-25 share (41 % to 27 %) has a standard error
+of about 5 points and is suggestive only. Most of these workers are coded as
+sales workers (NCO 524, telemarketers) rather than client-information clerks.
