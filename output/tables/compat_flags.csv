@@ -1,122 +1,243 @@
 countrycode,period,kind,metric,value,previous,change,threshold,issue
-ARG,2021Q1,level,invalid_isic_pct,0.717,,,0.5,industry divisions outside ISIC Rev.4
-ARG,2021Q2,level,invalid_isic_pct,0.608,,,0.5,industry divisions outside ISIC Rev.4
-ARG,2021Q3,level,invalid_isic_pct,0.597,,,0.5,industry divisions outside ISIC Rev.4
-ARG,2021Q4,level,invalid_isic_pct,0.828,,,0.5,industry divisions outside ISIC Rev.4
-ARG,2021Q4,level,miss_occup_pct,5.321,,,5.0,occupation missing among the employed
-ARG,2022Q1,level,invalid_isic_pct,0.743,,,0.5,industry divisions outside ISIC Rev.4
-ARG,2022Q2,level,invalid_isic_pct,0.909,,,0.5,industry divisions outside ISIC Rev.4
-ARG,2022Q3,level,invalid_isic_pct,1.091,,,0.5,industry divisions outside ISIC Rev.4
-ARG,2022Q4,level,invalid_isic_pct,1.377,,,0.5,industry divisions outside ISIC Rev.4
-ARG,2022Q4,level,miss_occup_pct,5.004,,,5.0,occupation missing among the employed
-ARG,2023Q1,level,invalid_isic_pct,1.04,,,0.5,industry divisions outside ISIC Rev.4
-ARG,2023Q1,level,miss_occup_pct,5.182,,,5.0,occupation missing among the employed
-ARG,2023Q2,level,invalid_isic_pct,1.011,,,0.5,industry divisions outside ISIC Rev.4
-ARG,2024Q3,level,miss_occup_pct,5.035,,,5.0,occupation missing among the employed
-ARG,2025Q1,level,miss_occup_pct,5.061,,,5.0,occupation missing among the employed
-ARG,2025Q2,level,miss_occup_pct,5.271,,,5.0,occupation missing among the employed
-ARG,2025Q3,level,miss_occup_pct,5.258,,,5.0,occupation missing among the employed
+ARG,2021Q1,level,dup_pid_pct,4669299.0,,,0.05,duplicated person ids in the partition (% of rows)
+ARG,2021Q2,level,dup_pid_pct,4708499.0,,,0.05,duplicated person ids in the partition (% of rows)
+ARG,2021Q3,level,dup_pid_pct,4866799.0,,,0.05,duplicated person ids in the partition (% of rows)
+ARG,2021Q4,level,dup_pid_pct,5015399.0,,,0.05,duplicated person ids in the partition (% of rows)
+ARG,2022Q1,level,dup_pid_pct,4970599.0,,,0.05,duplicated person ids in the partition (% of rows)
+ARG,2022Q2,level,dup_pid_pct,5061399.0,,,0.05,duplicated person ids in the partition (% of rows)
+ARG,2022Q3,level,dup_pid_pct,4923199.0,,,0.05,duplicated person ids in the partition (% of rows)
+ARG,2022Q4,level,dup_pid_pct,4854499.0,,,0.05,duplicated person ids in the partition (% of rows)
+ARG,2023Q1,level,dup_pid_pct,4863799.0,,,0.05,duplicated person ids in the partition (% of rows)
+ARG,2023Q2,level,dup_pid_pct,4907199.0,,,0.05,duplicated person ids in the partition (% of rows)
+ARG,2023Q3,level,dup_pid_pct,4833499.0,,,0.05,duplicated person ids in the partition (% of rows)
+ARG,2023Q4,level,dup_pid_pct,4733699.0,,,0.05,duplicated person ids in the partition (% of rows)
+ARG,2024Q1,level,dup_pid_pct,4604999.0,,,0.05,duplicated person ids in the partition (% of rows)
+ARG,2024Q2,level,dup_pid_pct,4715099.0,,,0.05,duplicated person ids in the partition (% of rows)
+ARG,2024Q3,level,dup_pid_pct,4756399.0,,,0.05,duplicated person ids in the partition (% of rows)
+ARG,2024Q4,level,dup_pid_pct,4685999.0,,,0.05,duplicated person ids in the partition (% of rows)
+ARG,2025Q1,level,dup_pid_pct,4542499.0,,,0.05,duplicated person ids in the partition (% of rows)
+ARG,2025Q2,level,dup_pid_pct,4608599.0,,,0.05,duplicated person ids in the partition (% of rows)
+ARG,2025Q3,level,dup_pid_pct,4494599.0,,,0.05,duplicated person ids in the partition (% of rows)
+ARG,2025Q4,level,dup_pid_pct,4370299.0,,,0.05,duplicated person ids in the partition (% of rows)
+ARG,2026Q1,level,dup_pid_pct,4373899.0,,,0.05,duplicated person ids in the partition (% of rows)
+BRA,2021Q1,level,dup_pid_pct,31989799.0,,,0.05,duplicated person ids in the partition (% of rows)
+BRA,2021Q2,level,dup_pid_pct,35623899.0,,,0.05,duplicated person ids in the partition (% of rows)
+BRA,2021Q3,level,dup_pid_pct,43482199.0,,,0.05,duplicated person ids in the partition (% of rows)
+BRA,2021Q4,level,dup_pid_pct,46179499.0,,,0.05,duplicated person ids in the partition (% of rows)
+BRA,2022Q1,level,dup_pid_pct,47519299.0,,,0.05,duplicated person ids in the partition (% of rows)
+BRA,2022Q2,level,dup_pid_pct,48211799.0,,,0.05,duplicated person ids in the partition (% of rows)
+BRA,2022Q3,level,dup_pid_pct,48778599.0,,,0.05,duplicated person ids in the partition (% of rows)
+BRA,2022Q4,level,dup_pid_pct,47809099.0,,,0.05,duplicated person ids in the partition (% of rows)
+BRA,2023Q1,level,dup_pid_pct,47333499.0,,,0.05,duplicated person ids in the partition (% of rows)
+BRA,2023Q2,level,dup_pid_pct,47457499.0,,,0.05,duplicated person ids in the partition (% of rows)
+BRA,2023Q3,level,dup_pid_pct,47987299.0,,,0.05,duplicated person ids in the partition (% of rows)
+BRA,2023Q4,level,dup_pid_pct,47320599.0,,,0.05,duplicated person ids in the partition (% of rows)
+BRA,2024Q1,level,dup_pid_pct,48134899.0,,,0.05,duplicated person ids in the partition (% of rows)
+BRA,2024Q2,level,dup_pid_pct,47998599.0,,,0.05,duplicated person ids in the partition (% of rows)
+BRA,2024Q3,level,dup_pid_pct,47977799.0,,,0.05,duplicated person ids in the partition (% of rows)
+BRA,2024Q4,level,dup_pid_pct,46933399.0,,,0.05,duplicated person ids in the partition (% of rows)
+BRA,2025Q1,level,dup_pid_pct,47236699.0,,,0.05,duplicated person ids in the partition (% of rows)
+BRA,2025Q2,level,dup_pid_pct,47558999.0,,,0.05,duplicated person ids in the partition (% of rows)
+BRA,2025Q3,level,dup_pid_pct,49048799.0,,,0.05,duplicated person ids in the partition (% of rows)
+BRA,2025Q4,level,dup_pid_pct,49849399.0,,,0.05,duplicated person ids in the partition (% of rows)
+BRA,2026Q1,level,dup_pid_pct,51114899.0,,,0.05,duplicated person ids in the partition (% of rows)
+BRA,2026Q2,level,dup_pid_pct,52172999.0,,,0.05,duplicated person ids in the partition (% of rows)
+COL,2022Q1,level,dup_pid_pct,23849399.0,,,0.05,duplicated person ids in the partition (% of rows)
+COL,2022Q2,level,dup_pid_pct,23305799.0,,,0.05,duplicated person ids in the partition (% of rows)
+COL,2022Q3,level,dup_pid_pct,22796999.0,,,0.05,duplicated person ids in the partition (% of rows)
+COL,2022Q4,level,dup_pid_pct,21993699.0,,,0.05,duplicated person ids in the partition (% of rows)
+COL,2023Q1,level,dup_pid_pct,22109999.0,,,0.05,duplicated person ids in the partition (% of rows)
+COL,2023Q2,level,dup_pid_pct,21570099.0,,,0.05,duplicated person ids in the partition (% of rows)
+COL,2023Q3,level,dup_pid_pct,21505899.0,,,0.05,duplicated person ids in the partition (% of rows)
+COL,2023Q4,level,dup_pid_pct,20894199.0,,,0.05,duplicated person ids in the partition (% of rows)
+COL,2024Q1,level,dup_pid_pct,21351499.0,,,0.05,duplicated person ids in the partition (% of rows)
+COL,2024Q2,level,dup_pid_pct,21066499.0,,,0.05,duplicated person ids in the partition (% of rows)
+COL,2024Q3,level,dup_pid_pct,20742499.0,,,0.05,duplicated person ids in the partition (% of rows)
+COL,2024Q4,level,dup_pid_pct,19807799.0,,,0.05,duplicated person ids in the partition (% of rows)
+COL,2025Q1,level,dup_pid_pct,20389299.0,,,0.05,duplicated person ids in the partition (% of rows)
+COL,2025Q2,level,dup_pid_pct,20452999.0,,,0.05,duplicated person ids in the partition (% of rows)
+COL,2025Q3,level,dup_pid_pct,20527599.0,,,0.05,duplicated person ids in the partition (% of rows)
+COL,2025Q4,level,dup_pid_pct,20385099.0,,,0.05,duplicated person ids in the partition (% of rows)
+COL,2026Q1,level,dup_pid_pct,20125099.0,,,0.05,duplicated person ids in the partition (% of rows)
+COL,2026Q2,level,dup_pid_pct,20069899.0,,,0.05,duplicated person ids in the partition (% of rows)
+ECU,2021Q3,level,dup_pid_pct,9044099.0,,,0.05,duplicated person ids in the partition (% of rows)
+ECU,2021Q4,level,dup_pid_pct,9116899.0,,,0.05,duplicated person ids in the partition (% of rows)
+ECU,2022Q1,level,dup_pid_pct,9079899.0,,,0.05,duplicated person ids in the partition (% of rows)
+ECU,2022Q2,level,dup_pid_pct,8940599.0,,,0.05,duplicated person ids in the partition (% of rows)
+ECU,2022Q3,level,dup_pid_pct,9000699.0,,,0.05,duplicated person ids in the partition (% of rows)
+ECU,2022Q4,level,dup_pid_pct,8788399.0,,,0.05,duplicated person ids in the partition (% of rows)
+ECU,2023Q1,level,dup_pid_pct,8739899.0,,,0.05,duplicated person ids in the partition (% of rows)
+ECU,2023Q2,level,dup_pid_pct,8676299.0,,,0.05,duplicated person ids in the partition (% of rows)
+ECU,2023Q3,level,dup_pid_pct,8549999.0,,,0.05,duplicated person ids in the partition (% of rows)
+ECU,2023Q4,level,dup_pid_pct,8551199.0,,,0.05,duplicated person ids in the partition (% of rows)
+ECU,2024Q1,level,dup_pid_pct,8562999.0,,,0.05,duplicated person ids in the partition (% of rows)
+ECU,2024Q2,level,dup_pid_pct,8570799.0,,,0.05,duplicated person ids in the partition (% of rows)
+ECU,2024Q3,level,dup_pid_pct,8615399.0,,,0.05,duplicated person ids in the partition (% of rows)
+ECU,2024Q4,level,dup_pid_pct,8390199.0,,,0.05,duplicated person ids in the partition (% of rows)
+ECU,2025Q1,level,dup_pid_pct,8455499.0,,,0.05,duplicated person ids in the partition (% of rows)
+ECU,2025Q2,level,dup_pid_pct,8406699.0,,,0.05,duplicated person ids in the partition (% of rows)
+ECU,2025Q3,level,dup_pid_pct,8242099.0,,,0.05,duplicated person ids in the partition (% of rows)
+ECU,2025Q4,level,dup_pid_pct,8374299.0,,,0.05,duplicated person ids in the partition (% of rows)
+ECU,2026Q1,level,dup_pid_pct,8289399.0,,,0.05,duplicated person ids in the partition (% of rows)
+GEO,2021Q1,level,dup_pid_pct,1500199.0,,,0.05,duplicated person ids in the partition (% of rows)
 GEO,2021Q2,jump,lfpr,51.423,48.325,3.098,3.0,participation rate 15+ changed by +3.1 pts
 GEO,2021Q2,jump,miss_whours_pct,5.652,16.239,-10.587,10.0,hours missing among employed changed by -10.6 pts
-IND,2021Q1,level,dup_pid,19129.0,,,0.0,duplicated person ids in the partition
+GEO,2021Q2,level,dup_pid_pct,1542199.0,,,0.05,duplicated person ids in the partition (% of rows)
+GEO,2021Q3,level,dup_pid_pct,1521399.0,,,0.05,duplicated person ids in the partition (% of rows)
+GEO,2021Q4,level,dup_pid_pct,1519899.0,,,0.05,duplicated person ids in the partition (% of rows)
+GEO,2022Q1,level,dup_pid_pct,1544599.0,,,0.05,duplicated person ids in the partition (% of rows)
+GEO,2022Q2,level,dup_pid_pct,1532799.0,,,0.05,duplicated person ids in the partition (% of rows)
+GEO,2022Q3,level,dup_pid_pct,1491299.0,,,0.05,duplicated person ids in the partition (% of rows)
+GEO,2022Q4,level,dup_pid_pct,1457499.0,,,0.05,duplicated person ids in the partition (% of rows)
+GEO,2023Q1,level,dup_pid_pct,1450999.0,,,0.05,duplicated person ids in the partition (% of rows)
+GEO,2023Q2,level,dup_pid_pct,1472399.0,,,0.05,duplicated person ids in the partition (% of rows)
+GEO,2023Q3,level,dup_pid_pct,1452699.0,,,0.05,duplicated person ids in the partition (% of rows)
+GEO,2023Q4,level,dup_pid_pct,1463699.0,,,0.05,duplicated person ids in the partition (% of rows)
+GEO,2024Q1,level,dup_pid_pct,1448699.0,,,0.05,duplicated person ids in the partition (% of rows)
+GEO,2024Q2,level,dup_pid_pct,1445499.0,,,0.05,duplicated person ids in the partition (% of rows)
+GEO,2024Q3,level,dup_pid_pct,1426399.0,,,0.05,duplicated person ids in the partition (% of rows)
+GEO,2024Q4,level,dup_pid_pct,1433999.0,,,0.05,duplicated person ids in the partition (% of rows)
+GEO,2025Q1,level,dup_pid_pct,1462099.0,,,0.05,duplicated person ids in the partition (% of rows)
+GEO,2025Q2,level,dup_pid_pct,1467399.0,,,0.05,duplicated person ids in the partition (% of rows)
+GEO,2025Q3,level,dup_pid_pct,1436399.0,,,0.05,duplicated person ids in the partition (% of rows)
+GEO,2025Q4,level,dup_pid_pct,1451099.0,,,0.05,duplicated person ids in the partition (% of rows)
+IND,2021Q1,level,dup_pid_pct,10378899.0,,,0.05,duplicated person ids in the partition (% of rows)
 IND,2021Q2,jump,ur,9.343,6.204,3.139,3.0,unemployment rate 15+ changed by +3.1 pts
-IND,2021Q2,level,dup_pid,19301.0,,,0.0,duplicated person ids in the partition
-IND,2021Q2,level,month_outside_pct,38.062,,,5.0,interview month outside the quarter
+IND,2021Q2,level,dup_pid_pct,10226199.0,,,0.05,duplicated person ids in the partition (% of rows)
+IND,2021Q2,level,month_outside_pct,37.988,,,5.0,interview month outside the quarter
 IND,2021Q3,jump,isco3_pct,100.0,85.03,14.97,10.0,employed with 3+ ISCO digits changed by +15.0 pts
-IND,2021Q3,level,dup_pid,20603.0,,,0.0,duplicated person ids in the partition
-IND,2021Q3,level,month_outside_pct,60.678,,,5.0,interview month outside the quarter
-IND,2021Q4,level,dup_pid,20345.0,,,0.0,duplicated person ids in the partition
+IND,2021Q3,level,dup_pid_pct,10757999.0,,,0.05,duplicated person ids in the partition (% of rows)
+IND,2021Q3,level,month_outside_pct,60.683,,,5.0,interview month outside the quarter
+IND,2021Q4,level,dup_pid_pct,10751099.0,,,0.05,duplicated person ids in the partition (% of rows)
 IND,2022Q1,jump,miss_wage_pct,13.312,100.0,-86.688,10.0,wage missing among employed changed by -86.7 pts
 IND,2022Q1,jump,miss_whours_pct,0.802,100.0,-99.198,10.0,hours missing among employed changed by -99.2 pts
-IND,2022Q1,level,dup_pid,20269.0,,,0.0,duplicated person ids in the partition
-IND,2022Q2,level,dup_pid,20341.0,,,0.0,duplicated person ids in the partition
-IND,2022Q3,level,dup_pid,19929.0,,,0.0,duplicated person ids in the partition
-IND,2022Q4,level,dup_pid,20240.0,,,0.0,duplicated person ids in the partition
-IND,2023Q1,level,dup_pid,20029.0,,,0.0,duplicated person ids in the partition
-IND,2023Q2,level,dup_pid,20005.0,,,0.0,duplicated person ids in the partition
-IND,2023Q3,level,dup_pid,19568.0,,,0.0,duplicated person ids in the partition
-IND,2023Q4,level,dup_pid,19457.0,,,0.0,duplicated person ids in the partition
-IND,2024Q1,level,dup_pid,19856.0,,,0.0,duplicated person ids in the partition
-IND,2024Q2,level,dup_pid,19805.0,,,0.0,duplicated person ids in the partition
-IND,2024Q3,level,dup_pid,19550.0,,,0.0,duplicated person ids in the partition
-IND,2024Q4,level,dup_pid,19056.0,,,0.0,duplicated person ids in the partition
+IND,2022Q1,level,dup_pid_pct,10687599.0,,,0.05,duplicated person ids in the partition (% of rows)
+IND,2022Q2,level,dup_pid_pct,10655799.0,,,0.05,duplicated person ids in the partition (% of rows)
+IND,2022Q3,level,dup_pid_pct,10567399.0,,,0.05,duplicated person ids in the partition (% of rows)
+IND,2022Q4,level,dup_pid_pct,10578999.0,,,0.05,duplicated person ids in the partition (% of rows)
+IND,2023Q1,level,dup_pid_pct,10451699.0,,,0.05,duplicated person ids in the partition (% of rows)
+IND,2023Q2,level,dup_pid_pct,10350299.0,,,0.05,duplicated person ids in the partition (% of rows)
+IND,2023Q3,level,dup_pid_pct,10435199.0,,,0.05,duplicated person ids in the partition (% of rows)
+IND,2023Q4,level,dup_pid_pct,10395999.0,,,0.05,duplicated person ids in the partition (% of rows)
+IND,2024Q1,level,dup_pid_pct,10480599.0,,,0.05,duplicated person ids in the partition (% of rows)
+IND,2024Q2,level,dup_pid_pct,10470599.0,,,0.05,duplicated person ids in the partition (% of rows)
+IND,2024Q3,level,dup_pid_pct,10314599.0,,,0.05,duplicated person ids in the partition (% of rows)
+IND,2024Q4,level,dup_pid_pct,10289099.0,,,0.05,duplicated person ids in the partition (% of rows)
 IND,2025Q1,jump,n_rows,289926.0,102891.0,181.78,30.0,sample size changed by +181.8%
+IND,2025Q1,level,dup_pid_pct,28992599.0,,,0.05,duplicated person ids in the partition (% of rows)
 IND,2025Q2,jump,n_rows,570805.0,289926.0,96.88,30.0,sample size changed by +96.9%
-MEX,2021Q1,level,invalid_isic_pct,3.938,,,0.5,industry divisions outside ISIC Rev.4
+IND,2025Q2,level,dup_pid_pct,57080499.0,,,0.05,duplicated person ids in the partition (% of rows)
+IND,2025Q3,level,dup_pid_pct,56482799.0,,,0.05,duplicated person ids in the partition (% of rows)
+IND,2025Q4,level,dup_pid_pct,56110799.0,,,0.05,duplicated person ids in the partition (% of rows)
+MEX,2021Q1,level,dup_pid_pct,34345099.0,,,0.05,duplicated person ids in the partition (% of rows)
 MEX,2021Q2,jump,miss_tenure_pct,100.0,0.761,99.239,10.0,tenure missing among employed changed by +99.2 pts
-MEX,2021Q2,level,invalid_isic_pct,4.126,,,0.5,industry divisions outside ISIC Rev.4
-MEX,2021Q3,level,invalid_isic_pct,4.091,,,0.5,industry divisions outside ISIC Rev.4
-MEX,2021Q4,level,invalid_isic_pct,4.066,,,0.5,industry divisions outside ISIC Rev.4
+MEX,2021Q2,level,dup_pid_pct,37379899.0,,,0.05,duplicated person ids in the partition (% of rows)
+MEX,2021Q3,level,dup_pid_pct,42029699.0,,,0.05,duplicated person ids in the partition (% of rows)
+MEX,2021Q4,level,dup_pid_pct,42632799.0,,,0.05,duplicated person ids in the partition (% of rows)
 MEX,2022Q1,jump,miss_tenure_pct,0.856,100.0,-99.144,10.0,tenure missing among employed changed by -99.1 pts
-MEX,2022Q1,level,invalid_isic_pct,4.016,,,0.5,industry divisions outside ISIC Rev.4
+MEX,2022Q1,level,dup_pid_pct,39534399.0,,,0.05,duplicated person ids in the partition (% of rows)
 MEX,2022Q2,jump,miss_tenure_pct,100.0,0.856,99.144,10.0,tenure missing among employed changed by +99.1 pts
-MEX,2022Q2,level,invalid_isic_pct,3.977,,,0.5,industry divisions outside ISIC Rev.4
-MEX,2022Q3,level,invalid_isic_pct,4.026,,,0.5,industry divisions outside ISIC Rev.4
-MEX,2022Q4,level,invalid_isic_pct,4.137,,,0.5,industry divisions outside ISIC Rev.4
+MEX,2022Q2,level,dup_pid_pct,39815699.0,,,0.05,duplicated person ids in the partition (% of rows)
+MEX,2022Q3,level,dup_pid_pct,39099499.0,,,0.05,duplicated person ids in the partition (% of rows)
+MEX,2022Q4,level,dup_pid_pct,38943499.0,,,0.05,duplicated person ids in the partition (% of rows)
 MEX,2023Q1,jump,miss_tenure_pct,0.79,100.0,-99.21,10.0,tenure missing among employed changed by -99.2 pts
-MEX,2023Q1,level,invalid_isic_pct,4.009,,,0.5,industry divisions outside ISIC Rev.4
+MEX,2023Q1,level,dup_pid_pct,44226699.0,,,0.05,duplicated person ids in the partition (% of rows)
 MEX,2023Q2,jump,miss_tenure_pct,100.0,0.79,99.21,10.0,tenure missing among employed changed by +99.2 pts
-MEX,2023Q2,level,invalid_isic_pct,4.219,,,0.5,industry divisions outside ISIC Rev.4
-MEX,2023Q3,level,invalid_isic_pct,4.188,,,0.5,industry divisions outside ISIC Rev.4
-MEX,2023Q4,level,invalid_isic_pct,4.173,,,0.5,industry divisions outside ISIC Rev.4
+MEX,2023Q2,level,dup_pid_pct,42277799.0,,,0.05,duplicated person ids in the partition (% of rows)
+MEX,2023Q3,level,dup_pid_pct,42070499.0,,,0.05,duplicated person ids in the partition (% of rows)
+MEX,2023Q4,level,dup_pid_pct,41189099.0,,,0.05,duplicated person ids in the partition (% of rows)
 MEX,2024Q1,jump,miss_tenure_pct,0.875,100.0,-99.125,10.0,tenure missing among employed changed by -99.1 pts
-MEX,2024Q1,level,invalid_isic_pct,4.265,,,0.5,industry divisions outside ISIC Rev.4
+MEX,2024Q1,level,dup_pid_pct,41548999.0,,,0.05,duplicated person ids in the partition (% of rows)
 MEX,2024Q2,jump,miss_tenure_pct,100.0,0.875,99.125,10.0,tenure missing among employed changed by +99.1 pts
-MEX,2024Q2,level,invalid_isic_pct,4.232,,,0.5,industry divisions outside ISIC Rev.4
-MEX,2024Q3,level,invalid_isic_pct,4.186,,,0.5,industry divisions outside ISIC Rev.4
-MEX,2024Q4,level,invalid_isic_pct,4.326,,,0.5,industry divisions outside ISIC Rev.4
+MEX,2024Q2,level,dup_pid_pct,41945499.0,,,0.05,duplicated person ids in the partition (% of rows)
+MEX,2024Q3,level,dup_pid_pct,41514699.0,,,0.05,duplicated person ids in the partition (% of rows)
+MEX,2024Q4,level,dup_pid_pct,41302399.0,,,0.05,duplicated person ids in the partition (% of rows)
 MEX,2025Q1,jump,miss_tenure_pct,1.335,100.0,-98.665,10.0,tenure missing among employed changed by -98.7 pts
-MEX,2025Q1,level,invalid_isic_pct,4.415,,,0.5,industry divisions outside ISIC Rev.4
+MEX,2025Q1,level,dup_pid_pct,41207899.0,,,0.05,duplicated person ids in the partition (% of rows)
 MEX,2025Q2,jump,miss_tenure_pct,100.0,1.335,98.665,10.0,tenure missing among employed changed by +98.7 pts
-MEX,2025Q2,level,invalid_isic_pct,4.491,,,0.5,industry divisions outside ISIC Rev.4
-MEX,2025Q3,level,invalid_isic_pct,4.285,,,0.5,industry divisions outside ISIC Rev.4
-MEX,2025Q4,level,invalid_isic_pct,4.359,,,0.5,industry divisions outside ISIC Rev.4
+MEX,2025Q2,level,dup_pid_pct,41300399.0,,,0.05,duplicated person ids in the partition (% of rows)
+MEX,2025Q3,level,dup_pid_pct,41156199.0,,,0.05,duplicated person ids in the partition (% of rows)
+MEX,2025Q4,level,dup_pid_pct,40809899.0,,,0.05,duplicated person ids in the partition (% of rows)
 MEX,2026Q1,jump,miss_tenure_pct,1.327,100.0,-98.673,10.0,tenure missing among employed changed by -98.7 pts
-MEX,2026Q1,level,invalid_isic_pct,4.38,,,0.5,industry divisions outside ISIC Rev.4
+MEX,2026Q1,level,dup_pid_pct,40673999.0,,,0.05,duplicated person ids in the partition (% of rows)
 MEX,2026Q2,jump,miss_tenure_pct,100.0,1.327,98.673,10.0,tenure missing among employed changed by +98.7 pts
-MEX,2026Q2,level,invalid_isic_pct,4.284,,,0.5,industry divisions outside ISIC Rev.4
+MEX,2026Q2,level,dup_pid_pct,40710699.0,,,0.05,duplicated person ids in the partition (% of rows)
+NGA,2024Q1,level,dup_pid_pct,4531799.0,,,0.05,duplicated person ids in the partition (% of rows)
 NGA,2024Q3,jump,agri_pct,34.059,26.079,7.98,5.0,agriculture share of the employed changed by +8.0 pts
 NGA,2024Q3,jump,miss_tenure_pct,5.055,99.845,-94.789,10.0,tenure missing among employed changed by -94.8 pts
+NGA,2024Q3,level,dup_pid_pct,4395499.0,,,0.05,duplicated person ids in the partition (% of rows)
+NGA,2024Q4,level,dup_pid_pct,4372799.0,,,0.05,duplicated person ids in the partition (% of rows)
 NGA,2025Q1,jump,urban_pct,52.946,58.119,-5.173,5.0,urban share changed by -5.2 pts
+NGA,2025Q1,level,dup_pid_pct,4238499.0,,,0.05,duplicated person ids in the partition (% of rows)
+NGA,2025Q2,level,dup_pid_pct,3993399.0,,,0.05,duplicated person ids in the partition (% of rows)
 NGA,2025Q2,level,miss_isic_pct,7.608,,,5.0,industry missing among the employed
 NGA,2025Q2,level,miss_occup_pct,7.608,,,5.0,occupation missing among the employed
-PER,2022Q2,level,dup_pid,143.0,,,0.0,duplicated person ids in the partition
-PER,2022Q3,level,dup_pid,78.0,,,0.0,duplicated person ids in the partition
-PER,2022Q4,level,dup_pid,111.0,,,0.0,duplicated person ids in the partition
-PER,2023Q1,level,dup_pid,119.0,,,0.0,duplicated person ids in the partition
-PER,2023Q2,level,dup_pid,177.0,,,0.0,duplicated person ids in the partition
-PER,2023Q3,level,dup_pid,133.0,,,0.0,duplicated person ids in the partition
-PER,2023Q4,level,dup_pid,138.0,,,0.0,duplicated person ids in the partition
-PER,2024Q1,level,dup_pid,120.0,,,0.0,duplicated person ids in the partition
-PER,2024Q2,level,dup_pid,154.0,,,0.0,duplicated person ids in the partition
-PER,2024Q3,level,dup_pid,98.0,,,0.0,duplicated person ids in the partition
-PER,2024Q4,level,dup_pid,107.0,,,0.0,duplicated person ids in the partition
-PER,2025Q1,level,dup_pid,152.0,,,0.0,duplicated person ids in the partition
-PER,2025Q2,level,dup_pid,185.0,,,0.0,duplicated person ids in the partition
-PER,2025Q3,level,dup_pid,79.0,,,0.0,duplicated person ids in the partition
-PER,2025Q4,level,dup_pid,97.0,,,0.0,duplicated person ids in the partition
-PER,2026Q1,level,dup_pid,94.0,,,0.0,duplicated person ids in the partition
-PER,2026Q2,level,dup_pid,124.0,,,0.0,duplicated person ids in the partition
+PER,2022Q1,level,dup_pid_pct,7629099.0,,,0.05,duplicated person ids in the partition (% of rows)
+PER,2022Q2,level,dup_pid_pct,7522099.0,,,0.05,duplicated person ids in the partition (% of rows)
+PER,2022Q3,level,dup_pid_pct,7510799.0,,,0.05,duplicated person ids in the partition (% of rows)
+PER,2022Q4,level,dup_pid_pct,7646199.0,,,0.05,duplicated person ids in the partition (% of rows)
+PER,2023Q1,level,dup_pid_pct,7455499.0,,,0.05,duplicated person ids in the partition (% of rows)
+PER,2023Q2,level,dup_pid_pct,7565399.0,,,0.05,duplicated person ids in the partition (% of rows)
+PER,2023Q3,level,dup_pid_pct,7671699.0,,,0.05,duplicated person ids in the partition (% of rows)
+PER,2023Q4,level,dup_pid_pct,7706199.0,,,0.05,duplicated person ids in the partition (% of rows)
+PER,2024Q1,level,dup_pid_pct,7424799.0,,,0.05,duplicated person ids in the partition (% of rows)
+PER,2024Q2,level,dup_pid_pct,7608099.0,,,0.05,duplicated person ids in the partition (% of rows)
+PER,2024Q3,level,dup_pid_pct,7537899.0,,,0.05,duplicated person ids in the partition (% of rows)
+PER,2024Q4,level,dup_pid_pct,7422099.0,,,0.05,duplicated person ids in the partition (% of rows)
+PER,2025Q1,level,dup_pid_pct,6910399.0,,,0.05,duplicated person ids in the partition (% of rows)
+PER,2025Q2,level,dup_pid_pct,7574999.0,,,0.05,duplicated person ids in the partition (% of rows)
+PER,2025Q3,level,dup_pid_pct,7688299.0,,,0.05,duplicated person ids in the partition (% of rows)
+PER,2025Q4,level,dup_pid_pct,7560399.0,,,0.05,duplicated person ids in the partition (% of rows)
+PER,2026Q1,level,dup_pid_pct,7465199.0,,,0.05,duplicated person ids in the partition (% of rows)
+PER,2026Q2,level,dup_pid_pct,7636199.0,,,0.05,duplicated person ids in the partition (% of rows)
+PHL,2021Q1,level,dup_pid_pct,18554999.0,,,0.05,duplicated person ids in the partition (% of rows)
+PHL,2021Q2,level,dup_pid_pct,18588199.0,,,0.05,duplicated person ids in the partition (% of rows)
 PHL,2021Q3,jump,employee_pct,67.09,61.013,6.077,5.0,employee share of the employed changed by +6.1 pts
 PHL,2021Q3,jump,lfpr,59.412,63.234,-3.822,3.0,participation rate 15+ changed by -3.8 pts
 PHL,2021Q3,jump,n_rows,739533.0,185882.0,297.851,30.0,sample size changed by +297.9%
-PHL,2021Q3,level,dup_pid,5.0,,,0.0,duplicated person ids in the partition
+PHL,2021Q3,level,dup_pid_pct,73953299.0,,,0.05,duplicated person ids in the partition (% of rows)
 PHL,2021Q4,jump,lfpr,62.627,59.412,3.215,3.0,participation rate 15+ changed by +3.2 pts
 PHL,2021Q4,jump,n_rows,184896.0,739533.0,-74.998,30.0,sample size changed by -75.0%
-PHL,2021Q4,level,dup_pid,1.0,,,0.0,duplicated person ids in the partition
+PHL,2021Q4,level,dup_pid_pct,18489599.0,,,0.05,duplicated person ids in the partition (% of rows)
 PHL,2022Q1,jump,n_rows,728560.0,184896.0,294.038,30.0,sample size changed by +294.0%
-PHL,2022Q1,level,dup_pid,12.0,,,0.0,duplicated person ids in the partition
+PHL,2022Q1,level,dup_pid_pct,72855999.0,,,0.05,duplicated person ids in the partition (% of rows)
 PHL,2022Q2,jump,n_rows,181695.0,728560.0,-75.061,30.0,sample size changed by -75.1%
-PHL,2022Q2,level,dup_pid,1.0,,,0.0,duplicated person ids in the partition
-PHL,2022Q4,level,dup_pid,1.0,,,0.0,duplicated person ids in the partition
+PHL,2022Q2,level,dup_pid_pct,18169499.0,,,0.05,duplicated person ids in the partition (% of rows)
+PHL,2022Q3,level,dup_pid_pct,18118599.0,,,0.05,duplicated person ids in the partition (% of rows)
+PHL,2022Q4,level,dup_pid_pct,18081299.0,,,0.05,duplicated person ids in the partition (% of rows)
+PHL,2023Q1,level,dup_pid_pct,18126399.0,,,0.05,duplicated person ids in the partition (% of rows)
+PHL,2023Q2,level,dup_pid_pct,17830999.0,,,0.05,duplicated person ids in the partition (% of rows)
 PHL,2023Q3,jump,employee_pct,67.749,61.548,6.202,5.0,employee share of the employed changed by +6.2 pts
 PHL,2023Q3,jump,lfpr,60.035,65.123,-5.088,3.0,participation rate 15+ changed by -5.1 pts
 PHL,2023Q3,jump,n_rows,709177.0,178310.0,297.721,30.0,sample size changed by +297.7%
-PHL,2023Q3,level,dup_pid,14.0,,,0.0,duplicated person ids in the partition
+PHL,2023Q3,level,dup_pid_pct,70917699.0,,,0.05,duplicated person ids in the partition (% of rows)
 PHL,2023Q4,jump,lfpr,63.946,60.035,3.911,3.0,participation rate 15+ changed by +3.9 pts
 PHL,2023Q4,jump,n_rows,176194.0,709177.0,-75.155,30.0,sample size changed by -75.2%
+PHL,2023Q4,level,dup_pid_pct,17619399.0,,,0.05,duplicated person ids in the partition (% of rows)
 PHL,2024Q1,jump,n_rows,698660.0,176194.0,296.529,30.0,sample size changed by +296.5%
-PHL,2024Q1,level,dup_pid,9.0,,,0.0,duplicated person ids in the partition
+PHL,2024Q1,level,dup_pid_pct,69865999.0,,,0.05,duplicated person ids in the partition (% of rows)
 PHL,2024Q2,jump,n_rows,172568.0,698660.0,-75.3,30.0,sample size changed by -75.3%
-PHL,2024Q2,level,dup_pid,1.0,,,0.0,duplicated person ids in the partition
-PHL,2025Q1,level,dup_pid,1.0,,,0.0,duplicated person ids in the partition
+PHL,2024Q2,level,dup_pid_pct,17256799.0,,,0.05,duplicated person ids in the partition (% of rows)
+PHL,2024Q3,level,dup_pid_pct,17046699.0,,,0.05,duplicated person ids in the partition (% of rows)
+PHL,2024Q4,level,dup_pid_pct,16979199.0,,,0.05,duplicated person ids in the partition (% of rows)
+PHL,2025Q1,level,dup_pid_pct,17013399.0,,,0.05,duplicated person ids in the partition (% of rows)
+PHL,2025Q2,level,dup_pid_pct,16886299.0,,,0.05,duplicated person ids in the partition (% of rows)
+PHL,2025Q4,level,dup_pid_pct,17204999.0,,,0.05,duplicated person ids in the partition (% of rows)
+ZAF,2022Q1,level,dup_pid_pct,4980799.0,,,0.05,duplicated person ids in the partition (% of rows)
+ZAF,2022Q2,level,dup_pid_pct,5724399.0,,,0.05,duplicated person ids in the partition (% of rows)
+ZAF,2022Q3,level,dup_pid_pct,6276499.0,,,0.05,duplicated person ids in the partition (% of rows)
+ZAF,2022Q4,level,dup_pid_pct,6511599.0,,,0.05,duplicated person ids in the partition (% of rows)
+ZAF,2023Q1,level,dup_pid_pct,6532699.0,,,0.05,duplicated person ids in the partition (% of rows)
+ZAF,2023Q2,level,dup_pid_pct,6662799.0,,,0.05,duplicated person ids in the partition (% of rows)
+ZAF,2023Q3,level,dup_pid_pct,6605399.0,,,0.05,duplicated person ids in the partition (% of rows)
+ZAF,2023Q4,level,dup_pid_pct,6648599.0,,,0.05,duplicated person ids in the partition (% of rows)
+ZAF,2024Q1,level,dup_pid_pct,6687899.0,,,0.05,duplicated person ids in the partition (% of rows)
+ZAF,2024Q2,level,dup_pid_pct,6654599.0,,,0.05,duplicated person ids in the partition (% of rows)
+ZAF,2024Q3,level,dup_pid_pct,6640499.0,,,0.05,duplicated person ids in the partition (% of rows)
+ZAF,2024Q4,level,dup_pid_pct,6616499.0,,,0.05,duplicated person ids in the partition (% of rows)
+ZAF,2025Q1,level,dup_pid_pct,6642899.0,,,0.05,duplicated person ids in the partition (% of rows)
+ZAF,2025Q2,level,dup_pid_pct,6544299.0,,,0.05,duplicated person ids in the partition (% of rows)
+ZAF,2025Q3,level,dup_pid_pct,6342599.0,,,0.05,duplicated person ids in the partition (% of rows)
+ZAF,2025Q4,level,dup_pid_pct,6326399.0,,,0.05,duplicated person ids in the partition (% of rows)
+ZAF,2026Q1,level,dup_pid_pct,6281899.0,,,0.05,duplicated person ids in the partition (% of rows)
+ZAF,2026Q2,level,dup_pid_pct,6197699.0,,,0.05,duplicated person ids in the partition (% of rows)

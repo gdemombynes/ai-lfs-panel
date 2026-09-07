@@ -50,3 +50,5 @@ public-use file gives 134,000 more employed than OpenSTAT (0.3 %), so the
 participation and employment rates sit 0.19 and 0.16 points above the
 published figures. The counts of the population 15+ agree, which points to a
 revision of the October 2025 status counts between the file and the table.
+
+A few records per round (1 to 14) repeat a household-line key with a different person in the PUF; they are kept as published.

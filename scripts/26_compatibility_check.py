@@ -55,7 +55,8 @@ def main() -> None:
     avail.to_csv(tables / "compat_availability.csv", index=False)
     drift = distribution_drift(con, threshold_pp=args.drift_pp)
     drift.to_csv(tables / "compat_drift.csv", index=False)
-    flagged_drift = drift[drift["flag"].notna()] if "flag" in drift else drift.iloc[0:0]
+    has_flag = drift["flag"].fillna("").astype(str).str.len().gt(0)
+    flagged_drift = drift[has_flag] if "flag" in drift else drift.iloc[0:0]
 
     levels = flags[flags["kind"] == "level"]
     jumps = flags[flags["kind"] == "jump"]

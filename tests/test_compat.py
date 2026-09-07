@@ -32,6 +32,7 @@ def _profile():
                 "invalid_isic_pct": 0.0,
                 "occup_mismatch_pct": 0.0,
                 "dup_pid": 0,
+                "dup_pid_pct": 0.0,
                 "bad_weight": 0,
                 "bad_age": 0,
                 "status_below_min": 0,
