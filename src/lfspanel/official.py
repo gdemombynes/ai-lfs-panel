@@ -837,3 +837,80 @@ def informes_ury(periods: List[Period]) -> pd.DataFrame:
 
 
 FETCHERS.update({"ury": informes_ury})
+
+
+# ---------------------------------------------------------------- Bolivia
+ILOSTAT_API = "https://rplumber.ilo.org/data/indicator/"
+ILOSTAT_BOL = {
+    "EAP_DWAP_SEX_AGE_RT": "participation_rate",
+    "EMP_DWAP_SEX_AGE_RT": "employment_rate",
+    "UNE_DEAP_SEX_AGE_RT": "unemployment_rate",
+}
+BOL_TOL = 0.15
+# ILOSTAT holds the rates INE published at the time, on the original
+# expansion base; the pooled microdata file is on INE's revised base, which
+# puts participation and employment 0.2-0.4 pp higher through 2025Q3 while
+# unemployment is unchanged. From 2025Q4 only the revised base exists.
+BOL_TOL_REBASED = 0.4
+BOL_REBASED_UNTIL = Period("2025Q3")
+
+
+def ilostat_quarterly(indicator: str, ref_area: str, timefrom: int) -> pd.DataFrame:
+    """One ILOSTAT quarterly indicator (both sexes, 15+) as period -> value."""
+    url = (
+        f"{ILOSTAT_API}?id={indicator}_Q&ref_area={ref_area}"
+        f"&timefrom={timefrom}&format=.csv"
+    )
+    text = subprocess.run(
+        ["curl", "-s", "-m", "120", "-A", "Mozilla/5.0", url],
+        capture_output=True,
+        text=True,
+        check=True,
+    ).stdout
+    from io import StringIO
+
+    df = pd.read_csv(StringIO(text.lstrip("﻿")))
+    df = df[(df["sex"] == "SEX_T") & (df["classif1"] == "AGE_YTHADULT_YGE15")]
+    df = df.rename(columns={"time": "period", "obs_value": "value"})
+    df["source_url"] = url
+    return df[["period", "value", "source_url"]]
+
+
+def ilostat_bol(periods: List[Period]) -> pd.DataFrame:
+    """ILOSTAT quarterly rates for Bolivia (source: INE's ECE, persons 15+, national).
+
+    INE's own quarterly releases give urban rates only, in press notes without
+    a stable table; ILOSTAT carries the national series INE reports to the
+    ILO, which is what the harmonized file reproduces. Participation and
+    employment rates up to 2025Q3 get the wider ``BOL_TOL_REBASED`` because
+    the microdata carry INE's revised weights (see the comment above).
+    """
+    wanted = {str(p) for p in periods}
+    first = min(p.year for p in periods)
+    out = []
+    for code, name in ILOSTAT_BOL.items():
+        df = ilostat_quarterly(code, "BOL", first)
+        for _, r in df.iterrows():
+            if r["period"] in wanted:
+                rebased = (
+                    name != "unemployment_rate"
+                    and Period(r["period"]) <= BOL_REBASED_UNTIL
+                )
+                out.append(
+                    {
+                        "period": r["period"],
+                        "population": "15+",
+                        "source_url": r["source_url"]
+                        + (" (published on the original weights)" if rebased else ""),
+                        "tolerance": BOL_TOL_REBASED if rebased else BOL_TOL,
+                        "indicator": name,
+                        "value": round(float(r["value"]), 3),
+                    }
+                )
+    res = pd.DataFrame(out)
+    order = list(ILOSTAT_BOL.values())
+    res["_k"] = res["indicator"].map(order.index)
+    return res.sort_values(["period", "_k"]).drop(columns="_k").reset_index(drop=True)
+
+
+FETCHERS.update({"bol": ilostat_bol})

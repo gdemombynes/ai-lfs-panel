@@ -22,11 +22,12 @@ audit: `docs/compatibility.md`.
 | Nigeria, NLFS | 2024Q1, 2024Q3-2025Q2 | 2025Q2; 2025Q3-Q4 status unknown; 2022Q4-2023Q3 and 2024Q2 still to download | 20,000 | 100 % at 4 digits | Patchy series with a gap at 2024Q2; only 2024Q1 has a published report to validate against; urban share and agriculture share swing between quarters; no wages. |
 | India, PLFS | 2021Q1-2025Q4 | 2025Q4; 2026Q1 unit data not yet on the MoSPI portal | 40,000 (2021-2025Q1, first visits only); 220,000 (2025Q2 on) | 100 % at 3 digits (NCO-2015), never 4 | 2025 redesign: sample times five, all visits and quarterly weights from 2025Q2, new frame from 2025Q1 (handled in cells: first visits only from 2025Q2, comparable series 2021Q3-2024Q4); 2021H1 coded NCO-2004 (mapped via ISCO-88, dropped from cells); industry at 2 digits; no tenure, contract, social security; one corrupt Assam FSU in 2022Q3 dropped. |
 | Uruguay, ECH | 2021Q3-2025Q4 | 2025Q4; 2026 first-semester bases due about Sep-Oct 2026 | 35,000 person-months | 99.9 % at 4 digits | Rotating monthly panel: records are person-months (weight / 3); tenure only for first interviews (20 %); no wages (implantation base only); 2021H2 is the panel's ramp-up (published rates 0.7 pp off); 2022H1 bases re-issued after publication (0.3 pp off); files switch encodings. |
-| Bolivia, ECE | in progress: 2021Q2-2025Q4 available, 2025Q4 read and harmonized | 2025Q4; 2026Q1 due about Jun 2026 on ANDA (manual download, login) | 30,000 | 72 % at 3, 11 % at 4 digits (COB 2009, ISCO-08 based) | Expansion factors revised from 2025Q4 (`fact_trim_act`, new base) so a level break at 2025Q4 is likely; no tenure; official quarterly rates not yet located for validation; questionnaire versions change (v9 from 2024Q4). |
+| Bolivia, ECE | 2021Q1-2025Q4 | 2025Q4; 2026Q1 due about Jun 2026 on ANDA (manual download, login) | 30,000 | 72 % at 3, 11 % at 4 digits (COB 2009, ISCO-08 based) | Whole series on INE's revised weights (pooled 2015Q4-2025Q3 file plus 2025Q4), so participation sits 0.2-0.4 pp above the rates INE published at the time; no tenure; social security missing in 2021; ids unique within a quarter only; 2020 quarters (not in window) have a smaller pandemic sample. |
 
 Not in the panel: Egypt (ERF harmonized files through 2024; 2025 watched
 daily), Costa Rica (files to be downloaded by the user), the request-based
-countries in `docs/design/candidates.md`.
+countries in `docs/design/candidates.md`. The EU-LFS public-use files
+(Eurostat, direct download) are deliberately degraded and not yet assessed.
 
 Cross-country limits that apply to every analysis: minimum labour age
 differs (10 Argentina, 14 Brazil, Peru, Uruguay, Bolivia, 15 elsewhere) and

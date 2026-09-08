@@ -366,10 +366,60 @@ def make_ury(period: Period, n: int, seed: int = 11) -> Path:
     return out
 
 
+def make_bol(period: Period, n: int, seed: int = 11) -> Path:
+    """Sample one quarter of the ECE in the source's own layout.
+
+    Quarters served by the pooled file give a semicolon CSV in the pooled
+    file's layout restricted to the kept columns (decimal commas kept); later
+    quarters give a zip with a Stata member of the kept columns, like INE's
+    per-quarter zips.
+    """
+    import duckdb
+
+    from lfspanel.fetch.bol import source_for
+    from lfspanel.read.bol import keep_list, read_raw
+
+    src = source_for(period)
+    out_dir = FIXTURES / "bol"
+    out_dir.mkdir(parents=True, exist_ok=True)
+    if src.suffix.lower() == ".csv":
+        con = duckdb.connect()
+        header = con.execute(
+            f"select * from read_csv('{src}', delim=';', header=true, "
+            "all_varchar=true) limit 0"
+        ).df()
+        cols = ", ".join(f'"{c}"' for c in keep_list() if c in header.columns)
+        df = con.execute(
+            f"select {cols} from read_csv('{src}', delim=';', header=true, "
+            f"all_varchar=true, quote='\"') where gestion = '{period.year}' "
+            f"and trimestre = '{period.quarter}'"
+        ).df()
+        sample = df.sample(min(n, len(df)), random_state=seed)
+        out = out_dir / f"{src.name.replace('.utf8', '')}"
+        sample.to_csv(out, index=False, sep=";", encoding="utf-8")
+        return out
+    raw = read_raw(period, path=src)
+    sample = raw.sample(min(n, len(raw)), random_state=seed).drop(columns="source_file")
+    for c in ("fact_trim", "fact_trim_act", "yprilab", "phrs"):
+        sample[c] = pd.to_numeric(sample[c], errors="coerce")
+    for c in keep_list():
+        if c not in ("fact_trim", "fact_trim_act", "yprilab", "phrs"):
+            sample[c] = sample[c].astype(str)
+    out = out_dir / src.name
+    with zipfile.ZipFile(out, "w", zipfile.ZIP_DEFLATED) as z:
+        import tempfile
+
+        with tempfile.TemporaryDirectory() as tmp:
+            dta = Path(tmp) / src.with_suffix(".dta").name
+            sample.to_stata(dta, write_index=False, version=118)
+            z.write(dta, dta.name)
+    return out
+
+
 BUILDERS = {
     "bra": make_bra, "mex": make_mex, "col": make_col,
     "arg": make_arg, "ecu": make_ecu, "per": make_per, "zaf": make_zaf, "geo": make_geo,
-    "phl": make_phl, "nga": make_nga, "ind": make_ind, "ury": make_ury,
+    "phl": make_phl, "nga": make_nga, "ind": make_ind, "ury": make_ury, "bol": make_bol,
 }  # fmt: skip
 
 

@@ -188,6 +188,18 @@ COUNTRIES = {
         access="open",
         first_period="2021Q3",
     ),
+    "bol": Country(
+        ccc="BOL",
+        survey="ece",
+        survey_name="Encuesta Continua de Empleo",
+        agency="INE Bolivia",
+        freq="Q",
+        minlaborage=14,
+        isco_digits=3,
+        isic_digits=4,
+        access="registration",
+        first_period="2021Q1",
+    ),
     "ind": Country(
         ccc="IND",
         survey="plfs",

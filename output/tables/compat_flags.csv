@@ -1,4 +1,5 @@
 countrycode,period,kind,metric,value,previous,change,threshold,issue
+BOL,2022Q1,jump,miss_socialsec_pct,73.996,100.0,-26.004,10.0,social security missing among employed changed by -26.0 pts
 GEO,2021Q2,jump,lfpr,51.423,48.325,3.098,3.0,participation rate 15+ changed by +3.1 pts
 GEO,2021Q2,jump,miss_whours_pct,5.652,16.239,-10.587,10.0,hours missing among employed changed by -10.6 pts
 IND,2021Q2,jump,ur,9.343,6.204,3.139,3.0,unemployment rate 15+ changed by +3.1 pts

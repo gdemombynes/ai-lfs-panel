@@ -1,0 +1,31 @@
+# INE Bolivia ECE person file (Stata member of the quarterly zip): raw variables retained
+id_hogar       # household id within the quarter
+nro            # person number in the household
+panel          # rotation panel
+gestion        # year of interview
+trimestre      # quarter of interview
+meses          # month code: months since January 1960 (789 = October 2025)
+depto          # department 1-9
+area           # 1 urban, 2 rural
+s1_02          # sex: 1 man, 2 woman
+s1_03a         # age
+s1_07a         # highest level and course passed (system-specific codes)
+niv_ed         # education level: 0 none, 1-2 primary, 3-4 secondary, 5 higher, 7 other
+pet            # working-age population (14+)
+peao           # employed
+pead           # unemployed
+condact        # 1 employed, 2 unemployed (previously employed), 3 first-time seeker, 4 temporarily inactive, 5 permanently inactive
+s2_06          # reason for not searching (inactive)
+s2_07          # inactivity category: 1 student, 2 homemaker, 3 retired, 4 ill/disabled, 5 elderly, 6 other
+s2_15acod      # main occupation, COB 2009 (5 digits; first 4 follow ISCO-08)
+s2_16acod      # main activity, CAEB (5 digits; first 4 follow ISIC Rev.4)
+s2_18          # category in employment
+s2_21          # contract type (employees)
+s2_22          # type of employer: 1 public administration, 2 public enterprise, 3-6 private
+s2_26a         # workers in the establishment, bands
+s2_64a         # pension contributions: 1 employer pays, 2 self, 3 already receiving, 4 no
+psubocup       # time-related underemployed
+phrs           # weekly hours, main job
+yprilab        # labour income, main job (Bs per month)
+fact_trim      # quarterly expansion factor, original base (per-quarter files only; absent from the pooled file)
+fact_trim_act  # quarterly expansion factor, revised base (all quarters of the pooled file and 2025Q4 onward)

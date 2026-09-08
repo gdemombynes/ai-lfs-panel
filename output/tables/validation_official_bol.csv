@@ -1,0 +1,61 @@
+period,population,indicator,computed,official,diff,tolerance,status,source
+2021Q1,15+,participation_rate,76.522,76.162,0.36,0.4,PASS,https://rplumber.ilo.org/data/indicator/?id=EAP_DWAP_SEX_AGE_RT_Q&ref_area=BOL&timefrom=2021&format=.csv (published on the original weights)
+2021Q1,15+,employment_rate,71.76,71.511,0.249,0.4,PASS,https://rplumber.ilo.org/data/indicator/?id=EMP_DWAP_SEX_AGE_RT_Q&ref_area=BOL&timefrom=2021&format=.csv (published on the original weights)
+2021Q1,15+,unemployment_rate,6.223,6.106,0.117,0.15,PASS,https://rplumber.ilo.org/data/indicator/?id=UNE_DEAP_SEX_AGE_RT_Q&ref_area=BOL&timefrom=2021&format=.csv
+2021Q2,15+,participation_rate,77.246,77.007,0.239,0.4,PASS,https://rplumber.ilo.org/data/indicator/?id=EAP_DWAP_SEX_AGE_RT_Q&ref_area=BOL&timefrom=2021&format=.csv (published on the original weights)
+2021Q2,15+,employment_rate,73.062,72.86,0.202,0.4,PASS,https://rplumber.ilo.org/data/indicator/?id=EMP_DWAP_SEX_AGE_RT_Q&ref_area=BOL&timefrom=2021&format=.csv (published on the original weights)
+2021Q2,15+,unemployment_rate,5.416,5.385,0.031,0.15,PASS,https://rplumber.ilo.org/data/indicator/?id=UNE_DEAP_SEX_AGE_RT_Q&ref_area=BOL&timefrom=2021&format=.csv
+2021Q3,15+,participation_rate,78.412,78.176,0.236,0.4,PASS,https://rplumber.ilo.org/data/indicator/?id=EAP_DWAP_SEX_AGE_RT_Q&ref_area=BOL&timefrom=2021&format=.csv (published on the original weights)
+2021Q3,15+,employment_rate,74.74,74.587,0.153,0.4,PASS,https://rplumber.ilo.org/data/indicator/?id=EMP_DWAP_SEX_AGE_RT_Q&ref_area=BOL&timefrom=2021&format=.csv (published on the original weights)
+2021Q3,15+,unemployment_rate,4.683,4.591,0.092,0.15,PASS,https://rplumber.ilo.org/data/indicator/?id=UNE_DEAP_SEX_AGE_RT_Q&ref_area=BOL&timefrom=2021&format=.csv
+2021Q4,15+,participation_rate,79.37,79.179,0.191,0.4,PASS,https://rplumber.ilo.org/data/indicator/?id=EAP_DWAP_SEX_AGE_RT_Q&ref_area=BOL&timefrom=2021&format=.csv (published on the original weights)
+2021Q4,15+,employment_rate,76.382,76.217,0.165,0.4,PASS,https://rplumber.ilo.org/data/indicator/?id=EMP_DWAP_SEX_AGE_RT_Q&ref_area=BOL&timefrom=2021&format=.csv (published on the original weights)
+2021Q4,15+,unemployment_rate,3.764,3.741,0.023,0.15,PASS,https://rplumber.ilo.org/data/indicator/?id=UNE_DEAP_SEX_AGE_RT_Q&ref_area=BOL&timefrom=2021&format=.csv
+2022Q1,15+,participation_rate,78.355,78.151,0.204,0.4,PASS,https://rplumber.ilo.org/data/indicator/?id=EAP_DWAP_SEX_AGE_RT_Q&ref_area=BOL&timefrom=2021&format=.csv (published on the original weights)
+2022Q1,15+,employment_rate,74.872,74.7,0.172,0.4,PASS,https://rplumber.ilo.org/data/indicator/?id=EMP_DWAP_SEX_AGE_RT_Q&ref_area=BOL&timefrom=2021&format=.csv (published on the original weights)
+2022Q1,15+,unemployment_rate,4.445,4.415,0.03,0.15,PASS,https://rplumber.ilo.org/data/indicator/?id=UNE_DEAP_SEX_AGE_RT_Q&ref_area=BOL&timefrom=2021&format=.csv
+2022Q2,15+,participation_rate,78.559,78.326,0.233,0.4,PASS,https://rplumber.ilo.org/data/indicator/?id=EAP_DWAP_SEX_AGE_RT_Q&ref_area=BOL&timefrom=2021&format=.csv (published on the original weights)
+2022Q2,15+,employment_rate,75.944,75.746,0.198,0.4,PASS,https://rplumber.ilo.org/data/indicator/?id=EMP_DWAP_SEX_AGE_RT_Q&ref_area=BOL&timefrom=2021&format=.csv (published on the original weights)
+2022Q2,15+,unemployment_rate,3.329,3.295,0.034,0.15,PASS,https://rplumber.ilo.org/data/indicator/?id=UNE_DEAP_SEX_AGE_RT_Q&ref_area=BOL&timefrom=2021&format=.csv
+2022Q3,15+,participation_rate,78.865,78.633,0.232,0.4,PASS,https://rplumber.ilo.org/data/indicator/?id=EAP_DWAP_SEX_AGE_RT_Q&ref_area=BOL&timefrom=2021&format=.csv (published on the original weights)
+2022Q3,15+,employment_rate,76.517,76.305,0.212,0.4,PASS,https://rplumber.ilo.org/data/indicator/?id=EMP_DWAP_SEX_AGE_RT_Q&ref_area=BOL&timefrom=2021&format=.csv (published on the original weights)
+2022Q3,15+,unemployment_rate,2.977,2.96,0.017,0.15,PASS,https://rplumber.ilo.org/data/indicator/?id=UNE_DEAP_SEX_AGE_RT_Q&ref_area=BOL&timefrom=2021&format=.csv
+2022Q4,15+,participation_rate,77.891,77.638,0.253,0.4,PASS,https://rplumber.ilo.org/data/indicator/?id=EAP_DWAP_SEX_AGE_RT_Q&ref_area=BOL&timefrom=2021&format=.csv (published on the original weights)
+2022Q4,15+,employment_rate,75.403,75.191,0.212,0.4,PASS,https://rplumber.ilo.org/data/indicator/?id=EMP_DWAP_SEX_AGE_RT_Q&ref_area=BOL&timefrom=2021&format=.csv (published on the original weights)
+2022Q4,15+,unemployment_rate,3.194,3.152,0.042,0.15,PASS,https://rplumber.ilo.org/data/indicator/?id=UNE_DEAP_SEX_AGE_RT_Q&ref_area=BOL&timefrom=2021&format=.csv
+2023Q1,15+,participation_rate,78.335,78.022,0.313,0.4,PASS,https://rplumber.ilo.org/data/indicator/?id=EAP_DWAP_SEX_AGE_RT_Q&ref_area=BOL&timefrom=2021&format=.csv (published on the original weights)
+2023Q1,15+,employment_rate,75.548,75.262,0.286,0.4,PASS,https://rplumber.ilo.org/data/indicator/?id=EMP_DWAP_SEX_AGE_RT_Q&ref_area=BOL&timefrom=2021&format=.csv (published on the original weights)
+2023Q1,15+,unemployment_rate,3.558,3.537,0.021,0.15,PASS,https://rplumber.ilo.org/data/indicator/?id=UNE_DEAP_SEX_AGE_RT_Q&ref_area=BOL&timefrom=2021&format=.csv
+2023Q2,15+,participation_rate,78.272,77.932,0.34,0.4,PASS,https://rplumber.ilo.org/data/indicator/?id=EAP_DWAP_SEX_AGE_RT_Q&ref_area=BOL&timefrom=2021&format=.csv (published on the original weights)
+2023Q2,15+,employment_rate,76.085,75.79,0.295,0.4,PASS,https://rplumber.ilo.org/data/indicator/?id=EMP_DWAP_SEX_AGE_RT_Q&ref_area=BOL&timefrom=2021&format=.csv (published on the original weights)
+2023Q2,15+,unemployment_rate,2.795,2.75,0.045,0.15,PASS,https://rplumber.ilo.org/data/indicator/?id=UNE_DEAP_SEX_AGE_RT_Q&ref_area=BOL&timefrom=2021&format=.csv
+2023Q3,15+,participation_rate,78.785,78.459,0.326,0.4,PASS,https://rplumber.ilo.org/data/indicator/?id=EAP_DWAP_SEX_AGE_RT_Q&ref_area=BOL&timefrom=2021&format=.csv (published on the original weights)
+2023Q3,15+,employment_rate,76.671,76.365,0.306,0.4,PASS,https://rplumber.ilo.org/data/indicator/?id=EMP_DWAP_SEX_AGE_RT_Q&ref_area=BOL&timefrom=2021&format=.csv (published on the original weights)
+2023Q3,15+,unemployment_rate,2.683,2.668,0.015,0.15,PASS,https://rplumber.ilo.org/data/indicator/?id=UNE_DEAP_SEX_AGE_RT_Q&ref_area=BOL&timefrom=2021&format=.csv
+2023Q4,15+,participation_rate,79.152,78.853,0.299,0.4,PASS,https://rplumber.ilo.org/data/indicator/?id=EAP_DWAP_SEX_AGE_RT_Q&ref_area=BOL&timefrom=2021&format=.csv (published on the original weights)
+2023Q4,15+,employment_rate,76.946,76.612,0.334,0.4,PASS,https://rplumber.ilo.org/data/indicator/?id=EMP_DWAP_SEX_AGE_RT_Q&ref_area=BOL&timefrom=2021&format=.csv (published on the original weights)
+2023Q4,15+,unemployment_rate,2.787,2.843,-0.056,0.15,PASS,https://rplumber.ilo.org/data/indicator/?id=UNE_DEAP_SEX_AGE_RT_Q&ref_area=BOL&timefrom=2021&format=.csv
+2024Q1,15+,participation_rate,79.653,79.323,0.33,0.4,PASS,https://rplumber.ilo.org/data/indicator/?id=EAP_DWAP_SEX_AGE_RT_Q&ref_area=BOL&timefrom=2021&format=.csv (published on the original weights)
+2024Q1,15+,employment_rate,77.277,76.939,0.338,0.4,PASS,https://rplumber.ilo.org/data/indicator/?id=EMP_DWAP_SEX_AGE_RT_Q&ref_area=BOL&timefrom=2021&format=.csv (published on the original weights)
+2024Q1,15+,unemployment_rate,2.983,3.006,-0.023,0.15,PASS,https://rplumber.ilo.org/data/indicator/?id=UNE_DEAP_SEX_AGE_RT_Q&ref_area=BOL&timefrom=2021&format=.csv
+2024Q2,15+,participation_rate,79.785,79.431,0.354,0.4,PASS,https://rplumber.ilo.org/data/indicator/?id=EAP_DWAP_SEX_AGE_RT_Q&ref_area=BOL&timefrom=2021&format=.csv (published on the original weights)
+2024Q2,15+,employment_rate,77.617,77.247,0.37,0.4,PASS,https://rplumber.ilo.org/data/indicator/?id=EMP_DWAP_SEX_AGE_RT_Q&ref_area=BOL&timefrom=2021&format=.csv (published on the original weights)
+2024Q2,15+,unemployment_rate,2.717,2.75,-0.033,0.15,PASS,https://rplumber.ilo.org/data/indicator/?id=UNE_DEAP_SEX_AGE_RT_Q&ref_area=BOL&timefrom=2021&format=.csv
+2024Q3,15+,participation_rate,79.757,79.409,0.348,0.4,PASS,https://rplumber.ilo.org/data/indicator/?id=EAP_DWAP_SEX_AGE_RT_Q&ref_area=BOL&timefrom=2021&format=.csv (published on the original weights)
+2024Q3,15+,employment_rate,77.631,77.276,0.355,0.4,PASS,https://rplumber.ilo.org/data/indicator/?id=EMP_DWAP_SEX_AGE_RT_Q&ref_area=BOL&timefrom=2021&format=.csv (published on the original weights)
+2024Q3,15+,unemployment_rate,2.665,2.686,-0.021,0.15,PASS,https://rplumber.ilo.org/data/indicator/?id=UNE_DEAP_SEX_AGE_RT_Q&ref_area=BOL&timefrom=2021&format=.csv
+2024Q4,15+,participation_rate,80.394,80.043,0.351,0.4,PASS,https://rplumber.ilo.org/data/indicator/?id=EAP_DWAP_SEX_AGE_RT_Q&ref_area=BOL&timefrom=2021&format=.csv (published on the original weights)
+2024Q4,15+,employment_rate,78.424,78.056,0.368,0.4,PASS,https://rplumber.ilo.org/data/indicator/?id=EMP_DWAP_SEX_AGE_RT_Q&ref_area=BOL&timefrom=2021&format=.csv (published on the original weights)
+2024Q4,15+,unemployment_rate,2.452,2.482,-0.03,0.15,PASS,https://rplumber.ilo.org/data/indicator/?id=UNE_DEAP_SEX_AGE_RT_Q&ref_area=BOL&timefrom=2021&format=.csv
+2025Q1,15+,participation_rate,80.481,80.123,0.358,0.4,PASS,https://rplumber.ilo.org/data/indicator/?id=EAP_DWAP_SEX_AGE_RT_Q&ref_area=BOL&timefrom=2021&format=.csv (published on the original weights)
+2025Q1,15+,employment_rate,78.092,77.751,0.341,0.4,PASS,https://rplumber.ilo.org/data/indicator/?id=EMP_DWAP_SEX_AGE_RT_Q&ref_area=BOL&timefrom=2021&format=.csv (published on the original weights)
+2025Q1,15+,unemployment_rate,2.968,2.961,0.007,0.15,PASS,https://rplumber.ilo.org/data/indicator/?id=UNE_DEAP_SEX_AGE_RT_Q&ref_area=BOL&timefrom=2021&format=.csv
+2025Q2,15+,participation_rate,79.945,79.616,0.329,0.4,PASS,https://rplumber.ilo.org/data/indicator/?id=EAP_DWAP_SEX_AGE_RT_Q&ref_area=BOL&timefrom=2021&format=.csv (published on the original weights)
+2025Q2,15+,employment_rate,78.026,77.689,0.337,0.4,PASS,https://rplumber.ilo.org/data/indicator/?id=EMP_DWAP_SEX_AGE_RT_Q&ref_area=BOL&timefrom=2021&format=.csv (published on the original weights)
+2025Q2,15+,unemployment_rate,2.4,2.421,-0.021,0.15,PASS,https://rplumber.ilo.org/data/indicator/?id=UNE_DEAP_SEX_AGE_RT_Q&ref_area=BOL&timefrom=2021&format=.csv
+2025Q3,15+,participation_rate,80.849,80.473,0.376,0.4,PASS,https://rplumber.ilo.org/data/indicator/?id=EAP_DWAP_SEX_AGE_RT_Q&ref_area=BOL&timefrom=2021&format=.csv (published on the original weights)
+2025Q3,15+,employment_rate,79.076,78.72,0.356,0.4,PASS,https://rplumber.ilo.org/data/indicator/?id=EMP_DWAP_SEX_AGE_RT_Q&ref_area=BOL&timefrom=2021&format=.csv (published on the original weights)
+2025Q3,15+,unemployment_rate,2.194,2.178,0.016,0.15,PASS,https://rplumber.ilo.org/data/indicator/?id=UNE_DEAP_SEX_AGE_RT_Q&ref_area=BOL&timefrom=2021&format=.csv
+2025Q4,15+,participation_rate,81.508,81.484,0.024,0.15,PASS,https://rplumber.ilo.org/data/indicator/?id=EAP_DWAP_SEX_AGE_RT_Q&ref_area=BOL&timefrom=2021&format=.csv
+2025Q4,15+,employment_rate,80.111,80.111,0.0,0.15,PASS,https://rplumber.ilo.org/data/indicator/?id=EMP_DWAP_SEX_AGE_RT_Q&ref_area=BOL&timefrom=2021&format=.csv
+2025Q4,15+,unemployment_rate,1.714,1.685,0.029,0.15,PASS,https://rplumber.ilo.org/data/indicator/?id=UNE_DEAP_SEX_AGE_RT_Q&ref_area=BOL&timefrom=2021&format=.csv
