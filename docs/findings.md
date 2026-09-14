@@ -1,35 +1,38 @@
-# Findings (first pass, nine countries pooled plus India, 2026-09-07)
+# Findings (first pass, eleven countries pooled plus India, 2026-09-14)
 
 Question: since generative AI became widely available (reference quarter
 2022 Q4), has employment in AI-exposed occupations grown more slowly than in
 less exposed occupations, and is any gap concentrated among young workers?
 Design and caveats: `docs/design/analysis-plan.md`.
 
-Sample: Brazil, Mexico, Colombia, Argentina (urban), Ecuador, Peru, South
-Africa, Georgia and the Philippines in the pooled estimates, with India
-reported on its own (see below), 2021 Q1 to 2026 Q2 (Brazil, Mexico, Argentina and
-Georgia start in 2021 Q1, Ecuador in 2021 Q3, the rest in 2022 Q1; 2026 Q1
-for Argentina and Ecuador, 2025 Q4 for Georgia and the Philippines, whose July 2025 round is not
+Sample: Brazil, Mexico, Colombia, Argentina (urban), Ecuador, Peru, Uruguay,
+Bolivia, South Africa, Georgia and the Philippines in the pooled estimates,
+with India reported on its own (see below) and Nigeria left out for lack of
+a pre-period (2024 Q1 onward only), 2021 Q1 to 2026 Q2 (Brazil, Mexico,
+Argentina, Bolivia and Georgia start in 2021 Q1, Ecuador and Uruguay in
+2021 Q3, the rest in 2022 Q1; 2026 Q1 for Argentina and Ecuador, 2025 Q4 for
+Georgia, Uruguay, Bolivia and the Philippines, whose July 2025 round is not
 released). Seven pre-treatment quarters are available for the countries with
 2021 data. Cells are country x
-quarter x ISCO-08 occupation (3 digits; 2 digits for Argentina and Mexico) x
+quarter x ISCO-08 occupation (3 digits; 2 digits for Argentina, Mexico and
+Bolivia) x
 age group x sex, fixed at cells averaging at least 30 observations in 2022,
 with zero employment where a cell is absent. Exposure: ILO 2025 GenAI scores
 (Gmyrek et al., ILO WP 140), employment-weighted terciles at each digit level;
 "high" = top tercile (35 % of employment). Estimates: cell and country x age
 x sex x quarter fixed effects, baseline-employment weights, standard errors
-clustered by country x occupation (544 clusters).
+clustered by country x occupation (655 clusters).
 
 ## Employment
 
 High-exposure occupations did **not** lose employment relative to the rest.
-Pooled, employment in high-exposure cells is 1.9 % higher after 2022 Q4
-(difference in differences 0.019, SE 0.020; the Philippines adds noise
+Pooled, employment in high-exposure cells is 1.8 % higher after 2022 Q4
+(difference in differences 0.018, SE 0.020; the Philippines adds noise
 because its quarters alternate between regular and expanded survey rounds), and the event study rises from
 about zero in 2023 to 4-5 % by 2025-2026 (`output/tables/event_study_log_emp.csv`,
 `output/figures/es_log_emp_all.png`). With the 2021 quarters added the
-pre-period is flat: the seven pre-treatment coefficients lie between -0.018
-and +0.009, none distinguishable from zero. The continuous-exposure version gives the
+pre-period is flat: the seven pre-treatment coefficients lie between +0.002
+and +0.021, none distinguishable from zero. The continuous-exposure version gives the
 same sign (0.12 log points per unit of score, SE 0.04).
 
 The pooled result hides opposite country patterns:
@@ -40,14 +43,19 @@ The pooled result hides opposite country patterns:
 | Brazil | +0.037 | 0.020 |
 | Mexico | +0.029 | 0.019 |
 | Philippines | +0.007 | 0.089 |
+| Bolivia | +0.004 | 0.040 |
 | Georgia | -0.005 | 0.095 |
 | South Africa | +0.030 | 0.042 |
-| Argentina | -0.014 | 0.038 |
+| Argentina | -0.017 | 0.035 |
 | Colombia | -0.025 | 0.031 |
-| Ecuador | -0.070 | 0.026 |
+| Uruguay | -0.038 | 0.027 |
+| Ecuador | -0.080 | 0.029 |
 
-Ecuador is the only country where high-exposure employment fell relative to
-the rest; Colombia is negative but imprecise. South Africa is positive but
+Ecuador and Uruguay are the two countries where high-exposure employment
+fell relative to the rest; Uruguay's estimate strengthens with narrower
+treatment groups (-0.051 with the top quintile, -0.084 with the top decile,
+SE about 0.03), and Colombia is negative but imprecise. Bolivia, at 2-digit
+occupations, is flat. South Africa is positive but
 imprecise: its 3-digit cells are thin (85 % fall under the 30-observation
 floor), leaving 46 occupations and 1,836 cell-quarters, and the event-study
 path is negative on average (-0.06) while the difference in differences is
@@ -92,8 +100,8 @@ the most exposed quintile at 118 in 2025 (2022 = 100), between the least
 exposed quintile (112) and the middle (130).
 
 Young workers (15-29) in high-exposure occupations show no relative
-employment loss either (post x high x young 0.014, SE 0.012; young-only
-difference in differences +0.038, SE 0.016).
+employment loss either (post x high x young 0.010, SE 0.016; young-only
+difference in differences +0.028, SE 0.018).
 
 ## IT and business-process services: the industry view
 
@@ -161,9 +169,9 @@ the top decile changes little (`output/tables/did_*_high_q5.csv`,
 
 | Treatment | Employment, post x high | Young new-hire share, post x high |
 |---|---|---|
-| top tercile | +0.019 (0.020) | -0.009 (0.005) |
-| top quintile | +0.018 (0.023) | -0.010 (0.005) |
-| top decile | +0.031 (0.020) | -0.011 (0.008) |
+| top tercile | +0.018 (0.020) | -0.009 (0.005) |
+| top quintile | +0.017 (0.023) | -0.010 (0.005) |
+| top decile | +0.032 (0.020) | -0.011 (0.008) |
 
 Employment in exposed occupations is never lower after 2022 Q4 under any
 cut, and the fall in the young new-hire share is about one percentage point
@@ -174,7 +182,8 @@ coefficients within 0.011 of zero) and rises to about 3 % by 2025.
 ## Hiring margin
 
 The new-hire share (workers in their job under 12 months; Brazil, Colombia,
-Ecuador, Argentina, and Mexico first quarters only) tells a different story
+Ecuador, Argentina, South Africa, Uruguay for the 26 % of cells with first
+interviews, and Mexico first quarters only) tells a different story
 for young workers. Among young workers, the new-hire share in high-exposure
 occupations is about 1 percentage point lower after 2022 Q4 than at the
 reference quarter, in every quarter from 2023 Q2 to 2025 Q4 (coefficients
@@ -188,13 +197,14 @@ in a rising trend rather than a level shift, the hiring result is weaker
 than the first pass suggested
 (`output/figures/es_new_hire_share_young.png`). The effect appears from
 2023 Q2 and persists through 2025. By country it is driven by Brazil
-(-0.010, SE 0.003); Colombia and Ecuador are flat or slightly positive, and
-South Africa points the same way as Brazil (-0.012, SE 0.010; young workers
--0.020, SE 0.030) without the precision to say so.
+(-0.009, SE 0.003) and Uruguay (-0.013, SE 0.007); Colombia and Argentina
+are flat, Ecuador goes the other way (+0.009, SE 0.004), and South Africa
+points the same way as Brazil (-0.012, SE 0.010) without the precision to
+say so.
 
 Read together: employment stocks in exposed occupations kept growing, but
 entry of young workers into them slowed in Brazil, the largest labour
-market in the sample. This is the pattern Brynjolfsson, Chandar and Chen
+market in the sample, and in Uruguay, where the stock also fell. This is the pattern Brynjolfsson, Chandar and Chen
 (2025) describe for the United States, at a smaller magnitude, and it is
 the result to probe first.
 
