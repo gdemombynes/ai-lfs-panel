@@ -130,6 +130,8 @@ def _exposure():
             "g4_share": [0, 0, 1, 1],
             "tercile": [1, 1, 3, 3],
             "high": [0, 0, 1, 1],
+            "quintile": [1, 1, 5, 5],
+            "high_q5": [0, 0, 1, 1],
         }
     )
 

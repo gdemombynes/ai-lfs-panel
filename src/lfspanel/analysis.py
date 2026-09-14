@@ -53,6 +53,9 @@ def cell_depth(con: duckdb.DuckDBPyConnection) -> Dict[str, int]:
 # the full sample's population. India's 2025 quarterly file pools first
 # visits with three revisits while every earlier file holds first visits
 # only (docs/harmonization/ind.md).
+# Primary treatment group: top employment-weighted quintile of the ILO score
+# (decided 2026-09-14); "high" (top tercile) and "high_d10" are robustness cuts.
+PRIMARY_TREAT = "high_q5"
 FIRST_VISIT_RULES: Dict[str, Tuple[str, int]] = {"IND": ("2025Q2", 1)}
 # Quarters whose occupation coding is not comparable with the rest of the
 # country's series (India's 2021H1 uses NCO-2004) start the cells later.
@@ -269,7 +272,7 @@ def wls_cluster(
 def estimate_event_study(
     frame: pd.DataFrame,
     outcome: str = "log_emp",
-    treat: str = "high",
+    treat: str = PRIMARY_TREAT,
     ref: str = REF_PERIOD,
     fe: Sequence[str] = ("cell", "cat"),
     weight: Optional[str] = "emp_base",
@@ -306,7 +309,7 @@ def estimate_event_study(
 def estimate_did(
     frame: pd.DataFrame,
     outcome: str = "log_emp",
-    treat: str = "high",
+    treat: str = PRIMARY_TREAT,
     fe: Sequence[str] = ("cell", "cat"),
     weight: Optional[str] = "emp_base",
     cluster: str = "cluster",

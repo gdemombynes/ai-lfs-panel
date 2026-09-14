@@ -1,7 +1,7 @@
 """Event-study and difference-in-differences estimates by exposure tercile.
 
     python scripts/41_event_study.py [--outcome log_emp|emp_ratio|new_hire_share]
-                                     [--treat high|high_q5|high_d10|score_w]
+                                     [--treat high_q5|high|high_d10|score_w]
                                      [--keep-small] [--exclude IND,...]
                                      [--countries IND,...] [--end 2024Q4] [--tag name]
 
@@ -19,6 +19,7 @@ import pandas as pd
 
 from lfspanel.analysis import (
     CELLS_PATH,
+    PRIMARY_TREAT,
     employment_index,
     estimate_did,
     estimate_event_study,
@@ -34,7 +35,7 @@ from lfspanel.exposure import load_exposure_table
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--outcome", default="log_emp")
-    ap.add_argument("--treat", default="high")
+    ap.add_argument("--treat", default=PRIMARY_TREAT)
     ap.add_argument(
         "--keep-small", action="store_true", help="keep cells under 30 observations"
     )
@@ -77,11 +78,13 @@ def main() -> None:
         print(
             f"{name:12s} cells={n_cells:>7,} clusters={n_cl:>5}  post={mean_post:+.4f}"
         )
-    suffix = f"{args.outcome}" + ("" if args.treat == "high" else f"_{args.treat}")
+    suffix = f"{args.outcome}" + (
+        "" if args.treat == PRIMARY_TREAT else f"_{args.treat}"
+    )
     suffix += f"_{args.tag}" if args.tag else ""
     pd.concat(es).to_csv(tables / f"event_study_{suffix}.csv", index=False)
     pd.concat(did).to_csv(tables / f"did_{suffix}.csv", index=False)
-    if args.outcome == "log_emp" and args.treat == "high":
+    if args.outcome == "log_emp" and args.treat == PRIMARY_TREAT:
         totals = occupation_totals(cells)
         idx = employment_index(totals, exposure)
         tag = f"_{args.tag}" if args.tag else ""

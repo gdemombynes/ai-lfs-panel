@@ -29,8 +29,9 @@ Outcomes per cell:
 Primary: ILO 2025 GenAI occupational exposure (Gmyrek et al., ILO WP 140),
 ISCO-08 4-digit scores and four gradients, aggregated to 3/2/1 digits both
 unweighted and employment-weighted (pooled 2022 employment from the countries
-with 4-digit codes). High exposure = top employment-weighted tercile at the
-2022 baseline.
+with 4-digit codes). High exposure = top employment-weighted quintile at the
+2022 baseline (about 23 % of employment; decided 2026-09-14). The top
+tercile and the top decile are robustness cuts.
 
 Robustness: Anthropic Economic Index observed usage by occupation, Felten
 AIOE and Eloundou et al. GPT exposure, brought to ISCO-08 through the BLS
@@ -46,7 +47,7 @@ Event study with 2022 Q4 as the reference quarter:
 - `FE_{c,a,t}` absorbs country-specific seasonality, the post-COVID recovery
   and macro shocks by age group.
 - Triple difference adds `HighExp × Young × Post`.
-- Continuous-exposure variant replaces the tercile dummy.
+- Continuous-exposure variant replaces the quintile dummy.
 - Survey-break fixed effects from the breaks table (Brazil 2025 Q3
   reweighting, Colombia 2022 Q1 redesign, Mexico ENOE-N, India PLFS 2025).
 - Weights: cell employment. Standard errors clustered by country × isco3;

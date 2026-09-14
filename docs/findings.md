@@ -18,44 +18,45 @@ quarter x ISCO-08 occupation (3 digits; 2 digits for Argentina, Mexico and
 Bolivia) x
 age group x sex, fixed at cells averaging at least 30 observations in 2022,
 with zero employment where a cell is absent. Exposure: ILO 2025 GenAI scores
-(Gmyrek et al., ILO WP 140), employment-weighted terciles at each digit level;
-"high" = top tercile (35 % of employment). Estimates: cell and country x age
+(Gmyrek et al., ILO WP 140), employment-weighted quantiles at each digit level;
+"high" = top quintile (23 % of employment; decided 2026-09-14, the top
+tercile and top decile are robustness cuts). Estimates: cell and country x age
 x sex x quarter fixed effects, baseline-employment weights, standard errors
 clustered by country x occupation (655 clusters).
 
 ## Employment
 
 High-exposure occupations did **not** lose employment relative to the rest.
-Pooled, employment in high-exposure cells is 1.8 % higher after 2022 Q4
-(difference in differences 0.018, SE 0.020; the Philippines adds noise
+Pooled, employment in high-exposure cells is 1.7 % higher after 2022 Q4
+(difference in differences 0.017, SE 0.023; the Philippines adds noise
 because its quarters alternate between regular and expanded survey rounds), and the event study rises from
-about zero in 2023 to 4-5 % by 2025-2026 (`output/tables/event_study_log_emp.csv`,
+about 1 % in 2023 to 2 % in 2024 and about 3 % in 2025-2026 (`output/tables/event_study_log_emp.csv`,
 `output/figures/es_log_emp_all.png`). With the 2021 quarters added the
 pre-period is flat: the seven pre-treatment coefficients lie between +0.002
-and +0.021, none distinguishable from zero. The continuous-exposure version gives the
+and +0.013, none distinguishable from zero. The continuous-exposure version gives the
 same sign (0.12 log points per unit of score, SE 0.04).
 
 The pooled result hides opposite country patterns:
 
 | Country | Post x high (log employment) | SE |
 |---|---|---|
-| Peru | +0.105 | 0.044 |
-| Brazil | +0.037 | 0.020 |
-| Mexico | +0.029 | 0.019 |
-| Philippines | +0.007 | 0.089 |
-| Bolivia | +0.004 | 0.040 |
-| Georgia | -0.005 | 0.095 |
-| South Africa | +0.030 | 0.042 |
-| Argentina | -0.017 | 0.035 |
-| Colombia | -0.025 | 0.031 |
-| Uruguay | -0.038 | 0.027 |
-| Ecuador | -0.080 | 0.029 |
+| Georgia | +0.086 | 0.086 |
+| Peru | +0.063 | 0.051 |
+| Philippines | +0.043 | 0.091 |
+| South Africa | +0.037 | 0.064 |
+| Mexico | +0.018 | 0.021 |
+| Brazil | +0.014 | 0.023 |
+| Argentina | +0.002 | 0.036 |
+| Bolivia | -0.022 | 0.037 |
+| Colombia | -0.028 | 0.034 |
+| Uruguay | -0.051 | 0.031 |
+| Ecuador | -0.113 | 0.029 |
 
 Ecuador and Uruguay are the two countries where high-exposure employment
-fell relative to the rest; Uruguay's estimate strengthens with narrower
-treatment groups (-0.051 with the top quintile, -0.084 with the top decile,
-SE about 0.03), and Colombia is negative but imprecise. Bolivia, at 2-digit
-occupations, is flat. South Africa is positive but
+fell relative to the rest (Ecuador -0.113, Uruguay -0.051; with the top
+tercile -0.080 and -0.038, with the top decile -0.064 and -0.084), and
+Colombia is negative but imprecise. Bolivia, at 2-digit occupations, is
+flat under every cut. South Africa is positive but
 imprecise: its 3-digit cells are thin (85 % fall under the 30-observation
 floor), leaving 46 occupations and 1,836 cell-quarters, and the event-study
 path is negative on average (-0.06) while the difference in differences is
@@ -65,11 +66,13 @@ estimate is uninformative. The Philippines carries occupation at two digits
 only and its January and July rounds in some years are expanded samples
 with a different composition (employee share 4 to 6 points higher than in
 the regular rounds), which the drift check flags; its estimate is likewise
-uninformative until the round design is handled as a break. Brazil's index by tercile
-(`output/figures/emp_index_BRA.png`) shows the top two terciles up 9-11 %
-by 2026 against 1 % for the least exposed tercile, consistent with a
-continued shift of employment toward clerical, professional and service
-occupations rather than displacement.
+uninformative until the round design is handled as a break. Brazil's index by quintile
+(`output/figures/emp_index_q5_BRA.png`) puts the most exposed quintile at
+108 in 2026 Q2 (2022 = 100) against 100-101 for the two least exposed
+quintiles and 111-116 for the middle ones, consistent with a continued
+shift of employment toward clerical, professional and service occupations
+rather than displacement; the pooled index has the same shape (top quintile
+108, bottom two 101-102, middle 110-113).
 
 India (`output/tables/did_log_emp_withIND.csv`, country subset) is kept out
 of the pooled estimates: its baseline employment would carry half of the
@@ -87,21 +90,25 @@ remains a level break that the fixed effects absorb only if it is uniform
 across occupations.
 
 On its own India shows no relative employment loss in exposed occupations.
-The tercile difference in differences is -0.077 (SE 0.184; -0.052, SE 0.158,
+The top quintile grows faster than the rest, +0.20 (SE 0.05) with or without
+2025 (`did_log_emp_IND_to2024Q4.csv`), which is India's expansion of
+clerical, finance and professional employment rather than a sign of
+displacement; the young-worker interaction is -0.05 (SE 0.05). With the top
+tercile the difference in differences is -0.077 (SE 0.184; -0.052, SE 0.158,
 on the comparable 2021Q3-2024Q4 window alone) and the event-study
 coefficients for 2023-2024 lie between -0.02 and +0.10 (SE 0.04-0.08); the
 2025 quarters sit at -0.00 to -0.14 with standard errors of 0.14-0.17, so
-the redesign year adds nothing either way. The top quintile grows faster
-than the rest, +0.20 (SE 0.05) with or without 2025, which is India's
-expansion of clerical, finance and professional employment rather than a
-sign of displacement; the young-worker interaction is -0.05 (SE 0.05). The
+the redesign year adds nothing either way. Pooling India with the other
+eleven countries would put its top-quintile growth into the pooled
+coefficient (+0.098, SE 0.047 with India against +0.017 without), which is
+why it is reported separately. The
 employment index by quintile (`output/figures/emp_index_q5_IND.png`) puts
 the most exposed quintile at 118 in 2025 (2022 = 100), between the least
 exposed quintile (112) and the middle (130).
 
 Young workers (15-29) in high-exposure occupations show no relative
-employment loss either (post x high x young 0.010, SE 0.016; young-only
-difference in differences +0.028, SE 0.018).
+employment loss either (post x high x young -0.004, SE 0.018; young-only
+difference in differences +0.012, SE 0.018).
 
 ## IT and business-process services: the industry view
 
@@ -158,26 +165,27 @@ Separating the two occupation groups is the next step, and the block is a
 natural treated group for a sector-level difference in differences against
 other white-collar service industries.
 
-## Treatment definition: terciles, quintiles, deciles
+## Treatment definition: quintiles, terciles, deciles
 
-The main results use the top employment-weighted tercile of the ILO score as
-"high exposure" (35 % of employment, dominated by shop salespersons and
-clerks). Re-running with the top quintile (23 % of employment, still led by
-shop salespersons but with clerical and finance groups weighing more) and
-the top decile changes little (`output/tables/did_*_high_q5.csv`,
+The main results use the top employment-weighted quintile of the ILO score
+as "high exposure" (23 % of employment, led by shop salespersons with
+clerical and finance groups weighing more than in the tercile). Re-running
+with the top tercile (35 % of employment, dominated by shop salespersons and
+clerks) and the top decile changes little (`output/tables/did_*_high.csv`,
 `did_*_high_d10.csv`):
 
 | Treatment | Employment, post x high | Young new-hire share, post x high |
 |---|---|---|
+| top quintile (primary) | +0.017 (0.023) | -0.010 (0.005) |
 | top tercile | +0.018 (0.020) | -0.009 (0.005) |
-| top quintile | +0.017 (0.023) | -0.010 (0.005) |
 | top decile | +0.032 (0.020) | -0.011 (0.008) |
 
 Employment in exposed occupations is never lower after 2022 Q4 under any
 cut, and the fall in the young new-hire share is about one percentage point
-under all three, losing precision as the treated group shrinks. The quintile
-event study for employment is flat before 2022 Q4 (all pre-period
-coefficients within 0.011 of zero) and rises to about 3 % by 2025.
+under all three, losing precision as the treated group shrinks. The tercile
+event study for employment rises a little more, to 4-5 % by 2025-2026,
+because it adds the middle-exposure clerical and sales groups that grew
+fastest.
 
 ## Hiring margin
 
@@ -187,20 +195,19 @@ interviews, and Mexico first quarters only) tells a different story
 for young workers. Among young workers, the new-hire share in high-exposure
 occupations is about 1 percentage point lower after 2022 Q4 than at the
 reference quarter, in every quarter from 2023 Q2 to 2025 Q4 (coefficients
--0.008 to -0.018, `output/figures/es_new_hire_share_young.png`), with no
-change for older workers. The difference in differences against the full
-pre-period is smaller than against 2022 alone (-0.009, SE 0.005, versus
--0.015 with a 2022-only pre-period; triple interaction -0.005, SE 0.004),
-because the young new-hire share in exposed occupations was rising through
+-0.011 to -0.022, `output/figures/es_new_hire_share_young.png`), with a
+smaller fall for older workers (-0.006, SE 0.002 for all ages). The
+difference in differences for young workers is -0.010 (SE 0.005; triple
+interaction -0.004, SE 0.005), and it is smaller against the full
+pre-period than against 2022 alone because the young new-hire share in exposed occupations was rising through
 2021 and early 2022 and had already fallen back by 2022 Q4. Read as a break
 in a rising trend rather than a level shift, the hiring result is weaker
 than the first pass suggested
 (`output/figures/es_new_hire_share_young.png`). The effect appears from
 2023 Q2 and persists through 2025. By country it is driven by Brazil
-(-0.009, SE 0.003) and Uruguay (-0.013, SE 0.007); Colombia and Argentina
-are flat, Ecuador goes the other way (+0.009, SE 0.004), and South Africa
-points the same way as Brazil (-0.012, SE 0.010) without the precision to
-say so.
+(-0.011, SE 0.003) and Uruguay (-0.013, SE 0.007); Colombia is negative but
+imprecise (-0.007, SE 0.006), Argentina and Mexico are flat, and Ecuador
+(+0.008, SE 0.004) and South Africa (+0.009, SE 0.008) go the other way.
 
 Read together: employment stocks in exposed occupations kept growing, but
 entry of young workers into them slowed in Brazil, the largest labour
