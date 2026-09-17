@@ -69,6 +69,8 @@ def _check(raw: pd.DataFrame, period: Period) -> pd.DataFrame:
     assert out["minlaborage"].eq(14).all()
     assert (out["weight"].values == weight(raw).values).all()
     assert not out["pid"].duplicated().any()
+    assert (out["pid"] == raw["id_per_panel"].values).all()
+    assert (out["hhid"] == raw["id_hog_panel"].values).all()
     assert out["urban"].isin([0, 1]).all()
     assert out["subnatid1"].str.match(r"\d - ").all()
     emp_flag = pd.to_numeric(raw["peao"]) == 1

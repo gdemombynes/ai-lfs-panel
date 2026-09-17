@@ -32,6 +32,10 @@ ISIC_DIVISIONS = frozenset(
 
 # metric -> (absolute threshold on the level, threshold on the change against
 # the previous quarter, kind). Shares are in per cent, rates in per cent.
+# countries whose records are person-months: the same person appears once per
+# interview month of the quarter under a stable pid
+PERSON_MONTH = {"URY"}
+
 LEVEL_RULES: Dict[str, Tuple[float, str]] = {
     "miss_lstatus_pct": (1.0, "labour status missing among persons of working age"),
     "miss_occup_pct": (5.0, "occupation missing among the employed"),
@@ -82,6 +86,9 @@ def quarter_profile(con: duckdb.DuckDBPyConnection) -> pd.DataFrame:
     """One row per country-quarter with sample, rate, missingness and integrity stats."""
     emp = "lstatus = 1"
     adult = "age >= minlaborage"
+    # person-month files (one record per interview month) repeat pid within a quarter
+    pm = ", ".join(f"'{c}'" for c in sorted(PERSON_MONTH))
+    pid_key = f"CASE WHEN countrycode IN ({pm}) THEN pid || '|' || coalesce(CAST(int_month AS VARCHAR), '') ELSE pid END"
     q = f"""
     SELECT countrycode, period,
            any_value(minlaborage) AS minlaborage,
@@ -112,8 +119,8 @@ def quarter_profile(con: duckdb.DuckDBPyConnection) -> pd.DataFrame:
            {_pct(f"sum(CASE WHEN {emp} AND empstat = 1 THEN weight END)", f"sum(CASE WHEN {emp} AND empstat IS NOT NULL THEN weight END)")} AS employee_pct,
            {_pct(f"sum(CASE WHEN {emp} AND industrycat10 = 1 THEN weight END)", f"sum(CASE WHEN {emp} AND industrycat10 IS NOT NULL THEN weight END)")} AS agri_pct,
            {_pct(f"count(CASE WHEN {emp} AND occup IS NOT NULL AND CAST(occup AS VARCHAR) <> substr(occup_isco, 1, 1) THEN 1 END)", f"count(CASE WHEN {emp} AND occup_isco IS NOT NULL THEN 1 END)")} AS occup_mismatch_pct,
-           count(*) - count(DISTINCT pid) AS dup_pid,
-           {_pct("(count(*) - count(DISTINCT pid))", "count(*)")} AS dup_pid_pct,
+           count(*) - count(DISTINCT {pid_key}) AS dup_pid,
+           {_pct(f"(count(*) - count(DISTINCT {pid_key}))", "count(*)")} AS dup_pid_pct,
            count(CASE WHEN weight IS NULL OR weight <= 0 THEN 1 END) AS bad_weight,
            count(CASE WHEN age < 0 OR age > 120 THEN 1 END) AS bad_age,
            count(CASE WHEN age < minlaborage AND lstatus IS NOT NULL THEN 1 END) AS status_below_min,

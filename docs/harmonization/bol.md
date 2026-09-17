@@ -25,7 +25,7 @@ the older per-quarter files and is the fallback.
 | Target | Source | Recode |
 |---|---|---|
 | int_month | meses | months since January 1960: `meses % 12 + 1` |
-| hhid, pid, rotation_group | period + id_hogar; + nro; panel | ids are unique within a quarter only |
+| hhid, pid, rotation_group | id_hog_panel; id_per_panel; panel | INE's panel identifiers, unique within a quarter, stable across the quarters a household is in the rotating panel (56 % of persons reappear in the next quarter, sex and age agreeing in 100 %), never reused two years apart, and consistent between the pooled file and the per-quarter files (changed 2026-09-17; before, ids carried the quarter) |
 | weight | fact_trim_act (fact_trim if absent) | |
 | urban | area | 1 urban -> 1, 2 rural -> 0 |
 | subnatid1 | depto | 9 departments |

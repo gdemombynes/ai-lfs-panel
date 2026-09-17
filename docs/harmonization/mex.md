@@ -18,7 +18,7 @@ Universe: complete interviews (`r_def == 0`) of usual residents
 | Target | Source | Recode |
 |---|---|---|
 | int_month | mes_cal | month within quarter 1-3 mapped to calendar month; 96 -> NA |
-| hhid, pid | cd_a … h_mud; + n_ren | GLD keys |
+| hhid, pid, rotation_group, visit_no | entry quarter + cd_a-ent-con-v_sel-tipo-n_hog-h_mud; + n_ren; entry quarter; n_ent | Entry quarter = this quarter minus (n_ent - 1): dwelling keys are reused for a new dwelling once a five-interview panel ends, so without it 58 % of 2022Q4 ids reappear in 2024Q1 on different people; with it, 74 % of persons interviewed in 2024Q1 (n_ent < 5) are found in 2024Q2 with sex and age agreeing in 98 % of matches (changed 2026-09-17; before, mes_cal was in the key and nothing linked across quarters) |
 | visit_no | n_ent | interview number 1-5; rotation group not identified |
 | weight | fac_tri | quarterly expansion factor (GLD annualises by quarter shares) |
 | urban | t_loc_tri | 1-3 -> 1 (localities of 2,500+), 4 -> 0 |

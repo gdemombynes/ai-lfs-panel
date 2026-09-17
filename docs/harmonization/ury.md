@@ -26,7 +26,7 @@ INE's monthly rates.
 | Target | Source | Recode |
 |---|---|---|
 | int_month | mes | |
-| hhid, pid, rotation_group, visit_no | anio-ID; + nper + mes; GR; ronda (NA in 2021-2022) | |
+| hhid, pid, rotation_group, visit_no | ID; + nper; GR; ronda (NA in 2021-2022) | ID and nper are stable across the household's six monthly interviews, across quarters and years: 58 % of persons in a quarter reappear in the next, sex and age agreeing in 99 %; 64 of 28,000 ids in 2022Q1 recur in 2024Q1 (reuse). Records are person-months, so `pid` repeats within a quarter and `int_month` distinguishes them; the compatibility audit counts duplicates on (pid, month) for Uruguay (changed 2026-09-17; before, the month was part of `pid`) |
 | weight | W / 3 (or / months present) | monthly weight |
 | urban | REGION_4 (1 Montevideo, 2 towns 5000+, 3 towns under 5000, 4 rural) | 1-3 -> 1, 4 -> 0; `region` as fallback (3 -> 0) |
 | subnatid1 | dpto | 19 departments |

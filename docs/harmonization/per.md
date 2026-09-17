@@ -11,7 +11,7 @@ longer carry module 05.
 | Target | Source | Recode |
 |---|---|---|
 | int_month | MES | |
-| hhid, pid, rotation_group | MES-CONGLOMERADO-SELVIV-HOGAR-<panel entry yyyymm>; + C201; entry month from LLAVE_PANEL | conglomerado numbers restart each month of the quarterly file and a dwelling can hold households from two panel entries (fixed 2026-09-07; about 120 duplicate ids per quarter before). A handful of records per quarter (1-8) still share a key with a different person and different weight in INEI's file and are left as they are |
+| hhid, pid, rotation_group | LLAVE_PANEL without its last two digits; LLAVE_PANEL + C201; its first six digits | LLAVE_PANEL = panel entry yyyymm (6) + conglomerado (5 or 7 digits) + selviv (4) + hogar (1) + person (2); its person digits collide for the 2022 cohorts (persons 1 and 10 share a key, 235-478 duplicates a quarter in 2023), so the person line C201 is appended, which makes the id unique in every quarter. The key is stable while the person stays in the panel (about 18 months): 42 % of persons in 2024Q1 reappear in 2024Q2 with sex and age agreeing in 99 %; C201 changes for about 8 % of continuing persons, who are lost to the link (changed 2026-09-17; before, ids were built from month, conglomerado, dwelling, household and person line, which did not link across quarters) |
 | weight | FAC_T300 | quarterly employment weight, defined only for persons 14+ who answered the module; others dropped (children, non-residents, 932 unclassified rows in 2023Q2) |
 | urban | AREA | 1 urban -> 1, 2 rural -> 0 |
 | subnatid1 | | **NA**: the national file has no department code (only the 27 main cities from 2024Q2) |

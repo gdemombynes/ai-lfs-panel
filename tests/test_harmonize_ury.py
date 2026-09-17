@@ -43,8 +43,9 @@ def test_harmonize_schema_and_rules():
     assert (out.loc[act.between(6, 11).values, "lstatus"] == 3).all()
     # single month: weights equal W (division by number of months present)
     assert (out["weight"].values == raw["W"].values).all()
-    assert not out["pid"].duplicated().any()
-    assert out["pid"].str.endswith("-01").all()
+    assert not out["pid"].duplicated().any()  # one month in the fixture
+    assert (out["pid"] == out["hhid"] + "-" + raw["nper"].values).all()
+    assert out["int_month"].eq(1).all()
     emp = out[out["lstatus"] == 1]
     assert (emp["occup_isco_digits"].dropna() >= 3).mean() > 0.95
     assert emp["industrycat_isic"].str.len().eq(4).all()

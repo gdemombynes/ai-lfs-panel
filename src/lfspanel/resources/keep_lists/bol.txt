@@ -1,5 +1,7 @@
 # INE Bolivia ECE person file (Stata member of the quarterly zip): raw variables retained
 id_hogar       # household id within the quarter
+id_hog_panel   # household id, stable across the quarters of the rotating panel
+id_per_panel   # person id, stable across the quarters of the rotating panel
 nro            # person number in the household
 panel          # rotation panel
 gestion        # year of interview

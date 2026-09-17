@@ -100,6 +100,13 @@ def _tenure(raw: pd.DataFrame, period: Period, int_month: pd.Series) -> tuple:
     return months, lt12.astype("Int8")
 
 
+def entry_quarter(period: Period, n_ent: pd.Series) -> pd.Series:
+    """Quarter in which the dwelling entered the ENOE panel: ``period`` shifted
+    back by ``n_ent - 1`` quarters (``n_ent`` is the interview number, 1-5)."""
+    idx = period.year * 4 + (period.quarter - 1) - (n_ent.fillna(1).astype("int64") - 1)
+    return (idx // 4).astype(str) + "Q" + (idx % 4 + 1).astype(str)
+
+
 def harmonize(
     raw: pd.DataFrame, period: Period, raw_release: Optional[str] = None
 ) -> pd.DataFrame:
@@ -113,11 +120,20 @@ def harmonize(
         ((period.quarter - 1) * 3 + mes_cal).where(mes_cal.between(1, 3)).astype("Int8")
     )
     df["wave"] = f"Q{period.quarter}"
-    key_cols = ["cd_a", "ent", "con", "v_sel", "tipo", "mes_cal", "n_hog", "h_mud"]
-    df["hhid"] = raw[key_cols].astype(str).agg("-".join, axis=1)
-    df["pid"] = df["hhid"] + "-" + raw["n_ren"].astype(str)
-    df["rotation_group"] = pd.NA
-    df["visit_no"] = to_int(raw["n_ent"])
+    # Dwelling keys (cd_a, ent, con, v_sel) are reused for a new dwelling once a
+    # panel of five interviews ends, so the quarter the dwelling entered the
+    # panel (this quarter minus n_ent - 1) is part of the id; with it a person
+    # links across the five quarters and never to a later occupant.
+    n_ent = to_int(raw["n_ent"])
+    df["visit_no"] = n_ent
+    df["rotation_group"] = entry_quarter(period, n_ent)
+    key_cols = ["cd_a", "ent", "con", "v_sel", "tipo", "n_hog", "h_mud"]
+    df["hhid"] = (
+        df["rotation_group"].astype(str)
+        + "-"
+        + raw[key_cols].astype(str).agg("-".join, axis=1)
+    ).astype("string")
+    df["pid"] = (df["hhid"] + "-" + raw["n_ren"].astype(str)).astype("string")
     df["weight"] = pd.to_numeric(raw["fac_tri"], errors="coerce").astype("float64")
     tloc = to_int(raw["t_loc_tri"])
     df["urban"] = (

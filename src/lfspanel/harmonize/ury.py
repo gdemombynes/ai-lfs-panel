@@ -75,12 +75,13 @@ def harmonize(
     df["int_year"] = df["year"]
     df["int_month"] = to_int(raw["mes"]).astype("Int8")
     df["wave"] = f"Q{period.quarter}"
-    df["hhid"] = (raw["anio"] + "-" + raw["ID"]).astype("string")
-    # a person is interviewed in up to three months of a quarter, so the
-    # record is a person-month and the month is part of the id
-    df["pid"] = (df["hhid"] + "-" + raw["nper"] + "-" + raw["mes"].str.zfill(2)).astype(
-        "string"
-    )
+    # ID and nper are stable for the up to six monthly interviews of a
+    # household, across quarters and years (2 per 1,000 ids are reused two
+    # years apart). A person is interviewed in up to three months of a
+    # quarter, so records are person-months: ``pid`` repeats within a quarter
+    # and ``int_month`` distinguishes the records.
+    df["hhid"] = raw["ID"].astype("string")
+    df["pid"] = (df["hhid"] + "-" + raw["nper"]).astype("string")
     df["rotation_group"] = raw["GR"].astype("string")
     df["visit_no"] = to_int(raw["ronda"]).astype("Int8")
     df["weight"] = (raw["W"] / n_months).astype("float64")

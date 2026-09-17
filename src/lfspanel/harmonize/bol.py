@@ -79,8 +79,11 @@ def harmonize(
     df["int_year"] = period.year
     df["int_month"] = month_from_code(raw["meses"])
     df["wave"] = f"Q{period.quarter}"
-    df["hhid"] = (str(period) + "-" + raw["id_hogar"]).astype("string")
-    df["pid"] = (df["hhid"] + "-" + raw["nro"]).astype("string")
+    # INE's panel identifiers are stable across the quarters a household is in
+    # the rotating panel (and between the pooled and per-quarter files); they
+    # are never reused for other households.
+    df["hhid"] = raw["id_hog_panel"].astype("string")
+    df["pid"] = raw["id_per_panel"].astype("string")
     df["rotation_group"] = raw["panel"].astype("string")
     df["visit_no"] = pd.NA
     df["weight"] = w.astype("float64")
