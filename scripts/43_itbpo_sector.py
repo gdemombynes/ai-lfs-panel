@@ -171,6 +171,97 @@ def plot_split(t: pd.DataFrame, path) -> None:
     plt.close(fig)
 
 
+QUARTERLY = ["BRA", "COL", "PHL", "IND", "URY"]
+SQL_Q = """
+with e as (
+  select countrycode, period, weight, age, occup_isco,
+    case when substr(industrycat_isic, 1, 2) in ('62', '63', '82') then 1 else 0 end s,
+    case when substr(occup_isco, 1, 1) in ('4', '5') then 1 else 0 end cler
+  from employed
+  where source = 'own' and countrycode in ('BRA', 'COL', 'PHL', 'IND', 'URY')
+    and not (countrycode = 'IND' and period < '2021Q3'))
+select countrycode, period,
+  sum(weight) / 1e3 emp_all_k,
+  sum(case when s = 1 then weight end) / 1e3 itbpo_k,
+  sum(case when s = 1 and cler = 1 then weight end) / 1e3 itbpo_cler_k,
+  100 * sum(case when s = 1 and age < 25 then weight end) / sum(case when s = 1 then weight end) u25_itbpo,
+  count(case when s = 1 then 1 end) n_itbpo
+from e group by 1, 2 order by 1, 2
+"""
+
+
+def build_quarterly() -> pd.DataFrame:
+    """Quarterly sector series for the five countries with enough sector sample,
+    plus a pooled series over quarters where all five are observed."""
+    con = duckdb.connect(str(DB), read_only=True)
+    q = con.execute(SQL_Q).df()
+    con.close()
+    # pooled over Brazil, Colombia, the Philippines and Uruguay: India's block is
+    # four times the others combined and its sample design changes in 2025
+    pool = [c for c in QUARTERLY if c != "IND"]
+    full = q[q["countrycode"].isin(pool)].groupby("period")["countrycode"].nunique()
+    pooled = (
+        q[q["countrycode"].isin(pool) & q["period"].isin(full[full == len(pool)].index)]
+        .groupby("period", as_index=False)
+        .agg(
+            emp_all_k=("emp_all_k", "sum"),
+            itbpo_k=("itbpo_k", "sum"),
+            itbpo_cler_k=("itbpo_cler_k", "sum"),
+            n_itbpo=("n_itbpo", "sum"),
+        )
+    )
+    u25 = (
+        q[q["countrycode"].isin(pool) & q["period"].isin(pooled["period"])]
+        .assign(y=lambda d: d["u25_itbpo"] * d["itbpo_k"] / 100)
+        .groupby("period")[["y", "itbpo_k"]]
+        .sum()
+    )
+    pooled["u25_itbpo"] = (100 * u25["y"] / u25["itbpo_k"]).values
+    pooled["countrycode"] = "ALL"
+    q = pd.concat([q, pooled], ignore_index=True)
+    for c in ["itbpo_k", "itbpo_cler_k", "emp_all_k"]:
+        base = q[q["period"].str.startswith("2022")].groupby("countrycode")[c].mean()
+        q[c.replace("_k", "_idx")] = 100 * q[c] / q["countrycode"].map(base)
+    return q
+
+
+def plot_quarterly(q: pd.DataFrame, path) -> None:
+    codes = QUARTERLY + ["ALL"]
+    names = {"ALL": "Pooled (BRA, COL, PHL, URY)"}
+    fig, axes = plt.subplots(2, len(codes), figsize=(3.2 * len(codes), 6))
+    for i, cc in enumerate(codes):
+        s = q[q["countrycode"] == cc].sort_values("period")
+        x = s["period"].str[:4].astype(int) + (s["period"].str[-1].astype(int) - 1) / 4
+        ax = axes[0][i]
+        ax.plot(x, s["itbpo_idx"], marker="o", ms=2.5, label="IT-BPO industries")
+        ax.plot(
+            x,
+            s["itbpo_cler_idx"],
+            marker="s",
+            ms=2.5,
+            label="of which clerical/service",
+        )
+        ax.plot(x, s["emp_all_idx"], color="grey", label="all employment")
+        ax.axhline(100, color="grey", lw=0.6)
+        ax.axvline(2022.75, color="grey", ls="--", lw=0.8)
+        ax.set_title(names.get(cc, cc), fontsize=10)
+        ax.set_ylim(60, 160)
+        ax2 = axes[1][i]
+        ax2.plot(x, s["u25_itbpo"], marker="o", ms=2.5)
+        ax2.axvline(2022.75, color="grey", ls="--", lw=0.8)
+        ax2.set_ylim(0, 35)
+    axes[0][0].set_ylabel("employment, 2022 = 100")
+    axes[1][0].set_ylabel("share under 25, %")
+    axes[0][0].legend(fontsize=7)
+    fig.suptitle(
+        "IT and business-process services (ISIC 62, 63, 82), quarterly: countries with sufficient sector sample",
+        fontsize=11,
+    )
+    fig.tight_layout()
+    fig.savefig(path, dpi=130)
+    plt.close(fig)
+
+
 def main() -> None:
     t = build()
     tables = OUTPUT / "tables"
@@ -179,6 +270,9 @@ def main() -> None:
     (OUTPUT / "figures").mkdir(parents=True, exist_ok=True)
     plot(t, OUTPUT / "figures" / "itbpo_by_country.png")
     plot_split(t, OUTPUT / "figures" / "itbpo_occupation_split.png")
+    q = build_quarterly()
+    q.round(3).to_csv(tables / "itbpo_quarterly.csv", index=False)
+    plot_quarterly(q, OUTPUT / "figures" / "itbpo_quarterly.png")
     cols = ["countrycode", "yr", "n_itbpo", "itbpo_share_pct", "itbpo_idx", "itbpo_prof_idx",
             "itbpo_cler_idx", "emp_all_idx", "u25_itbpo", "u25_all"]  # fmt: skip
     print(

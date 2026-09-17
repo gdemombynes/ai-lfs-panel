@@ -566,6 +566,16 @@ figure(
     "Figure 4. Employment in ISIC 62, 63 and 82 indexed to 2022 (sector, its clerical and service occupations, and all employment) and the under-25 share of sector employment against the economy-wide share, annual averages.",
     width=6.8,
 )
+figure(
+    F + "itbpo_quarterly.png",
+    "Figure 4b. Quarterly version for the five countries whose sector sample supports it (Brazil, Colombia, the Philippines, India, Uruguay) and a pooled series over Brazil, Colombia, the Philippines and Uruguay for quarters where all four are observed (India is left out of the pool: its block is four times the others combined and its sample design changes in 2025). Dashed line at 2022Q4. India before 2025Q2 is first-visit records only.",
+    width=6.8,
+)
+figure(
+    F + "phl_sector_leading.png",
+    "Figure 4c. Philippines: recent tabulations. Left: PSA OpenSTAT monthly employment by industry section (J information and communication; N administrative and support, which contains call centres) through July 2026, against the same sections in the harmonised LFS. Centre: the ISIC 62+63+82 block from the harmonised LFS against IBPAP's end-year full-time headcount for the IT-BPM industry (2021 to 2025; 2026 and 2027 forecasts hollow). Right: the under-25 share of the block by quarter.",
+    width=6.8,
+)
 para("Summary values as a table:", bold=True, after=3)
 rows = []
 for cc in [
