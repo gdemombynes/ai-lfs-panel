@@ -1,3 +1,4 @@
+# ruff: noqa: E501
 import duckdb
 import pandas as pd
 from docx import Document

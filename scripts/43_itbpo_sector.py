@@ -1,3 +1,4 @@
+# ruff: noqa: E501
 """IT and business-process services (ISIC 62, 63, 82) by country and year.
 
 Annual averages of employment in the sector, its IT (62+63) and BPO (82)
