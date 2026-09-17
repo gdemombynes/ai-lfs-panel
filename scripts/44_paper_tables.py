@@ -9,6 +9,7 @@ from docx.shared import Inches, Pt, RGBColor
 
 R = "/Users/gabriel/Projects/ai-lfs-panel/"
 T = R + "output/tables/"
+F = R + "output/figures/"
 
 # ------------------------------------------------------------------ data
 NAMES = {
@@ -184,6 +185,12 @@ def table(header, rows, widths, size=8.5, align_right_from=1, caption=None, note
     return t
 
 
+def figure(path, caption, width=6.5):
+    doc.add_picture(path, width=Inches(width))
+    doc.paragraphs[-1].alignment = WD_ALIGN_PARAGRAPH.CENTER
+    para(caption, italic=True, size=8.5, grey=True, after=10)
+
+
 def cs_(c, s, d=3):
     return f"{c:+.{d}f} ({s:.{d}f})"
 
@@ -196,7 +203,7 @@ para(
     after=2,
 )
 para(
-    "Draft exhibits for the paper outline, generated 16 September 2026 from the ai-lfs-panel repository (commit 6f61062 and later). Tables 1 and 2 follow the outline; Figures 1 to 5 are given here as tables of the plotted values. All estimates use the top employment-weighted exposure quintile as the treated group unless stated.",
+    "Draft exhibits for the paper outline, generated 16 September 2026 from the ai-lfs-panel repository (commit 6f61062 and later). Tables 1 and 2 follow the outline; Figures 1 to 5 are shown with the plotted values as tables beneath them. All estimates use the top employment-weighted exposure quintile as the treated group unless stated.",
     italic=True,
     grey=True,
     after=10,
@@ -420,9 +427,17 @@ table(
 
 # ------------------------------------------------------------------ Figure 1 as table
 doc.add_heading(
-    "5. Figure 1 (as table). Event-study coefficients, log employment, pooled sample",
-    level=1,
+    "5. Figure 1. Event-study coefficients, log employment, pooled sample", level=1
 )
+figure(
+    F + "es_log_emp_all.png",
+    "Figure 1. Coefficients on high exposure (top quintile) × quarter, log cell employment, eleven countries pooled, with 95 percent confidence bands; reference 2022Q4 (dashed line).",
+)
+figure(
+    F + "es_log_emp_young.png",
+    "Figure 1b. Same specification, cells of workers aged 15 to 29 only.",
+)
+para("The same coefficients as a table:", bold=True, after=3)
 
 
 def es_rows(es, subsets, d=3):
@@ -451,8 +466,13 @@ table(
 
 # ------------------------------------------------------------------ Figure 2 as table
 doc.add_heading(
-    "6. Figure 2 (as table). Employment index by exposure quintile, 2022 = 100", level=1
+    "6. Figure 2. Employment index by exposure quintile, 2022 = 100", level=1
 )
+figure(
+    F + "emp_index_q5_panel.png",
+    "Figure 2. Employment by quintile of generative-AI exposure, each quintile indexed to its 2022 mean, by country and pooled. Quintile 5 (red) is the most exposed.",
+)
+para("Selected values as a table:", bold=True, after=3)
 rows = []
 for cc in ["ALL"] + POOL:
     d = q5[q5.countrycode == cc]
@@ -474,9 +494,13 @@ table(
 )
 
 # ------------------------------------------------------------------ Figure 3 as table
-doc.add_heading(
-    "7. Figure 3 (as table). Event-study coefficients, new-hire share", level=1
+doc.add_heading("7. Figure 3. Event-study coefficients, new-hire share", level=1)
+figure(
+    F + "es_new_hire_share_young.png",
+    "Figure 3. Coefficients on high exposure × quarter for the new-hire share (workers in their job under 12 months), cells of workers aged 15 to 29, seven countries with a tenure question; 95 percent bands.",
 )
+figure(F + "es_new_hire_share_all.png", "Figure 3b. Same outcome, all cells.")
+para("The same coefficients as a table:", bold=True, after=3)
 rows = es_rows(es_nh, ["all", "young", "older"], d=4)
 table(
     ["Quarter", "k", "All cells", "Young (15–29)", "Older (30+)"],
@@ -521,9 +545,15 @@ table(
 
 # ------------------------------------------------------------------ Figure 4 as table
 doc.add_heading(
-    "8. Figure 4 (as table). IT and business-process services: headcount and under-25 share",
+    "8. Figure 4. IT and business-process services: headcount and under-25 share",
     level=1,
 )
+figure(
+    F + "itbpo_by_country.png",
+    "Figure 4. Employment in ISIC 62, 63 and 82 indexed to 2022 (sector, its clerical and service occupations, and all employment) and the under-25 share of sector employment against the economy-wide share, annual averages.",
+    width=6.8,
+)
+para("Summary values as a table:", bold=True, after=3)
 rows = []
 for cc in [
     "BRA",
@@ -581,9 +611,15 @@ table(
 
 # ------------------------------------------------------------------ Figure 5 as table
 doc.add_heading(
-    "9. Figure 5 (as table). Occupation split within IT and business-process services, 2022 = 100",
+    "9. Figure 5. Occupation split within IT and business-process services, 2022 = 100",
     level=1,
 )
+figure(
+    F + "itbpo_occupation_split.png",
+    "Figure 5. Within the sector, employment in professional and technical occupations (ISCO 1 to 3) and in clerical and service occupations (ISCO 4 and 5), indexed to 2022, against all employment.",
+    width=6.8,
+)
+para("The same values as a table:", bold=True, after=3)
 rows = []
 for cc in [
     "BRA",
@@ -636,5 +672,5 @@ for t_ in [
 ]:
     doc.add_paragraph(t_, style="List Bullet").paragraph_format.space_after = Pt(4)
 
-doc.save("paper_tables_draft.docx")
+doc.save(R + "docs/design/paper-tables-draft.docx")
 print("written")

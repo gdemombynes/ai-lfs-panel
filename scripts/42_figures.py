@@ -22,7 +22,8 @@ FIG = OUTPUT / "figures"
 NAMES = {
     "ARG": "Argentina", "BRA": "Brazil", "COL": "Colombia", "ECU": "Ecuador",
     "GEO": "Georgia", "MEX": "Mexico", "NGA": "Nigeria", "PER": "Peru",
-    "PHL": "Philippines", "ZAF": "South Africa", "ALL": "All countries (weighted mean)",
+    "PHL": "Philippines", "ZAF": "South Africa", "URY": "Uruguay", "BOL": "Bolivia",
+    "IND": "India", "ALL": "All countries (weighted mean)",
 }  # fmt: skip
 PALETTE = ["#4c72b0", "#8172b2", "#64b5cd", "#dd8452", "#c44e52"]
 
@@ -76,7 +77,8 @@ def plot_index(idx: pd.DataFrame, cc: str, path, label: str = "tercile") -> None
 
 def plot_index_panel(idx: pd.DataFrame, path, group: str = "group") -> None:
     """One panel per country plus the pooled series, shared y axis."""
-    codes = sorted(c for c in idx["countrycode"].unique() if c != "ALL")
+    has_data = idx.dropna(subset=["index"])["countrycode"].unique()
+    codes = sorted(c for c in has_data if c != "ALL")
     if "ALL" in idx["countrycode"].values:
         codes.append("ALL")
     ncol = 3

@@ -128,6 +128,49 @@ def plot(t: pd.DataFrame, path) -> None:
     plt.close(fig)
 
 
+def plot_split(t: pd.DataFrame, path) -> None:
+    """Professional (ISCO 1-3) and clerical/service (ISCO 4-5) employment within the sector."""
+    codes = [c for c in ORDER if c in set(t["countrycode"])]
+    ncol = 6
+    nrow = -(-len(codes) // ncol)
+    fig, axes = plt.subplots(nrow, ncol, figsize=(3.2 * ncol, 3.0 * nrow), sharey=True)
+    axes = axes.reshape(nrow, ncol)
+    for i, cc in enumerate(codes):
+        r, c = divmod(i, ncol)
+        s = t[t["countrycode"] == cc].sort_values("yr")
+        ax = axes[r][c]
+        ax.plot(
+            s["yr"],
+            s["itbpo_prof_idx"],
+            marker="o",
+            label="professional and technical (ISCO 1-3)",
+        )
+        ax.plot(
+            s["yr"],
+            s["itbpo_cler_idx"],
+            marker="s",
+            ms=3,
+            label="clerical and service (ISCO 4-5)",
+        )
+        ax.plot(s["yr"], s["emp_all_idx"], color="grey", label="all employment")
+        ax.axhline(100, color="grey", lw=0.6)
+        ax.set_title(cc + TITLE.get(cc, ""), fontsize=10)
+        ax.set_ylim(55, 160)
+    for r in range(nrow):
+        axes[r][0].set_ylabel("employment, 2022 = 100")
+    axes[0][0].legend(fontsize=7)
+    for i in range(len(codes), nrow * ncol):
+        r, c = divmod(i, ncol)
+        axes[r][c].axis("off")
+    fig.suptitle(
+        "Occupation split within IT and business-process services, annual averages",
+        fontsize=11,
+    )
+    fig.tight_layout()
+    fig.savefig(path, dpi=130)
+    plt.close(fig)
+
+
 def main() -> None:
     t = build()
     tables = OUTPUT / "tables"
@@ -135,6 +178,7 @@ def main() -> None:
     t.round(3).to_csv(tables / "itbpo_by_country.csv", index=False)
     (OUTPUT / "figures").mkdir(parents=True, exist_ok=True)
     plot(t, OUTPUT / "figures" / "itbpo_by_country.png")
+    plot_split(t, OUTPUT / "figures" / "itbpo_occupation_split.png")
     cols = ["countrycode", "yr", "n_itbpo", "itbpo_share_pct", "itbpo_idx", "itbpo_prof_idx",
             "itbpo_cler_idx", "emp_all_idx", "u25_itbpo", "u25_all"]  # fmt: skip
     print(
