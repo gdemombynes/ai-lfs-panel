@@ -43,6 +43,45 @@ def plot_event_study(es: pd.DataFrame, title: str, path) -> None:
     plt.close(fig)
 
 
+def plot_event_study_panel(es: pd.DataFrame, prefix: str, title: str, path) -> None:
+    """One panel per country for the subsets named ``<prefix><cc>``."""
+    subs = sorted(s for s in es["subset"].unique() if s.startswith(prefix))
+    if not subs:
+        return
+    ncol = 4
+    nrow = -(-len(subs) // ncol)
+    fig, axes = plt.subplots(nrow, ncol, figsize=(3.6 * ncol, 2.9 * nrow))
+    axes = axes.reshape(nrow, ncol)
+    for i, name in enumerate(subs):
+        r, c = divmod(i, ncol)
+        ax = axes[r][c]
+        sub = es[es["subset"] == name].sort_values("k")
+        ax.axhline(0, color="grey", lw=0.8)
+        ax.axvline(0, color="grey", lw=0.8, ls="--")
+        ax.errorbar(
+            sub["k"],
+            sub["coef"],
+            yerr=1.96 * sub["se"],
+            fmt="o-",
+            ms=2,
+            capsize=1.5,
+            lw=1,
+        )
+        ax.set_title(NAMES.get(name[len(prefix) :], name[len(prefix) :]), fontsize=9)
+        ticks = sub[sub["period"].str.endswith("Q1")]
+        ax.set_xticks(ticks["k"])
+        ax.set_xticklabels(ticks["period"], rotation=90, fontsize=6)
+    for i in range(len(subs), nrow * ncol):
+        r, c = divmod(i, ncol)
+        axes[r][c].axis("off")
+    for r in range(nrow):
+        axes[r][0].set_ylabel("coef. on high exposure x quarter", fontsize=8)
+    fig.suptitle(title, fontsize=10)
+    fig.tight_layout()
+    fig.savefig(path, dpi=150)
+    plt.close(fig)
+
+
 def _draw_index(ax, idx: pd.DataFrame, cc: str, group: str, label: str) -> None:
     sub_cc = idx[idx["countrycode"] == cc]
     periods = sorted(sub_cc["period"].unique())
@@ -110,6 +149,20 @@ def main() -> None:
         for subset, sub in es.groupby("subset"):
             plot_event_study(
                 sub, f"{outcome}, {subset}", FIG / f"es_{outcome}_{subset}.png"
+            )
+            n += 1
+        for prefix, label in (
+            ("country_young_", "young cells (15-29)"),
+            ("country_", "all cells"),
+        ):
+            names = [s for s in es["subset"].unique() if s.startswith(prefix)]
+            if prefix == "country_":
+                names = [s for s in names if not s.startswith("country_young_")]
+            plot_event_study_panel(
+                es[es["subset"].isin(names)],
+                prefix,
+                f"{outcome}, {label}, by country",
+                FIG / f"es_{outcome}_panel_{prefix.rstrip('_')}.png",
             )
             n += 1
     idx_path = tables / "employment_index.csv"

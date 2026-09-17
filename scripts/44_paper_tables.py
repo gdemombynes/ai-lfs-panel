@@ -500,6 +500,16 @@ figure(
     "Figure 3. Coefficients on high exposure × quarter for the new-hire share (workers in their job under 12 months), cells of workers aged 15 to 29, seven countries with a tenure question; 95 percent bands.",
 )
 figure(F + "es_new_hire_share_all.png", "Figure 3b. Same outcome, all cells.")
+figure(
+    F + "es_new_hire_share_panel_country_young.png",
+    "Figure 3c. New-hire share event study by country, cells of workers aged 15 to 29. Each panel re-estimates the model within the country; 95 percent bands. South Africa has 8 clusters and Argentina 13, so their bands are wide.",
+    width=6.8,
+)
+figure(
+    F + "es_new_hire_share_panel_country.png",
+    "Figure 3d. New-hire share event study by country, all cells.",
+    width=6.8,
+)
 para("The same coefficients as a table:", bold=True, after=3)
 rows = es_rows(es_nh, ["all", "young", "older"], d=4)
 table(
@@ -534,11 +544,14 @@ rows = [
 ]
 for cc in ["BRA", "URY", "COL", "ARG", "MEX", "ECU", "ZAF"]:
     x = did_nh.loc[f"country_{cc}"]
-    rows.append([NAMES[cc], cs_(x.coef, x.se, 4)])
+    y = did_nh.loc[f"country_young_{cc}"]
+    rows.append([NAMES[cc], cs_(x.coef, x.se, 4), cs_(y.coef, y.se, 4)])
+for r_ in rows[:4]:
+    r_.append("")
 table(
-    ["Sample", "Post × High, new-hire share"],
+    ["Sample", "Post × High, all cells in sample", "Post × High, young cells only"],
     rows,
-    [2.4, 2.0],
+    [2.4, 1.6, 1.6],
     size=8.5,
     note="Difference in differences for the new-hire share, same specification as Table 2; as there, the all-cells δ comes from the triple-difference model and equals the older-cell effect.",
 )

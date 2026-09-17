@@ -414,4 +414,6 @@ def iter_subsets(frame: pd.DataFrame) -> Iterable[Tuple[str, pd.DataFrame]]:
     yield "young", frame[frame["young"] == 1]
     yield "older", frame[frame["young"] == 0]
     for cc in list_countries(frame):
-        yield f"country_{cc}", frame[frame["countrycode"] == cc]
+        sub = frame[frame["countrycode"] == cc]
+        yield f"country_{cc}", sub
+        yield f"country_young_{cc}", sub[sub["young"] == 1]
