@@ -38,3 +38,20 @@ Match rates and agreement above are measured on the harmonised files after
 the 2026-09-17 change (`docs/compatibility.md` carries the duplicate-id
 check; no country-quarter has duplicate ids except Uruguay's person-months,
 which are counted on (pid, month)).
+
+## Re-observation diagnostics (2026-09-17)
+
+`scripts/46_reobservation.py` fits one logit per country for being found in
+the next quarter among persons scheduled to return, with interview-number,
+quarter and year dummies; `scripts/47_reobservation_report.py` writes the
+full tables to `docs/design/reobservation-diagnostics.docx`. Share found
+among the scheduled: Bolivia 0.94, Uruguay 0.93 (last-month records),
+Brazil 0.89, Mexico 0.87, South Africa 0.69, Peru 0.67, Argentina 0.64.
+Everywhere, persons aged 22 to 29 are 10 to 30 percent less likely to be
+re-observed than those aged 30 to 39, and persons over 50 more likely; the
+unemployed are less likely in Mexico, Bolivia and Peru. Later interviews
+retain better (odds ratios 1.1 to 1.3 in Brazil and Mexico, 1.6 in
+Uruguay). Breaks: South Africa's ids do not link between 2025Q4 and 2026Q1
+(zero matches; a new master sample is the likely cause) and Mexico's link
+rate drops from 71 to 50 percent for pairs starting 2025Q4 and 2026Q1;
+exclude those pairs from transitions until confirmed.
