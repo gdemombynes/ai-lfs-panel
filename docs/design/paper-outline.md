@@ -7,7 +7,9 @@ Employment in Eleven Labour Force Surveys, 2021 to 2026
 - The claim from US payroll data (Brynjolfsson, Chandar and Chen 2025):
   employment of 22 to 25-year-olds in AI-exposed occupations fell after
   2022, older workers unaffected, read as adjustment at the hiring margin.
-  The null in Danish administrative data (Humlum and Vestergaard 2025).
+  The nulls in Danish administrative data (Humlum and Vestergaard 2025)
+  and in US unemployment of recent college graduates in summer 2026
+  (Fairlie and Wu 2026, CPS).
 - Why emerging economies are a different test: younger workforces, high
   informality and self-employment, a large traded services sector exposed
   to both AI and offshoring demand, and later, uneven adoption.

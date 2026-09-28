@@ -57,6 +57,12 @@ session scratchpad, not in the repo.
   (2025), LinkedIn firm-level: junior employment falls 7.7-12 % in adopting
   firms through reduced hiring.
 - Humlum and Vestergaard (2025), Denmark: no earnings or hours effects.
+- Fairlie and Wu (2026), "The Early Impacts of AI on Employment among
+  Recent College Graduates" (NBER WP 35796, September 2026). CPS microdata,
+  June to August 2026: no statistically significant rise in unemployment of
+  recent college graduates relative to earlier summers, older graduates or
+  young workers without degrees. A null on the stock of unemployment for the
+  group Brynjolfsson et al. flag; it does not look at hiring or occupations.
 
 ## World Development Report 2026 and its background papers
 
