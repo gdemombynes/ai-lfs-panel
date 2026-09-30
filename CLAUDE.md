@@ -64,3 +64,13 @@ python scripts/41_event_study.py --outcome log_emp && python scripts/42_figures.
 - Never pass a nullable condition straight to `Series.mask`: pandas treats a
   missing condition as True. Wrap it in `harmonize.common.true_only()`.
 - `pathlib.Path` for paths; `pyproject.toml` is the single dependency source.
+
+## Session notes
+
+@NOTES.md
+
+`NOTES.md` is the handover note between sessions. Read it before starting
+any work. Before ending a session, update it: what was done, decisions
+taken, and the next steps, with "Last updated" set to today's date. Keep
+it to one screen; history lives in git, not in the note. The paper is a
+separate repo, `~/Projects/lfs-paper`, cloned from Overleaf.
