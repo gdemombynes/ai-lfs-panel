@@ -14,6 +14,10 @@ Last updated: 2026-09-30
   (origin https://git.overleaf.com/6abbd6d15303f68d78c2656f). Cloned
   30 Sep 2026; holds `main.tex` only so far. Push and pull from here use
   the Overleaf token in the macOS keychain.
+- TeX: TeX Live 2026 (full scheme) installed 30 Sep 2026 in
+  ~/texlive/2026, user-owned, no MacTeX GUI apps; binaries on PATH via
+  ~/.zshrc (texlive/2026/bin/universal-darwin). Update packages with
+  `tlmgr update --self --all`. The paper compiles with `latexmk -pdf`.
 - Google Drive, folder Claude/ai-lfs-panel: copies of literature.md,
   paper-outline.md and eu-lfs-proposal.md. A stale "EU LFS proposal.docx"
   sits at the Drive root (pre-revision, includes SILC); the docx cannot be
