@@ -1,0 +1,32 @@
+\begin{table}[htbp]
+\centering
+\small
+\setlength{\tabcolsep}{5pt}
+\begin{threeparttable}
+\caption{Post $\times$ high exposure and the new-hire share, all cells}
+\label{tab:newhire}
+\begin{tabular}{lcrrr}
+\toprule
+ & Coefficient (SE) & New-hire share & Cells & Clusters \\
+ &  & 2022, \% &  &  \\
+\midrule
+\addlinespace
+\multicolumn{5}{@{}l}{\textit{Pooled, 7 countries with a tenure question}} \\
+Post $\times$ High exposure ($\delta$) & $-0.0072^{***}$ $(0.0024)$ & 21.9 & 40\,154 & 485 \\
+\addlinespace
+\multicolumn{5}{@{}l}{\textit{By country, sorted by $\delta$}} \\
+South Africa & $0.0086$ $(0.0081)$ & 17.7 & 1\,836 & 46 \\
+Ecuador & $0.0075^{**}$ $(0.0037)$ & 8.3 & 5\,415 & 82 \\
+Mexico & $0.0024$ $(0.0071)$ & 17.9 & 1\,932 & 39 \\
+Argentina & $0.0018$ $(0.0046)$ & 15.9 & 2\,835 & 31 \\
+Colombia & $-0.0074$ $(0.0062)$ & 25.9 & 8\,892 & 101 \\
+Brazil & $-0.0111^{***}$ $(0.0032)$ & 24.0 & 14\,960 & 111 \\
+Uruguay & $-0.0131^{*}$ $(0.0074)$ & 13.9 & 4\,284 & 75 \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}[flushleft]
+\footnotesize
+\item \textit{Notes:} Difference in differences on the cell's new-hire share, the weighted fraction of its employed persons who started their current job within the previous twelve months, in share points (multiply by 100 for percentage points): $s_{it} = \delta\,\text{Post}_t \times \text{High}_{o} + \alpha_i + \gamma_{c,a,s,t} + \varepsilon_{it}$, where High marks occupations in the top employment-weighted quintile of the ILO generative-AI exposure score at the country's ISCO digit level. Post $=1$ from 2023Q1 onward (reference 2022Q4). Cell fixed effects and country $\times$ age group $\times$ sex $\times$ quarter fixed effects; weights are mean 2022 cell employment. Sample: Brazil, Mexico, Colombia, Argentina, Ecuador, Uruguay, South Africa, the countries whose survey asks job tenure; Uruguay asks it at first interviews only and Mexico in first-interview quarters only, so their shares rest on part of each cell. Country rows re-estimate the model within the country. New-hire share 2022 is the employment-weighted mean of the outcome over the sample's 2022 cell-quarters. Standard errors in parentheses, clustered by country $\times$ occupation; $^{*}$ $p<0.10$, $^{**}$ $p<0.05$, $^{***}$ $p<0.01$ from the cluster-robust $t$ statistic with $G-1$ degrees of freedom.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}

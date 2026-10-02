@@ -4,7 +4,8 @@
     python scripts/48_latex_tables.py [--no-check]
 
 Writes output/latex/tab_surveys.tex (Table 1), tab_country.tex (Table 2),
-tab_robust.tex (Table 3), tab_sector.tex (Table 4) and figures.tex (every
+tab_newhire.tex (Table 3), tab_robust.tex (Table 4), tab_sector.tex (Table 5)
+and figures.tex (every
 figure float, images referenced as \\tabfig/<file> and copied from
 output/figures/ next to it), plus the estimates
 behind Tables 3 and 4 as output/tables/robust_log_emp.csv and
@@ -372,10 +373,92 @@ def table_country(est: pd.DataFrame) -> str:
 
 
 # ------------------------------------------------------------------ Table 3
+def newhire_estimates(cells: pd.DataFrame, exposure: pd.DataFrame) -> pd.DataFrame:
+    """Plain difference in differences on the new-hire share, pooled and by country."""
+    frame = event_study_frame(cells[cells["countrycode"].isin(POOL)], exposure)
+    frame = frame[frame["new_hire_share"].notna()]
+    records: List[Dict[str, object]] = []
+
+    def add(subset: str, fr: pd.DataFrame) -> None:
+        if len(fr) < 100:
+            return
+        d = estimate_did(fr, outcome="new_hire_share").iloc[0]
+        base = fr[fr["period"].str.startswith("2022")]
+        share = float(
+            (base["new_hire_share"] * base["emp_base"]).sum() / base["emp_base"].sum()
+        )
+        rec = {
+            "subset": subset,
+            "coef": float(d.coef),
+            "se": float(d.se),
+            "share_2022": share,
+            "n_cells": int(d.n_cells),
+            "n_clusters": int(d.n_clusters),
+        }
+        records.append(rec)
+        print(
+            f"  {subset:12s} delta {rec['coef']:+.4f} ({rec['se']:.4f})  "
+            f"2022 share {100 * share:.1f}%  G={rec['n_clusters']}"
+        )
+
+    print("Table 3: new-hire share, all cells")
+    add("all", frame)
+    for cc in POOL:
+        add(f"country_{cc}", frame[frame["countrycode"] == cc])
+    return pd.DataFrame(records)
+
+
+def table_newhire(est: pd.DataFrame) -> str:
+    e = est.set_index("subset")
+
+    def line(label: str, r: pd.Series) -> List[str]:
+        top, bottom = coef_lines(r["coef"], r["se"], int(r["n_clusters"]), 4)
+        return [
+            label,
+            f"{top} {bottom}",
+            f"{100 * r['share_2022']:.1f}",
+            int_fmt(r["n_cells"]),
+            int_fmt(r["n_clusters"]),
+        ]
+
+    countries = [c for c in POOL if f"country_{c}" in e.index]
+    rows: List[Sequence[str]] = []
+    rows.append(panel(f"Pooled, {len(countries)} countries with a tenure question"))
+    rows.append(line(r"Post $\times$ High exposure ($\delta$)", e.loc["all"]))
+    rows.append(panel(r"By country, sorted by $\delta$"))
+    for cc in sorted(countries, key=lambda c: -e.loc[f"country_{c}", "coef"]):
+        rows.append(line(NAMES[cc], e.loc[f"country_{cc}"]))
+    header = [
+        ["", "Coefficient (SE)", "New-hire share", "Cells", "Clusters"],
+        ["", "", r"2022, \%", "", ""],
+    ]
+    names = ", ".join(NAMES[c] for c in countries)
+    notes = (
+        r"Difference in differences on the cell's new-hire share, the weighted fraction of its employed persons who started their current job within the previous twelve months, in share points (multiply by 100 for percentage points): "
+        r"$s_{it} = \delta\,\text{Post}_t \times \text{High}_{o} + \alpha_i + \gamma_{c,a,s,t} + \varepsilon_{it}$, "
+        r"where High marks occupations in the top employment-weighted quintile of the ILO generative-AI exposure score at the country's ISCO digit level. "
+        + SPEC_NOTE
+        + " "
+        + f"Sample: {names}, the countries whose survey asks job tenure; Uruguay asks it at first interviews only and Mexico in first-interview quarters only, so their shares rest on part of each cell. "
+        r"Country rows re-estimate the model within the country. New-hire share 2022 is the employment-weighted mean of the outcome over the sample's 2022 cell-quarters. "
+        + STARS_NOTE
+    )
+    return table_float(
+        "tab:newhire",
+        r"Post $\times$ high exposure and the new-hire share, all cells",
+        "lcrrr",
+        header,
+        rows,
+        notes=notes,
+        tabcolsep="5pt",
+    )
+
+
+# ------------------------------------------------------------------ Table 4
 def robustness_estimates(
     con, cells: pd.DataFrame, exposure: pd.DataFrame
 ) -> pd.DataFrame:
-    """Every row of Table 3 as a record: label, group, estimates and counts."""
+    """Every row of Table 4 as a record: label, group, estimates and counts."""
     base_cells = cells[cells["countrycode"].isin(POOL)]
     frame = event_study_frame(base_cells, exposure)
     records: List[Dict[str, object]] = []
@@ -390,7 +473,7 @@ def robustness_estimates(
             f"  {group:12s} {label:48s} {rec['coef']:+.4f} ({rec['se']:.4f})  cells={rec['n_cells']:,} G={rec['n_clusters']}"
         )
 
-    print("Table 3: treatment definition")
+    print("Table 4: treatment definition")
     add("treatment", "Top quintile (baseline)", frame)
     add("treatment", "Top tercile", frame, "high")
     add("treatment", "Top decile", frame, "high_d10")
@@ -398,7 +481,7 @@ def robustness_estimates(
     cont = frame.assign(score_sd=frame["score_w"] / sd)
     add("treatment", "Continuous score (per standard deviation)", cont, "score_sd")
 
-    print("Table 3: cells and sample")
+    print("Table 4: cells and sample")
     two = event_study_frame(aggregate_cells(base_cells, 2), exposure)
     add("sample", "Two-digit cells for every country", two)
     add(
@@ -416,7 +499,7 @@ def robustness_estimates(
     records[-1]["countries"] = ",".join(formal_ccs)
     add("sample", "Placebo: 2022 against 2021, pre-period only", placebo_frame(frame))
 
-    print("Table 3: leave one country out")
+    print("Table 4: leave one country out")
     for cc in POOL:
         add("loo", f"Without {NAMES[cc]}", frame[frame["countrycode"] != cc])
     return pd.DataFrame(records)
@@ -479,7 +562,7 @@ def table_robust(rob: pd.DataFrame) -> str:
     )
 
 
-# ------------------------------------------------------------------ Table 4
+# ------------------------------------------------------------------ Table 5
 OUTCOMES = [
     ("log_emp", ("Log", "employment")),
     ("young_share", ("Share", "aged 15--29")),
@@ -512,7 +595,7 @@ def sector_estimates(scells: pd.DataFrame) -> pd.DataFrame:
             f"  {label:52s} log_emp {rec['log_emp_coef']:+.3f} ({rec['log_emp_se']:.3f})  young {rec['young_share_coef']:+.4f} ({rec['young_share_se']:.4f})  G={rec['log_emp_n_clusters']}"
         )
 
-    print("Table 4: sector difference in differences")
+    print("Table 5: sector difference in differences")
     pool = scells[scells["countrycode"].isin(POOL)]
     add("sample", "Eleven countries", pool)
     ind = scells[(scells["countrycode"] == "IND") & (scells["period"] <= IND_END)]
@@ -724,9 +807,13 @@ def main() -> None:
         est.to_csv(TABLES / "country_log_emp.csv", index=False)
         tab2 = table_country(est)
 
+        nh = newhire_estimates(cells, exposure)
+        nh.to_csv(TABLES / "country_new_hire_share.csv", index=False)
+        tab3 = table_newhire(nh)
+
         rob = robustness_estimates(con, cells, exposure)
         rob.to_csv(TABLES / "robust_log_emp.csv", index=False)
-        tab3 = table_robust(rob)
+        tab4 = table_robust(rob)
 
         scells = build_sector_cells(con)
         SECTOR_CELLS_PATH.parent.mkdir(parents=True, exist_ok=True)
@@ -745,7 +832,7 @@ def main() -> None:
         con.close()
     sec = sector_estimates(scells)
     sec.to_csv(TABLES / "sector_did.csv", index=False)
-    tab4 = table_sector(sec)
+    tab5 = table_sector(sec)
 
     figs, used = figures_fragment()
     for name in used:
@@ -753,8 +840,9 @@ def main() -> None:
     paths = [
         write_fragment(LATEX / "tab_surveys.tex", tab1),
         write_fragment(LATEX / "tab_country.tex", tab2),
-        write_fragment(LATEX / "tab_robust.tex", tab3),
-        write_fragment(LATEX / "tab_sector.tex", tab4),
+        write_fragment(LATEX / "tab_newhire.tex", tab3),
+        write_fragment(LATEX / "tab_robust.tex", tab4),
+        write_fragment(LATEX / "tab_sector.tex", tab5),
         write_fragment(LATEX / "figures.tex", figs),
     ]
     for p in paths:

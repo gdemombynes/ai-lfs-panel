@@ -77,10 +77,14 @@ holds every figure float (10: fig:es_pooled, fig:index, fig:newhire,
 fig:newhire_country, fig:youthshare, fig:itbpo_quarterly, fig:phl,
 fig:split, fig:es_country, fig:india) with images as \tabfig/<file>; the
 script copies the 15 PNGs into output/latex/ (git-ignored), so that
-directory is the drop-in for lfs-paper/tab_fig/v1/.
-Table 3 (treatment cut, continuous score, 2-digit cells, small cells kept,
+directory is the drop-in for lfs-paper/tab_fig/v1/. Table 3 (tab:newhire,
+added 2 Oct) is the plain DiD on the new-hire share, all cells, pooled
+(-0.007, SE 0.002) and for the seven tenure countries, no youth
+interaction (decision: the young-cell share is a weak hiring measure
+because young cells turn over fast; use the all-cells result only).
+Table 4 (treatment cut, continuous score, 2-digit cells, small cells kept,
 urban only, social-security contributors only, 2022-vs-2021 placebo,
-leave-one-out) and Table 4 (sector DiD on country x quarter x industry
+leave-one-out) and Table 5 (sector DiD on country x quarter x industry
 group x sex cells, `lfspanel.sector`; IT-BPO against finance, professional
 services and public administration; outcomes log employment, 15-29 and
 under-25 shares, clerical share and log clerical employment) are estimated
@@ -97,7 +101,7 @@ control group. Alternative exposure indices stay out (no SOC-ISCO crosswalk).
 1. Paper repo: pull, create lfs-paper/tab_fig/v1/, copy the four
    fragments from output/latex/ plus the figures, set the \tabfig macros,
    compile, commit and push. Then replace the outline bullets with prose
-   (Table 4 now gives the identified sector result for section 6).
+   (Table 5 now gives the identified sector result for section 6).
 2. Eurostat: watch for the decision; on approval, set up the S-CIRCABC
    delivery and the confidentiality declarations.
 3. Paper: verify the 11 CHECK entries in references.bib; fix JEL codes
