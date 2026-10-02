@@ -85,12 +85,22 @@ def _min_period_clause(cc: str) -> str:
 
 
 def build_cells(
-    con: duckdb.DuckDBPyConnection, depth: Dict[str, int], min_age: int = 15
+    con: duckdb.DuckDBPyConnection,
+    depth: Dict[str, int],
+    min_age: int = 15,
+    where: str = "",
 ) -> pd.DataFrame:
+    """Country x quarter x ISCO x age group x sex cells from the ``employed`` view.
+
+    ``where`` is an extra SQL condition on the alias ``e`` (for instance
+    ``"e.urban = 1"`` or ``"e.socialsec = 1"``) for restricted samples.
+    """
     frames = []
     for cc, d in sorted(depth.items()):
         cte, w, extra = _visit_clauses(cc)
         extra += _min_period_clause(cc)
+        if where:
+            extra += f" AND ({where})"
         join = (
             "LEFT JOIN scale s ON s.period = e.period AND s.urban = e.urban"
             if cte
@@ -127,6 +137,63 @@ def build_cells(
     return cells.sort_values(
         ["countrycode", "period", "isco", "age_group", "male"]
     ).reset_index(drop=True)
+
+
+def aggregate_cells(cells: pd.DataFrame, digits: int = 2) -> pd.DataFrame:
+    """Re-aggregate cells to a coarser ISCO level (counts summed, shares employment-weighted).
+
+    Cells already at or below ``digits`` are left as they are. Workers whose
+    code stopped short of a country's original cell depth were never in the
+    cells, so this is coarser than rebuilding the cells at ``digits``.
+    """
+    keep = cells[cells["isco_digits"] <= digits]
+    fine = cells[cells["isco_digits"] > digits].copy()
+    if fine.empty:
+        return cells.copy()
+    fine["isco"] = fine["isco"].str[:digits]
+    w = fine["emp"]
+    wt = w * fine["tenure_coverage"].fillna(0.0)
+    fine = fine.assign(
+        _wt=wt,
+        _nh=fine["new_hire_share"].fillna(0.0) * wt,
+        _formal=fine["formal_share"].fillna(0.0) * w,
+        _employee=fine["employee_share"].fillna(0.0) * w,
+    )
+    keys = ["countrycode", "period", "isco", "age_group", "male"]
+    g = fine.groupby(keys, dropna=False)
+    agg = g.agg(
+        n=("n", "sum"),
+        emp=("emp", "sum"),
+        _wt=("_wt", "sum"),
+        _nh=("_nh", "sum"),
+        _formal=("_formal", "sum"),
+        _employee=("_employee", "sum"),
+        young=("young", "first"),
+    ).reset_index()
+    agg["new_hire_share"] = (agg["_nh"] / agg["_wt"]).where(agg["_wt"] > 0)
+    agg["tenure_coverage"] = (agg["_wt"] / agg["emp"]).where(agg["emp"] > 0)
+    agg["formal_share"] = (agg["_formal"] / agg["emp"]).where(agg["emp"] > 0)
+    agg["employee_share"] = (agg["_employee"] / agg["emp"]).where(agg["emp"] > 0)
+    agg["isco_digits"] = digits
+    agg["small"] = (agg["n"] < MIN_CELL_N).astype("Int8")
+    agg = agg.drop(columns=["_wt", "_nh", "_formal", "_employee"])
+    out = pd.concat([keep, agg[keep.columns]], ignore_index=True)
+    out["male"] = out["male"].astype("Int8")
+    out["young"] = out["young"].astype("Int8")
+    out["small"] = out["small"].astype("Int8")
+    return out.sort_values(keys).reset_index(drop=True)
+
+
+def placebo_frame(frame: pd.DataFrame, placebo_k: int = -4) -> pd.DataFrame:
+    """Pre-period placebo: keep quarters up to the reference, treat quarters after ``placebo_k`` as post.
+
+    With the default, the 2022 quarters play the post period and the 2021
+    quarters the pre period, so the estimate tests for a differential
+    pre-trend before generative AI tools were available.
+    """
+    out = frame[frame["k"] <= 0].copy()
+    out["post"] = (out["k"] > placebo_k).astype(int)
+    return out.reset_index(drop=True)
 
 
 def quarter_index(period: str, ref: str = REF_PERIOD) -> int:

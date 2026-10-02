@@ -36,3 +36,6 @@ data/processed/*.duckdb
 data/processed/*.duckdb.wal
 .env
 *.part
+
+# Generated previews
+output/latex/preview.pdf

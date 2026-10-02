@@ -176,3 +176,41 @@ def test_demean_and_wls_cluster():
     y = X @ np.array([1.0, -2.0]) + 0.1 * rng.standard_normal(200)
     beta, se = wls_cluster(y, X, np.ones(200), np.repeat(np.arange(20), 10))
     assert np.allclose(beta, [1.0, -2.0], atol=0.05) and (se > 0).all()
+
+
+def test_aggregate_cells_to_two_digits():
+    from lfspanel.analysis import aggregate_cells
+
+    cells = _cells()
+    two = aggregate_cells(cells, 2)
+    assert set(two["isco"]) == {"11", "21"} and (two["isco_digits"] == 2).all()
+    one = two[
+        (two["isco"] == "11")
+        & (two["period"] == "2022Q1")
+        & (two["age_group"] == "15-21")
+        & (two["male"] == 1)
+    ].iloc[0]
+    src = cells[
+        cells["isco"].str.startswith("11")
+        & (cells["period"] == "2022Q1")
+        & (cells["age_group"] == "15-21")
+        & (cells["male"] == 1)
+    ]
+    assert one["n"] == src["n"].sum() and abs(one["emp"] - src["emp"].sum()) < 1e-9
+    assert abs(one["new_hire_share"] - 0.2) < 1e-9 and one["tenure_coverage"] == 1.0
+    assert one["young"] == 1 and one["small"] == 0
+    # cells already at two digits pass through untouched
+    coarse = cells.assign(isco=cells["isco"].str[:2], isco_digits=2)
+    assert len(aggregate_cells(coarse, 2)) == len(coarse)
+
+
+def test_placebo_frame():
+    from lfspanel.analysis import placebo_frame
+
+    frame = event_study_frame(_cells(), _exposure())
+    pl = placebo_frame(frame)
+    assert pl["k"].max() == 0 and (pl.loc[pl["k"] > -4, "post"] == 1).all()
+    assert (pl.loc[pl["k"] <= -4, "post"] == 0).all()
+    # no effect before the reference quarter in the synthetic data
+    did = estimate_did(pl, triple=True)
+    assert abs(did.loc[did["term"] == "post_x_treat", "coef"].iloc[0]) < 0.02
