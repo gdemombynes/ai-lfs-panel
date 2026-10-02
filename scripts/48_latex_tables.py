@@ -90,7 +90,8 @@ SURVEY = {
     "IND": "PLFS",
     "NGA": "NLFS",
 }
-POOL = ["BRA", "MEX", "COL", "ARG", "ECU", "PER", "URY", "BOL", "ZAF", "GEO", "PHL"]
+# alphabetical by country name (decided 2 Oct 2026)
+POOL = ["ARG", "BOL", "BRA", "COL", "ECU", "GEO", "MEX", "PER", "PHL", "ZAF", "URY"]
 EXPORTERS = ["BRA", "COL", "PHL"]
 IND_END = "2024Q4"
 NOTE1 = {
@@ -308,9 +309,8 @@ def table_country(est: pd.DataFrame) -> str:
             False,
         )
     )
-    rows.append(panel(r"By country, sorted by $\delta$"))
-    order = sorted(POOL, key=lambda c: -e.loc[f"country_{c}", "coef"])
-    for cc in order:
+    rows.append(panel("By country"))
+    for cc in POOL:
         r = e.loc[f"country_{cc}"]
         rows.append(line(NAMES[cc] + r" ($\delta$)", r, "", True))
         rows.append(
@@ -425,8 +425,8 @@ def table_newhire(est: pd.DataFrame) -> str:
     rows: List[Sequence[str]] = []
     rows.append(panel(f"Pooled, {len(countries)} countries with a tenure question"))
     rows.append(line(r"Post $\times$ High exposure ($\delta$)", e.loc["all"]))
-    rows.append(panel(r"By country, sorted by $\delta$"))
-    for cc in sorted(countries, key=lambda c: -e.loc[f"country_{c}", "coef"]):
+    rows.append(panel("By country"))
+    for cc in countries:
         rows.append(line(NAMES[cc], e.loc[f"country_{cc}"]))
     header = [
         ["", "Coefficient (SE)", "New-hire share", "Cells", "Clusters"],
@@ -717,14 +717,14 @@ FIGURES_SPEC = [
     ),
     dict(
         label="fig:youthshare",
-        caption="IT and business-process services: employment and under-25 share, annual averages (Brazil to Peru)",
+        caption="IT and business-process services: employment and under-25 share, annual averages (Argentina to Georgia)",
         panels=[("itbpo_by_country_p1.png", None)],
         width=r"0.85\textwidth",
         notes=YOUTH_NOTE,
     ),
     dict(
         label="fig:youthshare_b",
-        caption="IT and business-process services: employment and under-25 share, annual averages (Uruguay to India)",
+        caption="IT and business-process services: employment and under-25 share, annual averages (Mexico to Uruguay, and India)",
         panels=[("itbpo_by_country_p2.png", None)],
         width=r"0.85\textwidth",
         notes=YOUTH_NOTE,

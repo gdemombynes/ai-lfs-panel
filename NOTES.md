@@ -92,7 +92,9 @@ quarterly and Philippines figures have portrait variants
 the network). Numbering now: Tables 1 surveys, 2 country, 3 newhire,
 4 sector, A1 robust; Figures 1 es_pooled, 2 index, 3 newhire,
 4 newhire_country, 5-6 youthshare, 7 itbpo_quarterly, 8 phl, 9 split,
-10 es_country, 11 india.
+10 es_country, 11 india. Countries are listed alphabetically by name in
+every table and figure panel (POOL in 48, ORDER in 43, NAMES sort in 42);
+India last as the annex.
 Table A1 (treatment cut, continuous score, 2-digit cells, small cells kept,
 urban only, social-security contributors only, 2022-vs-2021 placebo,
 leave-one-out) and Table 4 (sector DiD on country x quarter x industry

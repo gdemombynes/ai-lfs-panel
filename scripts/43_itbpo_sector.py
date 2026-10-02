@@ -26,18 +26,19 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402
 
 DB = PROCESSED / "panel.duckdb"
+# alphabetical by country name, India (annex) last
 ORDER = [
+    "ARG",
+    "BOL",
     "BRA",
     "COL",
-    "MEX",
-    "ARG",
     "ECU",
-    "PER",
-    "URY",
-    "BOL",
-    "ZAF",
     "GEO",
+    "MEX",
+    "PER",
     "PHL",
+    "ZAF",
+    "URY",
     "IND",
 ]
 DEFINITION = {
@@ -172,7 +173,7 @@ def plot_split(t: pd.DataFrame, path) -> None:
     plt.close(fig)
 
 
-QUARTERLY = ["BRA", "COL", "PHL", "IND", "URY"]
+QUARTERLY = ["BRA", "COL", "IND", "PHL", "URY"]  # alphabetical by name
 SQL_Q = """
 with e as (
   select countrycode, period, weight, age, occup_isco,

@@ -45,7 +45,10 @@ def plot_event_study(es: pd.DataFrame, title: str, path) -> None:
 
 def plot_event_study_panel(es: pd.DataFrame, prefix: str, title: str, path) -> None:
     """One panel per country for the subsets named ``<prefix><cc>``."""
-    subs = sorted(s for s in es["subset"].unique() if s.startswith(prefix))
+    subs = sorted(
+        (s for s in es["subset"].unique() if s.startswith(prefix)),
+        key=lambda s: NAMES.get(s[len(prefix) :], s),  # alphabetical by name
+    )
     if not subs:
         return
     ncol = 4
@@ -117,7 +120,7 @@ def plot_index(idx: pd.DataFrame, cc: str, path, label: str = "tercile") -> None
 def plot_index_panel(idx: pd.DataFrame, path, group: str = "group") -> None:
     """One panel per country plus the pooled series, shared y axis."""
     has_data = idx.dropna(subset=["index"])["countrycode"].unique()
-    codes = sorted(c for c in has_data if c != "ALL")
+    codes = sorted((c for c in has_data if c != "ALL"), key=lambda c: NAMES.get(c, c))
     if "ALL" in idx["countrycode"].values:
         codes.append("ALL")
     ncol = 3
