@@ -4,7 +4,8 @@
     python scripts/48_latex_tables.py [--no-check]
 
 Writes output/latex/tab_surveys.tex (Table 1), tab_country.tex (Table 2),
-tab_newhire.tex (Table 3), tab_sector.tex (Table 4), tab_robust.tex (annex
+tab_newhire.tex (Table 3), tab_sector.tex (Table 4), tab_sector_total.tex
+(Table 4b, IT-BPO against all other employment), tab_robust.tex (annex
 Table A1, input after the main tables) and figures.tex (every
 figure float, images referenced as \\tabfig/<file> and copied from
 output/figures/ next to it), plus the estimates
@@ -50,6 +51,8 @@ from lfspanel.latex import (
     write_fragment,
 )
 from lfspanel.sector import (
+    CONTROLS,
+    REST,
     SECTOR_CELLS_PATH,
     build_sector_cells,
     sector_frame,
@@ -569,18 +572,29 @@ OUTCOMES = [
 ]
 
 
-def sector_estimates(scells: pd.DataFrame) -> pd.DataFrame:
-    """Sector difference in differences, pooled and within each country."""
+def sector_estimates(
+    scells: pd.DataFrame,
+    controls: Sequence[str] = CONTROLS,
+    cluster: str = "cluster",
+) -> pd.DataFrame:
+    """Sector difference in differences, pooled and within each country.
+
+    ``cluster`` is the frame column to cluster on: ``cluster`` (country x
+    industry group) or ``cell`` (country x industry group x sex), the latter
+    for the whole-economy comparison, where a country has only two groups.
+    """
     records: List[Dict[str, object]] = []
     pool = scells[scells["countrycode"].isin(POOL)]
 
     def add(subset: str, sub: pd.DataFrame) -> None:
-        fr = sector_frame(sub)
+        fr = sector_frame(sub, controls=controls)
         rec: Dict[str, object] = {"subset": subset}
         ok = fr["treated"].sum() > 0 and (fr["treated"] == 0).sum() > 0
         for outcome, _, _ in OUTCOMES:
             if ok:
-                d = estimate_did(fr, outcome=outcome, treat="treated").iloc[0]
+                d = estimate_did(
+                    fr, outcome=outcome, treat="treated", cluster=cluster
+                ).iloc[0]
                 rec[f"{outcome}_coef"] = float(d.coef)
                 rec[f"{outcome}_se"] = float(d.se)
                 rec[f"{outcome}_n_cells"] = int(d.n_cells)
@@ -597,14 +611,15 @@ def sector_estimates(scells: pd.DataFrame) -> pd.DataFrame:
             f"G={rec['log_emp_n_clusters']}"
         )
 
-    print("Table 4: sector difference in differences")
+    print(f"Table 4 ({'+'.join(controls)}): sector difference in differences")
     add("all", pool)
     for cc in POOL:
         add(f"country_{cc}", pool[pool["countrycode"] == cc])
     return pd.DataFrame(records)
 
 
-def table_sector(sec: pd.DataFrame) -> str:
+def table_sector(sec: pd.DataFrame, total: bool = False) -> str:
+    """Table 4 (white-collar controls) or, with ``total``, Table 4b (all other employment)."""
     e = sec.set_index("subset")
 
     def line(label: str, r: pd.Series) -> List[str]:
@@ -634,11 +649,22 @@ def table_sector(sec: pd.DataFrame) -> str:
     ]
     notes = (
         r"Coefficient on Post $\times$ IT-BPO in sector cells (country $\times$ quarter $\times$ industry group $\times$ sex), with the standard error in parentheses. "
-        r"The treated group is IT and business-process services, ISIC Rev.\ 4 divisions 62, 63 and 82 (South Africa 62 only; Mexico ENOE code 5611); controls are finance and insurance (64--66), professional, scientific and technical services (69--75) and public administration (84). "
-        r"Share aged 15--29 is the weighted fraction of the cell's employment in that age range, in share points. "
+        r"The treated group is IT and business-process services, ISIC Rev.\ 4 divisions 62, 63 and 82 (South Africa 62 only; Mexico ENOE code 5611); "
+        + (
+            r"the control group is all other employment, every employed person outside the sector, as one cell per country and sex. "
+            if total
+            else r"controls are finance and insurance (64--66), professional, scientific and technical services (69--75) and public administration (84). "
+        )
+        + r"Share aged 15--29 is the weighted fraction of the cell's employment in that age range, in share points. "
         r"Post $=1$ from 2023Q1 onward. Cell fixed effects and country $\times$ sex $\times$ quarter fixed effects; weights are mean 2022 cell employment; cells enter when their mean unweighted 2022 count reaches 30. "
         r"Country rows re-estimate the model within the country, with sex $\times$ quarter fixed effects. "
-        r"Cells are cell-quarters in the log employment regression; clusters are country $\times$ industry group, so a country row has at most four clusters and its standard errors and stars should be read with caution. "
+        r"Cells are cell-quarters in the log employment regression; clusters are "
+        + (
+            r"country $\times$ industry group $\times$ sex, because a country has only two industry groups here, so a country row has four clusters"
+            if total
+            else r"country $\times$ industry group, so a country row has at most four clusters"
+        )
+        + r" and its standard errors and stars should be read with caution. "
         + (
             "n.a.: no IT-BPO cell reaches the 2022 floor in "
             + ", ".join(missing)
@@ -649,8 +675,10 @@ def table_sector(sec: pd.DataFrame) -> str:
         + r"$^{*}$ $p<0.10$, $^{**}$ $p<0.05$, $^{***}$ $p<0.01$ from the cluster-robust $t$ statistic with $G-1$ degrees of freedom."
     )
     return table_float(
-        "tab:sector",
-        "IT and business-process services against other white-collar services: sector difference in differences",
+        "tab:sector_total" if total else "tab:sector",
+        "IT and business-process services against "
+        + ("all other employment" if total else "other white-collar services")
+        + ": sector difference in differences",
         "lccrr",
         header,
         rows,
@@ -804,6 +832,9 @@ def main() -> None:
     sec = sector_estimates(scells)
     sec.to_csv(TABLES / "sector_did.csv", index=False)
     tab4 = table_sector(sec)
+    sec_total = sector_estimates(scells, controls=(REST,), cluster="cell")
+    sec_total.to_csv(TABLES / "sector_did_total.csv", index=False)
+    tab4b = table_sector(sec_total, total=True)
 
     figs, used = figures_fragment()
     for name in used:
@@ -813,6 +844,7 @@ def main() -> None:
         write_fragment(LATEX / "tab_country.tex", tab2),
         write_fragment(LATEX / "tab_newhire.tex", tab3),
         write_fragment(LATEX / "tab_sector.tex", tab4),
+        write_fragment(LATEX / "tab_sector_total.tex", tab4b),
         write_fragment(LATEX / "tab_robust.tex", tab5),  # annex: numbered A1
         write_fragment(LATEX / "figures.tex", figs),
     ]

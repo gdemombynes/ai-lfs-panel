@@ -103,7 +103,10 @@ group x sex cells, `lfspanel.sector`; IT-BPO against finance, professional
 services and public administration; revised 2 Oct to two outcomes, log
 employment and the 15-29 share, pooled plus one within-country run per
 country with at most 4 clusters each, Georgia n.a.; the control-group and
-exporter panels were dropped, the exporter split having been circular) are estimated
+exporter panels were dropped, the exporter split having been circular;
+Table 4b, tab_sector_total.tex, repeats it with all other employment as
+the control, `rest` group in lfspanel.sector, clustered by cell because a
+country then has only two groups) are estimated
 in the script and saved to output/tables/robust_log_emp.csv and
 sector_did.csv. The script compiles every fragment with TeX Live and saves
 output/latex/preview.pdf (ignored by git). Run time about one minute.

@@ -6,7 +6,8 @@ Africa 62 only because SIC 88 lumps business services; Mexico ENOE code 5611,
 business support and employment services, because the ENOE classifier does
 not separate computer services). Controls are the other white-collar service
 industries: finance and insurance (64 to 66), professional, scientific and
-technical services (69 to 75) and public administration (84). Outcomes per
+technical services (69 to 75) and public administration (84), or, for the
+whole-economy comparison, all other employment (``rest``). Outcomes per
 cell are log employment, the shares of workers aged 15 to 29 and under 25,
 and the share and log employment of clerical, service and sales occupations
 (ISCO major groups 4 and 5). The frame has the same shape as the occupation
@@ -39,11 +40,13 @@ GROUPS: Dict[str, Tuple[str, ...]] = {
     "pubadmin": ("84",),
 }
 CONTROLS = ("finance", "profserv", "pubadmin")
+REST = "rest"  # every other employed person: the whole-economy comparison
 LABELS = {
     "itbpo": "IT and business-process services (ISIC 62, 63, 82)",
     "finance": "finance and insurance (ISIC 64--66)",
     "profserv": "professional, scientific and technical services (ISIC 69--75)",
     "pubadmin": "public administration (ISIC 84)",
+    "rest": "all other employment",
 }
 # Country-specific definitions of the treated group (docs/harmonization/*.md).
 TREATED_SQL: Dict[str, str] = {
@@ -54,14 +57,14 @@ EXCLUDED = ("NGA",)  # no 2022 baseline
 
 
 def _group_sql(cc: str) -> str:
-    """CASE expression assigning each worker to a sector group or NULL."""
+    """CASE expression assigning each worker to a sector group (``rest`` otherwise)."""
     d2 = "substr(e.industrycat_isic, 1, 2)"
     treated = TREATED_SQL.get(cc, f"{d2} IN ('62', '63', '82')")
     parts = [f"WHEN {treated} THEN 'itbpo'"]
     for g in CONTROLS:
         codes = ", ".join(f"'{c}'" for c in GROUPS[g])
         parts.append(f"WHEN {d2} IN ({codes}) THEN '{g}'")
-    return "CASE " + " ".join(parts) + " END"
+    return "CASE " + " ".join(parts) + f" ELSE '{REST}' END"
 
 
 def build_sector_cells(
@@ -69,7 +72,11 @@ def build_sector_cells(
     countries: Optional[Sequence[str]] = None,
     min_age: int = 15,
 ) -> pd.DataFrame:
-    """Country x quarter x sector group x sex cells from the ``employed`` view."""
+    """Country x quarter x sector group x sex cells from the ``employed`` view.
+
+    Besides the treated group and the three white-collar controls, a ``rest``
+    group holds every other employed person, for the whole-economy comparison.
+    """
     if countries is None:
         countries = [
             r[0]

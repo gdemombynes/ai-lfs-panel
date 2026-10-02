@@ -1,0 +1,32 @@
+\begin{table}[htbp]
+\centering
+\small
+\setlength{\tabcolsep}{5pt}
+\begin{threeparttable}
+\caption{IT and business-process services against all other employment: sector difference in differences}
+\label{tab:sector_total}
+\begin{tabular}{lccrr}
+\toprule
+ & Log employment & Share aged 15--29 & Cells & Clusters \\
+\midrule
+All countries & $0.079^{**}$ $(0.036)$ & $-0.0292^{***}$ $(0.0098)$ & 820 & 42 \\
+\midrule
+Argentina & $-0.107^{***}$ $(0.011)$ & $-0.0155$ $(0.0076)$ & 84 & 4 \\
+Bolivia & $0.225^{**}$ $(0.060)$ & $-0.0313$ $(0.0478)$ & 80 & 4 \\
+Brazil & $0.048$ $(0.045)$ & $-0.0291$ $(0.0268)$ & 88 & 4 \\
+Colombia & $0.080$ $(0.056)$ & $-0.0242^{*}$ $(0.0078)$ & 72 & 4 \\
+Ecuador & $-0.098^{***}$ $(0.012)$ & $-0.0602$ $(0.0293)$ & 76 & 4 \\
+Georgia & n.a. & n.a. &  &  \\
+Mexico & $-0.050^{***}$ $(0.007)$ & $-0.0246$ $(0.0125)$ & 88 & 4 \\
+Peru & $-0.092^{***}$ $(0.002)$ & $-0.0586^{*}$ $(0.0189)$ & 72 & 4 \\
+Philippines & $0.220^{***}$ $(0.002)$ & $-0.0250^{**}$ $(0.0047)$ & 76 & 4 \\
+South Africa & $0.080^{**}$ $(0.016)$ & $-0.0827^{***}$ $(0.0128)$ & 72 & 4 \\
+Uruguay & $0.006$ $(0.023)$ & $-0.0232^{***}$ $(0.0021)$ & 72 & 4 \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}[flushleft]
+\footnotesize
+\item \textit{Notes:} Coefficient on Post $\times$ IT-BPO in sector cells (country $\times$ quarter $\times$ industry group $\times$ sex), with the standard error in parentheses. The treated group is IT and business-process services, ISIC Rev.\ 4 divisions 62, 63 and 82 (South Africa 62 only; Mexico ENOE code 5611); the control group is all other employment, every employed person outside the sector, as one cell per country and sex. Share aged 15--29 is the weighted fraction of the cell's employment in that age range, in share points. Post $=1$ from 2023Q1 onward. Cell fixed effects and country $\times$ sex $\times$ quarter fixed effects; weights are mean 2022 cell employment; cells enter when their mean unweighted 2022 count reaches 30. Country rows re-estimate the model within the country, with sex $\times$ quarter fixed effects. Cells are cell-quarters in the log employment regression; clusters are country $\times$ industry group $\times$ sex, because a country has only two industry groups here, so a country row has four clusters and its standard errors and stars should be read with caution. n.a.: no IT-BPO cell reaches the 2022 floor in Georgia. $^{*}$ $p<0.10$, $^{**}$ $p<0.05$, $^{***}$ $p<0.01$ from the cluster-robust $t$ statistic with $G-1$ degrees of freedom.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}

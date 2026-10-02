@@ -59,7 +59,7 @@ def test_build_sector_cells():
     _employed_view(con)
     cells = build_sector_cells(con, countries=["BRA", "MEX"])
     bra = cells[cells["countrycode"] == "BRA"].set_index(["sector", "male"])
-    assert set(cells["sector"]) == {"itbpo", "finance", "profserv", "pubadmin"}
+    assert set(cells["sector"]) == {"itbpo", "finance", "profserv", "pubadmin", "rest"}
     # 62, 63 and 82 pooled: three codes x two ages per sex
     assert bra.loc[("itbpo", 1), "n"] == 6 and bra.loc[("itbpo", 1), "emp"] == 60.0
     assert bra.loc[("itbpo", 1), "young_share"] == 0.5
@@ -76,7 +76,10 @@ def test_build_sector_cells():
     # Mexico: ENOE 5611 marks the treated group even though the ISIC code says 84
     mex = cells[cells["countrycode"] == "MEX"]
     assert set(mex["sector"]) == {"itbpo", "finance"}
-    assert "0111" not in set(cells["sector"])
+    # agriculture (0111) lands in the rest-of-economy group
+    assert bra.loc[("rest", 1), "n"] == 2
+    # the default frame leaves the rest group out; it enters only when asked
+    assert "rest" not in set(sector_frame(_sector_cells())["sector"])
 
 
 def _sector_cells(effect=0.3, seed=0):
