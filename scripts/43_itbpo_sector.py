@@ -111,7 +111,7 @@ def plot(t: pd.DataFrame, path, codes=None, ncol: int = 6) -> None:
         ax2 = axes[2 * r + 1][c]
         ax2.plot(s["yr"], s["u25_itbpo"], marker="o", label="under-25 share, IT-BPO")
         ax2.plot(s["yr"], s["u25_all"], color="grey", label="under-25 share, all")
-        ax2.set_ylim(0, 45)
+        ax2.set_ylim(0, 30)
     for r in range(nrow):
         axes[2 * r][0].set_ylabel("employment, 2022 = 100")
         axes[2 * r + 1][0].set_ylabel("share under 25, %")
