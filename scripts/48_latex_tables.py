@@ -4,7 +4,9 @@
     python scripts/48_latex_tables.py [--no-check]
 
 Writes output/latex/tab_surveys.tex (Table 1), tab_country.tex (Table 2),
-tab_robust.tex (Table 3) and tab_sector.tex (Table 4), plus the estimates
+tab_robust.tex (Table 3), tab_sector.tex (Table 4) and figures.tex (every
+figure float, images referenced as \\tabfig/<file> and copied from
+output/figures/ next to it), plus the estimates
 behind Tables 3 and 4 as output/tables/robust_log_emp.csv and
 sector_did.csv and the sector cells as data/processed/cells/sector_cells.parquet.
 Table 1 reads the panel database; Tables 2, 3 and 4 are estimated here (Table
@@ -17,8 +19,9 @@ Copy the fragments to lfs-paper/tab_fig/<version>/ afterwards.
 from __future__ import annotations
 
 import argparse
+import shutil
 import sys
-from typing import Dict, List, Sequence
+from typing import Dict, List, Sequence, Tuple
 
 import pandas as pd
 
@@ -39,6 +42,7 @@ from lfspanel.latex import (
     coef_lines,
     compile_check,
     escape,
+    figure_float,
     int_fmt,
     panel,
     table_float,
@@ -54,6 +58,7 @@ from lfspanel.store import duckdb_connect
 
 LATEX = OUTPUT / "latex"
 TABLES = OUTPUT / "tables"
+FIGURES = OUTPUT / "figures"
 NAMES = {
     "BRA": "Brazil",
     "MEX": "Mexico",
@@ -239,6 +244,15 @@ def country_estimates(cells: pd.DataFrame, exposure: pd.DataFrame) -> pd.DataFra
     def add(subset: str, fr: pd.DataFrame) -> None:
         rec: Dict[str, object] = {"subset": subset}
         rec.update(_did(fr))
+        # share of cell employment in top-quintile occupations, 2025 (or the
+        # last year observed when 2025 is absent, as for India)
+        years = fr["period"].str[:4]
+        year = "2025" if (years == "2025").any() else years.max()
+        yr = fr[years == year]
+        rec["share_year"] = year
+        rec["share_high"] = float(
+            (yr["emp"] * yr[PRIMARY_TREAT]).sum() / yr["emp"].sum()
+        )
         records.append(rec)
         print(
             f"  {subset:12s} delta {rec['coef']:+.4f} ({rec['se']:.4f})  "
@@ -264,8 +278,17 @@ def table_country(est: pd.DataFrame) -> str:
         top, bottom = coef_lines(coef, se, int(r["n_clusters"]))
         cell = f"{top} {bottom}" if top else "n.a."
         if counts:
-            return [label, cell, int_fmt(r["n_cells"]), int_fmt(r["n_clusters"])]
-        return [label, cell, "", ""]
+            share = f"{100 * r['share_high']:.1f}"
+            if r["share_year"] != "2025":
+                share += "$^{\\dagger}$"
+            return [
+                label,
+                cell,
+                share,
+                int_fmt(r["n_cells"]),
+                int_fmt(r["n_clusters"]),
+            ]
+        return [label, cell, "", "", ""]
 
     rows: List[Sequence[str]] = []
     rows.append(panel("Pooled, eleven countries"))
@@ -298,7 +321,18 @@ def table_country(est: pd.DataFrame) -> str:
     rows.append(
         line(r"\quad young cells ($\delta + \theta$)", r, "_young_total", False)
     )
-    header = [["", "Coefficient (SE)", "Cells", "Clusters"]]
+    header = [
+        ["", "Coefficient (SE)", "Exposed share", "Cells", "Clusters"],
+        ["", "", r"of 2025 emp., \%", "", ""],
+    ]
+    other_year = sorted(
+        {r["share_year"] for _, r in e.iterrows() if r["share_year"] != "2025"}
+    )
+    dagger = (
+        r"$^{\dagger}$ " + " and ".join(other_year) + ", the last year observed. "
+        if other_year
+        else ""
+    )
     missing = [
         NAMES[s.replace("country_", "")]
         for s, r in e.iterrows()
@@ -319,17 +353,20 @@ def table_country(est: pd.DataFrame) -> str:
         + SPEC_NOTE
         + " "
         r"Country blocks re-estimate the model within the country. "
-        r"India is estimated on its urban sample to 2024Q4, before the PLFS redesign, and is not in the pooled sample. "
+        r"Exposed share is the share of the sample's 2025 cell employment in top-quintile occupations. "
+        + dagger
+        + r"India is estimated on its urban sample to 2024Q4, before the PLFS redesign, and is not in the pooled sample. "
         + not_identified
         + STARS_NOTE
     )
     return table_float(
         "tab:country",
         r"Post $\times$ high exposure and log employment, pooled and by country",
-        "lcrr",
+        "lcrrr",
         header,
         rows,
         notes=notes,
+        size=r"\footnotesize",
         tabcolsep="5pt",
     )
 
@@ -547,6 +584,124 @@ def table_sector(sec: pd.DataFrame) -> str:
     )
 
 
+# ------------------------------------------------------------------ Figures
+ES_NOTE = (
+    r"Coefficients $\beta_k$ on 1[quarter $= k$] $\times$ High (top exposure quintile) with 95 percent confidence bands; "
+    r"reference 2022Q4 (dashed line). Cell fixed effects and country $\times$ age group $\times$ sex $\times$ quarter fixed effects; "
+    r"weights are mean 2022 cell employment; standard errors clustered by country $\times$ occupation."
+)
+FIGURES_SPEC = [
+    dict(
+        label="fig:es_pooled",
+        caption="Event-study coefficients, log cell employment, eleven countries pooled",
+        panels=[
+            ("es_log_emp_all.png", "All cells"),
+            ("es_log_emp_young.png", "Cells aged 15--29"),
+        ],
+        width=r"0.49\textwidth",
+        per_row=2,
+        notes=ES_NOTE
+        + " 2021 quarters cover the countries observed then (Brazil, Mexico, Argentina, Bolivia, Georgia and the Philippines from 2021Q1; Ecuador and Uruguay from 2021Q3); 2026 quarters cover the countries already released.",
+    ),
+    dict(
+        label="fig:index",
+        caption="Employment by quintile of generative-AI exposure, 2022 $=$ 100, by country and pooled",
+        panels=[("emp_index_q5_panel.png", None)],
+        width=r"0.92\textwidth",
+        notes=r"Employment summed over all cells in the quintile, divided by its 2022 mean. Quintiles are employment-weighted at the 2022 baseline and defined at each country's cell digit level; quintile 5 is the most exposed. The pooled series is the employment-weighted mean of the country indices over the countries observed in each quarter. Bolivia and Georgia have few cells and noisy indices.",
+    ),
+    dict(
+        label="fig:newhire",
+        caption="Event-study coefficients, new-hire share",
+        panels=[
+            ("es_new_hire_share_young.png", "Cells aged 15--29"),
+            ("es_new_hire_share_all.png", "All cells"),
+        ],
+        width=r"0.49\textwidth",
+        per_row=2,
+        notes=r"Outcome: weighted share of employed persons in the cell who started their current job within the previous twelve months, in share points. Seven countries with a tenure question: Brazil, Colombia, Ecuador, Argentina, South Africa (all quarters), Uruguay (first interviews) and Mexico (first-interview quarters). "
+        + ES_NOTE,
+    ),
+    dict(
+        label="fig:newhire_country",
+        caption="New-hire share event study by country",
+        panels=[
+            ("es_new_hire_share_panel_country_young.png", "Cells aged 15--29"),
+            ("es_new_hire_share_panel_country.png", "All cells"),
+        ],
+        width=r"\textwidth",
+        per_row=1,
+        notes=r"Each panel re-estimates the model within the country; 95 percent bands. South Africa has 8 clusters and Argentina 13, so their bands are wide.",
+    ),
+    dict(
+        label="fig:youthshare",
+        caption="IT and business-process services: employment and under-25 share, annual averages",
+        panels=[("itbpo_by_country.png", None)],
+        width=r"\textwidth",
+        notes=r"Sector $=$ ISIC Rev.\ 4 divisions 62 (computer programming and consultancy), 63 (information services) and 82 (office and business support, including call centres); South Africa 62 only; Mexico ENOE code 5611. Top row: employment in the sector, in its clerical and service occupations (ISCO 4 and 5) and in the whole economy, indexed to 2022. Bottom row: under-25 share of sector employment against the economy-wide share. Annual averages of quarters; the latest year may be partial. Bolivia (290 sector workers in 2022) and Georgia (92) are too small for the share to be reliable.",
+    ),
+    dict(
+        label="fig:itbpo_quarterly",
+        caption="IT and business-process services, quarterly, countries with sufficient sector sample",
+        panels=[("itbpo_quarterly.png", None)],
+        width=r"\textwidth",
+        notes=r"Brazil, Colombia, the Philippines, India and Uruguay, and a pooled series over Brazil, Colombia, the Philippines and Uruguay for quarters where all four are observed (India is left out of the pool: its block is four times the others combined and its sample design changes in 2025). Dashed line at 2022Q4. India before 2025Q2 is first-visit records only.",
+    ),
+    dict(
+        label="fig:phl",
+        caption="Philippines: the harmonised LFS against recent official and industry tabulations",
+        panels=[("phl_sector_leading.png", None)],
+        width=r"\textwidth",
+        notes=r"Left: PSA OpenSTAT monthly employment by industry section (J information and communication; N administrative and support, which contains call centres) against the same sections in the harmonised LFS. Centre: the ISIC 62, 63 and 82 block from the harmonised LFS against IBPAP's end-year full-time headcount for the IT-BPM industry (2021 to 2025; 2026 and 2027 forecasts hollow). Right: the under-25 share of the block by quarter.",
+    ),
+    dict(
+        label="fig:split",
+        caption="Occupation split within IT and business-process services, 2022 $=$ 100",
+        panels=[("itbpo_occupation_split.png", None)],
+        width=r"\textwidth",
+        notes=r"Within the sector, employment in professional and technical occupations (ISCO major groups 1 to 3) and in clerical and service occupations (major groups 4 and 5), indexed to the 2022 annual average, against all employment. 2026 covers one or two quarters.",
+    ),
+    dict(
+        label="fig:es_country",
+        caption="Event-study coefficients, log cell employment, by country",
+        panels=[
+            ("es_log_emp_panel_country.png", "All cells"),
+            ("es_log_emp_panel_country_young.png", "Cells aged 15--29"),
+        ],
+        width=r"\textwidth",
+        per_row=1,
+        notes=r"Each panel re-estimates the model within the country; 95 percent bands. "
+        + ES_NOTE,
+    ),
+    dict(
+        label="fig:india",
+        caption="India (annex): event-study coefficients, log cell employment, urban sample, 2021Q3 to 2024Q4",
+        panels=[
+            ("es_log_emp_IND_to2024Q4_all.png", "All cells"),
+            ("es_log_emp_IND_to2024Q4_young.png", "Cells aged 15--29"),
+        ],
+        width=r"0.49\textwidth",
+        per_row=2,
+        notes=r"PLFS urban first-visit records, three-digit cells; the series stops before the 2025 redesign. "
+        + ES_NOTE,
+    ),
+]
+
+
+def figures_fragment() -> Tuple[str, List[str]]:
+    """All figure floats in one file, and the image files they reference."""
+    parts = [
+        "% Figures for the paper, generated by scripts/48_latex_tables.py.\n"
+        "% Images are referenced as \\tabfig/<file>; copy the PNG files next to this file.\n"
+    ]
+    used: List[str] = []
+    for spec in FIGURES_SPEC:
+        spec = dict(spec)
+        used += [name for name, _ in spec["panels"]]
+        parts.append(figure_float(**spec))
+    return "\n".join(parts), used
+
+
 # ------------------------------------------------------------------ main
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__)
@@ -592,18 +747,27 @@ def main() -> None:
     sec.to_csv(TABLES / "sector_did.csv", index=False)
     tab4 = table_sector(sec)
 
+    figs, used = figures_fragment()
+    for name in used:
+        shutil.copyfile(FIGURES / name, LATEX / name)
     paths = [
         write_fragment(LATEX / "tab_surveys.tex", tab1),
         write_fragment(LATEX / "tab_country.tex", tab2),
         write_fragment(LATEX / "tab_robust.tex", tab3),
         write_fragment(LATEX / "tab_sector.tex", tab4),
+        write_fragment(LATEX / "figures.tex", figs),
     ]
     for p in paths:
         print(f"wrote {p}")
+    print(f"copied {len(used)} figure files to {LATEX}")
     if args.no_check:
         return
     try:
-        ok, messages = compile_check(paths, pdf_out=LATEX / "preview.pdf")
+        ok, messages = compile_check(
+            paths,
+            pdf_out=LATEX / "preview.pdf",
+            preamble=rf"\newcommand{{\tabfig}}{{{LATEX}}}",
+        )
     except RuntimeError as exc:
         print(f"compile check skipped: {exc}")
         return

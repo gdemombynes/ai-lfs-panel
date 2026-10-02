@@ -176,6 +176,41 @@ def _count_columns(colspec: str) -> int:
     return n
 
 
+def figure_float(
+    label: str,
+    caption: str,
+    panels: Sequence[Tuple[str, Optional[str]]],
+    width: str = r"\textwidth",
+    notes: str = "",
+    placement: str = "htbp",
+    per_row: int = 1,
+    prefix: str = r"\tabfig/",
+) -> str:
+    """A figure float with one or more image panels.
+
+    ``panels`` are (file name, sub-caption) pairs; a panel without a
+    sub-caption is included directly, panels with one become ``\\subfloat``
+    entries (``subfig`` package). ``per_row`` panels share one line, each
+    ``width`` wide. Files are referenced as ``prefix + name`` so the fragment
+    works once the images sit in the paper's ``\tabfig`` directory.
+    """
+    lines = [rf"\begin{{figure}}[{placement}]", r"\centering"]
+    for i, (name, sub) in enumerate(panels):
+        img = rf"\includegraphics[width={width}]{{{prefix}{name}}}"
+        if sub is None:
+            lines.append(img)
+        else:
+            lines.append(rf"\subfloat[{sub}]{{{img}}}")
+        if i + 1 < len(panels):
+            lines.append(r"\\" if (i + 1) % per_row == 0 else r"\hfill")
+    lines.append(rf"\caption{{{caption}}}")
+    lines.append(rf"\label{{{label}}}")
+    if notes:  # floatrow places \floatfoot under the caption
+        lines.append(rf"\floatfoot{{\footnotesize \textit{{Notes:}} {notes}}}")
+    lines.append(r"\end{figure}")
+    return "\n".join(lines) + "\n"
+
+
 def write_fragment(path: Path, text: str) -> Path:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(text, encoding="utf-8")
@@ -193,9 +228,9 @@ CHECK_PREAMBLE = r"""\documentclass[12pt]{article}
 \usepackage{lscape}
 \usepackage{floatrow}
 \usepackage{float}
+\usepackage{subfig}
 \floatsetup[table]{footnoterule=none,footskip=0.5\skip\footins}
 \floatstyle{plaintop} \restylefloat{table}
-\begin{document}
 """
 
 
@@ -212,12 +247,22 @@ def find_pdflatex() -> Optional[str]:
 
 
 def _compile(
-    exe: str, fragments: Sequence[Path], pdf_out: Optional[Path] = None
+    exe: str,
+    fragments: Sequence[Path],
+    pdf_out: Optional[Path] = None,
+    preamble: str = "",
 ) -> Tuple[bool, List[str]]:
     with tempfile.TemporaryDirectory() as tmp:
         main = Path(tmp) / "check.tex"
         body = "\n".join(rf"\input{{{Path(f).resolve()}}}" for f in fragments)
-        main.write_text(CHECK_PREAMBLE + body + "\n\\end{document}\n", encoding="utf-8")
+        main.write_text(
+            CHECK_PREAMBLE
+            + preamble
+            + "\n\\begin{document}\n"
+            + body
+            + "\n\\end{document}\n",
+            encoding="utf-8",
+        )
         ok = True
         for _ in range(2):  # twice so the label references settle
             proc = subprocess.run(
@@ -248,6 +293,7 @@ def compile_check(
     fragments: Sequence[Path],
     pdflatex: Optional[str] = None,
     pdf_out: Optional[Path] = None,
+    preamble: str = "",
 ) -> Tuple[bool, List[str]]:
     """Compile each fragment in a throwaway document with the paper's packages.
 
@@ -256,21 +302,22 @@ def compile_check(
     overfull-box lines from each log, prefixed with the fragment's name, and
     the undefined references left after the joint pass. With ``pdf_out`` the
     joint PDF is saved there for inspection. Raises ``RuntimeError`` when no
-    pdflatex is found.
+    pdflatex is found. ``preamble`` is extra LaTeX placed before
+    ``\\begin{document}``, for instance a ``\\tabfig`` path macro.
     """
     exe = pdflatex or find_pdflatex()
     if exe is None:
         raise RuntimeError("pdflatex not found on PATH or under ~/texlive")
     ok_all, messages = True, []
     for f in fragments:
-        ok, msgs = _compile(exe, [f])
+        ok, msgs = _compile(exe, [f], preamble=preamble)
         ok_all = ok_all and ok
         # cross-references between fragments only resolve in the joint pass
         messages += [
             f"{Path(f).name}: {m}" for m in msgs if "undefined" not in m.lower()
         ]
     if ok_all and (pdf_out is not None or len(fragments) > 1):
-        ok, msgs = _compile(exe, fragments, pdf_out)
+        ok, msgs = _compile(exe, fragments, pdf_out, preamble)
         ok_all = ok_all and ok
         messages += [f"all fragments: {m}" for m in msgs]
     return ok_all, messages

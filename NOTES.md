@@ -71,7 +71,13 @@ below and stars at 10/5/1 percent from the cluster-robust t with G-1 df
 2 Oct, quintile only, SE to the right): pooled delta, theta and delta+theta,
 then delta and delta+theta per country and for India, all estimated
 in-script (output/tables/country_log_emp.csv; estimate_did(triple=True)
-now returns delta+theta with its own SE; Georgia has no young cell, n.a.).
+now returns delta+theta with its own SE; Georgia has no young cell, n.a.;
+column with the top-quintile share of 2025 cell employment). figures.tex
+holds every figure float (10: fig:es_pooled, fig:index, fig:newhire,
+fig:newhire_country, fig:youthshare, fig:itbpo_quarterly, fig:phl,
+fig:split, fig:es_country, fig:india) with images as \tabfig/<file>; the
+script copies the 15 PNGs into output/latex/ (git-ignored), so that
+directory is the drop-in for lfs-paper/tab_fig/v1/.
 Table 3 (treatment cut, continuous score, 2-digit cells, small cells kept,
 urban only, social-security contributors only, 2022-vs-2021 placebo,
 leave-one-out) and Table 4 (sector DiD on country x quarter x industry

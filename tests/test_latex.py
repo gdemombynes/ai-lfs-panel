@@ -87,3 +87,23 @@ def test_compile_check(tmp_path):
     broken = write_fragment(tmp_path / "broken.tex", tex.replace(r"\end{tabular}", ""))
     ok, messages = compile_check([broken])
     assert not ok and any(m.startswith("broken.tex: !") for m in messages)
+
+
+def test_figure_float():
+    from lfspanel.latex import figure_float
+
+    one = figure_float("fig:a", "Cap", [("a.png", None)], notes="N.")
+    assert r"\includegraphics[width=\textwidth]{\tabfig/a.png}" in one
+    assert r"\label{fig:a}" in one and r"\caption{Cap}" in one
+    assert r"\textit{Notes:} N." in one and r"\subfloat" not in one
+    two = figure_float(
+        "fig:b",
+        "Cap",
+        [("a.png", "A"), ("b.png", "B")],
+        width="0.49\\textwidth",
+        per_row=2,
+    )
+    assert two.count(r"\subfloat[") == 2 and r"\hfill" in two
+    assert "\n\\\\\n" not in two  # both panels on one row
+    three = figure_float("fig:c", "Cap", [("a.png", "A"), ("b.png", "B")], per_row=1)
+    assert "\n\\\\\n" in three
