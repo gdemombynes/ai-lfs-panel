@@ -117,10 +117,12 @@ control group. Alternative exposure indices stay out (no SOC-ISCO crosswalk).
 
 ## Next steps
 
-1. Paper repo: pull, create lfs-paper/tab_fig/v1/, copy the four
-   fragments from output/latex/ plus the figures, set the \tabfig macros,
-   compile, commit and push. Then replace the outline bullets with prose
-   (Table 4 now gives the identified sector result for section 6).
+1. Paper repo: tab_fig/v1/ holds the exhibits (pushed to Overleaf
+   2 Oct, section "Draft tables and figures" after the appendix). To
+   refresh: run 48, copy output/latex/*.tex and *.png to
+   lfs-paper/tab_fig/v1/, compile, commit, push. Then replace the outline
+   bullets with prose (Table 4 gives the identified sector result for
+   section 6); the outline still cites fig:youthshare, which was dropped.
 2. Eurostat: watch for the decision; on approval, set up the S-CIRCABC
    delivery and the confidentiality declarations.
 3. Paper: verify the 11 CHECK entries in references.bib; fix JEL codes

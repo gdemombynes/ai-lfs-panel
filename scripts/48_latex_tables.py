@@ -837,6 +837,9 @@ def main() -> None:
     tab4b = table_sector(sec_total, total=True)
 
     figs, used = figures_fragment()
+    for stale in LATEX.glob("*.png"):  # images no figure references any more
+        if stale.name not in used:
+            stale.unlink()
     for name in used:
         shutil.copyfile(FIGURES / name, LATEX / name)
     paths = [
