@@ -3,53 +3,50 @@
 \small
 \setlength{\tabcolsep}{5pt}
 \begin{threeparttable}
-\caption{Post $\times$ high exposure and log employment: three treatment cuts}
+\caption{Post $\times$ high exposure and log employment, pooled and by country}
 \label{tab:country}
-\begin{tabular}{lcccrr}
+\begin{tabular}{lcrr}
 \toprule
- & \multicolumn{3}{c}{Treated group: top exposure} & Cells & Clusters \\
-\cmidrule(lr){2-4}
- & quintile & tercile & decile &  &  \\
+ & Coefficient (SE) & Cells & Clusters \\
 \midrule
-All cells, eleven countries ($\delta$) & $0.017$ & $0.018$ & $0.032$ & 59\,536 & 655 \\
- & $(0.023)$ & $(0.020)$ & $(0.020)$ &  &  \\
-\quad Post $\times$ High $\times$ Young ($\theta$) & $-0.004$ & $0.010$ & $-0.014$ &  &  \\
- & $(0.018)$ & $(0.016)$ & $(0.021)$ &  &  \\
-\quad Young cells only (15--29) & $0.012$ & $0.028$ & $0.018$ & 24\,023 & 349 \\
- & $(0.018)$ & $(0.018)$ & $(0.025)$ &  &  \\
-\quad Older cells only (30+) & $0.017$ & $0.018$ & $0.032$ & 35\,513 & 655 \\
- & $(0.023)$ & $(0.020)$ & $(0.020)$ &  &  \\
-\midrule
-Georgia & $0.086$ & $-0.005$ & $-0.213$ & 900 & 25 \\
- & $(0.086)$ & $(0.095)$ & $(0.129)$ &  &  \\
-Peru & $0.063$ & $0.105^{**}$ & $0.053$ & 4\,860 & 69 \\
- & $(0.051)$ & $(0.044)$ & $(0.062)$ &  &  \\
-Philippines & $0.043$ & $0.008$ & $0.114^{*}$ & 5\,510 & 40 \\
- & $(0.091)$ & $(0.089)$ & $(0.061)$ &  &  \\
-South Africa & $0.037$ & $0.030$ & $0.012$ & 1\,836 & 46 \\
- & $(0.064)$ & $(0.042)$ & $(0.094)$ &  &  \\
-Mexico & $0.018$ & $0.032$ & $0.013$ & 7\,084 & 39 \\
- & $(0.021)$ & $(0.022)$ & $(0.037)$ &  &  \\
-Brazil & $0.014$ & $0.030$ & $0.019$ & 14\,960 & 111 \\
- & $(0.023)$ & $(0.024)$ & $(0.028)$ &  &  \\
-Argentina & $0.002$ & $-0.017$ & $-0.045$ & 2\,835 & 31 \\
- & $(0.036)$ & $(0.035)$ & $(0.029)$ &  &  \\
-Bolivia & $-0.022$ & $0.004$ & $0.062$ & 2\,960 & 36 \\
- & $(0.037)$ & $(0.040)$ & $(0.044)$ &  &  \\
-Colombia & $-0.028$ & $-0.025$ & $0.042$ & 8\,892 & 101 \\
- & $(0.034)$ & $(0.031)$ & $(0.050)$ &  &  \\
-Uruguay & $-0.051$ & $-0.038$ & $-0.084^{***}$ & 4\,284 & 75 \\
- & $(0.031)$ & $(0.027)$ & $(0.029)$ &  &  \\
-Ecuador & $-0.113^{***}$ & $-0.080^{***}$ & $-0.064$ & 5\,415 & 82 \\
- & $(0.029)$ & $(0.029)$ & $(0.039)$ &  &  \\
-\midrule
-India, annex (2021Q3--2024Q4) & $0.200^{***}$ & $-0.052$ & $0.119^{**}$ & 2\,940 & 67 \\
- & $(0.052)$ & $(0.158)$ & $(0.059)$ &  &  \\
+\addlinespace
+\multicolumn{4}{@{}l}{\textit{Pooled, eleven countries}} \\
+Post $\times$ High exposure ($\delta$) & $0.017$ $(0.023)$ & 59\,536 & 655 \\
+Post $\times$ High exposure $\times$ Young ($\theta$) & $-0.004$ $(0.018)$ &  &  \\
+Post $\times$ High exposure, young cells ($\delta + \theta$) & $0.012$ $(0.018)$ &  &  \\
+\addlinespace
+\multicolumn{4}{@{}l}{\textit{By country, sorted by $\delta$}} \\
+Georgia ($\delta$) & $0.086$ $(0.086)$ & 900 & 25 \\
+\quad young cells ($\delta + \theta$) & n.a. &  &  \\
+Philippines ($\delta$) & $0.045$ $(0.113)$ & 5\,510 & 40 \\
+\quad young cells ($\delta + \theta$) & $0.040$ $(0.047)$ &  &  \\
+Peru ($\delta$) & $0.034$ $(0.051)$ & 4\,860 & 69 \\
+\quad young cells ($\delta + \theta$) & $0.138^{**}$ $(0.064)$ &  &  \\
+South Africa ($\delta$) & $0.033$ $(0.067)$ & 1\,836 & 46 \\
+\quad young cells ($\delta + \theta$) & $0.088$ $(0.111)$ &  &  \\
+Mexico ($\delta$) & $0.021$ $(0.020)$ & 7\,084 & 39 \\
+\quad young cells ($\delta + \theta$) & $0.009$ $(0.027)$ &  &  \\
+Brazil ($\delta$) & $0.017$ $(0.023)$ & 14\,960 & 111 \\
+\quad young cells ($\delta + \theta$) & $0.005$ $(0.031)$ &  &  \\
+Argentina ($\delta$) & $-0.002$ $(0.036)$ & 2\,835 & 31 \\
+\quad young cells ($\delta + \theta$) & $0.019$ $(0.054)$ &  &  \\
+Colombia ($\delta$) & $-0.030$ $(0.038)$ & 8\,892 & 101 \\
+\quad young cells ($\delta + \theta$) & $-0.022$ $(0.044)$ &  &  \\
+Bolivia ($\delta$) & $-0.036$ $(0.035)$ & 2\,960 & 36 \\
+\quad young cells ($\delta + \theta$) & $0.010$ $(0.049)$ &  &  \\
+Uruguay ($\delta$) & $-0.052$ $(0.035)$ & 4\,284 & 75 \\
+\quad young cells ($\delta + \theta$) & $-0.046$ $(0.046)$ &  &  \\
+Ecuador ($\delta$) & $-0.089^{***}$ $(0.027)$ & 5\,415 & 82 \\
+\quad young cells ($\delta + \theta$) & $-0.198^{***}$ $(0.061)$ &  &  \\
+\addlinespace
+\multicolumn{4}{@{}l}{\textit{Annex}} \\
+India, 2021Q3--2024Q4 ($\delta$) & $0.200^{***}$ $(0.052)$ & 2\,940 & 67 \\
+\quad young cells ($\delta + \theta$) & $0.148^{***}$ $(0.047)$ &  &  \\
 \bottomrule
 \end{tabular}
 \begin{tablenotes}[flushleft]
 \footnotesize
-\item \textit{Notes:} Coefficient $\delta$ on Post $\times$ High in the log of cell employment, where High marks occupations in the top employment-weighted quintile (primary), tercile or decile of the ILO generative-AI exposure score. Post $=1$ from 2023Q1 onward (reference 2022Q4). Cell fixed effects and country $\times$ age group $\times$ sex $\times$ quarter fixed effects; weights are mean 2022 cell employment. The all-cells row is the triple-difference specification, so its $\delta$ is the effect for older cells and $\theta$ the additional effect for young cells; the young-only and older-only rows re-estimate the model within each age range. Country rows re-estimate the model within the country, sorted by the quintile estimate. Cells and clusters refer to the quintile run; the tercile and decile runs use the same cells. India is estimated separately on its urban sample to 2024Q4, before the PLFS redesign. Standard errors in parentheses, clustered by country $\times$ occupation; $^{*}$ $p<0.10$, $^{**}$ $p<0.05$, $^{***}$ $p<0.01$ from the cluster-robust $t$ statistic with $G-1$ degrees of freedom.
+\item \textit{Notes:} Each block is one triple-difference regression of log cell employment: $y_{it} = \delta\,\text{Post}_t \times \text{High}_{o} + \theta\,\text{Post}_t \times \text{High}_{o} \times \text{Young}_{a} + \alpha_i + \gamma_{c,a,s,t} + \varepsilon_{it}$, where High marks occupations in the top employment-weighted quintile of the ILO generative-AI exposure score at the country's ISCO digit level and Young marks cells aged 15 to 29. $\delta$ is the post-period effect for cells aged 30 and over, $\theta$ the additional effect for young cells and $\delta + \theta$ the effect for young cells, with its standard error from the same regression re-parameterised with separate older and young treatment dummies. Post $=1$ from 2023Q1 onward (reference 2022Q4). Cell fixed effects and country $\times$ age group $\times$ sex $\times$ quarter fixed effects; weights are mean 2022 cell employment. Country blocks re-estimate the model within the country. India is estimated on its urban sample to 2024Q4, before the PLFS redesign, and is not in the pooled sample. n.a.: no young cell reaches the 2022 floor in Georgia, so $\theta$ and $\delta + \theta$ are not identified there. Standard errors in parentheses, clustered by country $\times$ occupation; $^{*}$ $p<0.10$, $^{**}$ $p<0.05$, $^{***}$ $p<0.01$ from the cluster-robust $t$ statistic with $G-1$ degrees of freedom.
 \end{tablenotes}
 \end{threeparttable}
 \end{table}

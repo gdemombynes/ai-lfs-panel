@@ -146,6 +146,9 @@ def test_event_study_recovers_effect():
     did = estimate_did(frame, triple=True)
     assert abs(did.loc[did["term"] == "post_x_treat", "coef"].iloc[0] - 0.2) < 0.02
     assert abs(did.loc[did["term"] == "post_x_treat_x_young", "coef"].iloc[0]) < 0.02
+    young = did[did["term"] == "post_x_treat_young"].iloc[0]
+    assert abs(young["coef"] - 0.2) < 0.02 and young["se"] > 0
+    assert len(estimate_did(frame)) == 1  # no young rows without triple
 
 
 def test_balanced_panel_fills_absent_cells():

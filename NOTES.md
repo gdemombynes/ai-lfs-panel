@@ -67,8 +67,11 @@ tab_country.tex, tab_robust.tex and tab_sector.tex (labels tab:surveys,
 tab:country, tab:robust, tab:sector): complete floats (threeparttable,
 booktabs, caption, notes) for one-line `\input`. Coefficients carry SE
 below and stars at 10/5/1 percent from the cluster-robust t with G-1 df
-(`lfspanel.latex`). Tables 1 and 2 reuse the panel database and the
-did_log_emp*.csv files (India tercile and decile re-estimated in-script);
+(`lfspanel.latex`). Table 1 reads the panel database. Table 2 (revised
+2 Oct, quintile only, SE to the right): pooled delta, theta and delta+theta,
+then delta and delta+theta per country and for India, all estimated
+in-script (output/tables/country_log_emp.csv; estimate_did(triple=True)
+now returns delta+theta with its own SE; Georgia has no young cell, n.a.).
 Table 3 (treatment cut, continuous score, 2-digit cells, small cells kept,
 urban only, social-security contributors only, 2022-vs-2021 placebo,
 leave-one-out) and Table 4 (sector DiD on country x quarter x industry

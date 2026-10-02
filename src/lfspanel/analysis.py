@@ -382,7 +382,13 @@ def estimate_did(
     cluster: str = "cluster",
     triple: bool = False,
 ) -> pd.DataFrame:
-    """Post x treatment (and post x treatment x young) difference in differences."""
+    """Post x treatment (and post x treatment x young) difference in differences.
+
+    With ``triple`` the result also carries ``post_x_treat_young``, the effect
+    for young cells (delta + theta) with its own standard error, obtained by
+    re-parameterising the same regression with separate older and young
+    treatment dummies.
+    """
     df = frame[frame[outcome].notna() & frame[treat].notna()].copy()
     df["post_x_treat"] = (df["post"] * df[treat]).astype(float)
     names = ["post_x_treat"]
@@ -393,14 +399,26 @@ def estimate_did(
         names += ["post_x_treat_x_young"]
     dm = demean(df, [outcome] + names, fe, weight)
     w = df[weight].to_numpy(float) if weight else np.ones(len(df))
-    beta, se = wls_cluster(
-        dm[outcome].to_numpy(), dm[names].to_numpy(), w, df[cluster].to_numpy()
-    )
+    y, X, cl = dm[outcome].to_numpy(), dm[names].to_numpy(), df[cluster].to_numpy()
+    beta, se = wls_cluster(y, X, w, cl)
+    terms, coefs, ses = list(names), list(beta), list(se)
+    if triple:
+        # demeaning is linear, so the re-parameterised columns are
+        # (older = post_x_treat - post_x_treat_x_young, young = post_x_treat_x_young)
+        X2 = np.column_stack([X[:, 0] - X[:, 1], X[:, 1]])
+        beta2, se2 = wls_cluster(y, X2, w, cl)
+        terms.append("post_x_treat_young")
+        coefs.append(beta2[1])
+        ses.append(se2[1])
+        if not (df["post_x_treat_x_young"] > 0).any():
+            # no treated young cell-quarters: theta and delta + theta are not identified
+            coefs[1] = coefs[2] = float("nan")
+            ses[1] = ses[2] = float("nan")
     return pd.DataFrame(
         {
-            "term": names,
-            "coef": beta,
-            "se": se,
+            "term": terms,
+            "coef": coefs,
+            "se": ses,
             "n_cells": len(df),
             "n_clusters": df[cluster].nunique(),
         }

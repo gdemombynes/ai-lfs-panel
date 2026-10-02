@@ -7,8 +7,8 @@ Writes output/latex/tab_surveys.tex (Table 1), tab_country.tex (Table 2),
 tab_robust.tex (Table 3) and tab_sector.tex (Table 4), plus the estimates
 behind Tables 3 and 4 as output/tables/robust_log_emp.csv and
 sector_did.csv and the sector cells as data/processed/cells/sector_cells.parquet.
-Tables 1 and 2 read the panel database and the did_log_emp*.csv files from
-41_event_study.py; Tables 3 and 4 are estimated here. Unless --no-check is
+Table 1 reads the panel database; Tables 2, 3 and 4 are estimated here (Table
+2's runs go to output/tables/country_log_emp.csv). Unless --no-check is
 given, every fragment is compiled in a throwaway document with the paper's
 packages and the four tables are saved together as output/latex/preview.pdf.
 Copy the fragments to lfs-paper/tab_fig/<version>/ afterwards.
@@ -18,7 +18,7 @@ from __future__ import annotations
 
 import argparse
 import sys
-from typing import Dict, List, Optional, Sequence
+from typing import Dict, List, Sequence
 
 import pandas as pd
 
@@ -121,16 +121,11 @@ def _did(frame: pd.DataFrame, treat: str = PRIMARY_TREAT) -> Dict[str, float]:
         "se": float(d.loc["post_x_treat", "se"]),
         "coef_young": float(d.loc["post_x_treat_x_young", "coef"]),
         "se_young": float(d.loc["post_x_treat_x_young", "se"]),
+        "coef_young_total": float(d.loc["post_x_treat_young", "coef"]),
+        "se_young_total": float(d.loc["post_x_treat_young", "se"]),
         "n_cells": int(d["n_cells"].iloc[0]),
         "n_clusters": int(d["n_clusters"].iloc[0]),
     }
-
-
-def _pick(
-    did: pd.DataFrame, subset: str, term: str = "post_x_treat"
-) -> Optional[pd.Series]:
-    x = did[(did["subset"] == subset) & (did["term"] == term)]
-    return x.iloc[0] if len(x) else None
 
 
 # ------------------------------------------------------------------ Table 1
@@ -236,76 +231,105 @@ def table_surveys(con, cells_summary: pd.DataFrame) -> str:
 
 
 # ------------------------------------------------------------------ Table 2
-def table_country(
-    did: Dict[str, pd.DataFrame], india: Dict[str, Dict[str, float]]
-) -> str:
-    cuts = ["q5", "t3", "d10"]
+def country_estimates(cells: pd.DataFrame, exposure: pd.DataFrame) -> pd.DataFrame:
+    """Triple-difference runs for the pooled sample, each country and India."""
+    pool = event_study_frame(cells[cells["countrycode"].isin(POOL)], exposure)
+    records: List[Dict[str, object]] = []
 
-    def coef_row(
-        label: str, subset: str, term: str = "post_x_treat", counts: bool = True
-    ):
-        top, bottom = [label], [""]
-        for k in cuts:
-            x = _pick(did[k], subset, term)
-            if x is None:
-                top.append("")
-                bottom.append("")
-                continue
-            a, b = coef_lines(x.coef, x.se, int(x.n_clusters))
-            top.append(a)
-            bottom.append(b)
-        x = _pick(did["q5"], subset)
-        if counts and x is not None:
-            top += [int_fmt(x.n_cells), int_fmt(x.n_clusters)]
-        else:
-            top += ["", ""]
-        bottom += ["", ""]
-        return [top, bottom]
+    def add(subset: str, fr: pd.DataFrame) -> None:
+        rec: Dict[str, object] = {"subset": subset}
+        rec.update(_did(fr))
+        records.append(rec)
+        print(
+            f"  {subset:12s} delta {rec['coef']:+.4f} ({rec['se']:.4f})  "
+            f"theta {rec['coef_young']:+.4f} ({rec['se_young']:.4f})  "
+            f"young {rec['coef_young_total']:+.4f} ({rec['se_young_total']:.4f})  "
+            f"G={rec['n_clusters']}"
+        )
+
+    print("Table 2: pooled and by country")
+    add("all", pool)
+    for cc in POOL:
+        add(f"country_{cc}", pool[pool["countrycode"] == cc])
+    ind = cells[(cells["countrycode"] == "IND") & (cells["period"] <= IND_END)]
+    add("country_IND", event_study_frame(ind, exposure))
+    return pd.DataFrame(records)
+
+
+def table_country(est: pd.DataFrame) -> str:
+    e = est.set_index("subset")
+
+    def line(label: str, r: pd.Series, which: str, counts: bool) -> List[str]:
+        coef, se = r[f"coef{which}"], r[f"se{which}"]
+        top, bottom = coef_lines(coef, se, int(r["n_clusters"]))
+        cell = f"{top} {bottom}" if top else "n.a."
+        if counts:
+            return [label, cell, int_fmt(r["n_cells"]), int_fmt(r["n_clusters"])]
+        return [label, cell, "", ""]
 
     rows: List[Sequence[str]] = []
-    rows += coef_row(r"All cells, eleven countries ($\delta$)", "all")
-    rows += coef_row(
-        r"\quad Post $\times$ High $\times$ Young ($\theta$)",
-        "all",
-        "post_x_treat_x_young",
-        counts=False,
+    rows.append(panel("Pooled, eleven countries"))
+    r = e.loc["all"]
+    rows.append(line(r"Post $\times$ High exposure ($\delta$)", r, "", True))
+    rows.append(
+        line(
+            r"Post $\times$ High exposure $\times$ Young ($\theta$)", r, "_young", False
+        )
     )
-    rows += coef_row(r"\quad Young cells only (15--29)", "young")
-    rows += coef_row(r"\quad Older cells only (30+)", "older")
-    rows.append(MIDRULE)
-    order = sorted(POOL, key=lambda c: -_pick(did["q5"], f"country_{c}").coef)
+    rows.append(
+        line(
+            r"Post $\times$ High exposure, young cells ($\delta + \theta$)",
+            r,
+            "_young_total",
+            False,
+        )
+    )
+    rows.append(panel(r"By country, sorted by $\delta$"))
+    order = sorted(POOL, key=lambda c: -e.loc[f"country_{c}", "coef"])
     for cc in order:
-        rows += coef_row(NAMES[cc], f"country_{cc}")
-    rows.append(MIDRULE)
-    top, bottom = [f"India, annex (2021Q3--{IND_END})"], [""]
-    for k in cuts:
-        a, b = coef_lines(india[k]["coef"], india[k]["se"], india[k]["n_clusters"])
-        top.append(a)
-        bottom.append(b)
-    top += [int_fmt(india["q5"]["n_cells"]), int_fmt(india["q5"]["n_clusters"])]
-    bottom += ["", ""]
-    rows += [top, bottom]
-    header = [
-        ["", r"\multicolumn{3}{c}{Treated group: top exposure}", "Cells", "Clusters"],
-        ["", "quintile", "tercile", "decile", "", ""],
+        r = e.loc[f"country_{cc}"]
+        rows.append(line(NAMES[cc] + r" ($\delta$)", r, "", True))
+        rows.append(
+            line(r"\quad young cells ($\delta + \theta$)", r, "_young_total", False)
+        )
+    rows.append(panel("Annex"))
+    r = e.loc["country_IND"]
+    rows.append(line(f"India, 2021Q3--{IND_END} ($\\delta$)", r, "", True))
+    rows.append(
+        line(r"\quad young cells ($\delta + \theta$)", r, "_young_total", False)
+    )
+    header = [["", "Coefficient (SE)", "Cells", "Clusters"]]
+    missing = [
+        NAMES[s.replace("country_", "")]
+        for s, r in e.iterrows()
+        if s.startswith("country_") and pd.isna(r["coef_young_total"])
     ]
+    not_identified = (
+        "n.a.: no young cell reaches the 2022 floor in "
+        + ", ".join(missing)
+        + r", so $\theta$ and $\delta + \theta$ are not identified there. "
+        if missing
+        else ""
+    )
     notes = (
-        r"Coefficient $\delta$ on Post $\times$ High in the log of cell employment, where High marks occupations in the top employment-weighted quintile (primary), tercile or decile of the ILO generative-AI exposure score. "
+        r"Each block is one triple-difference regression of log cell employment: "
+        r"$y_{it} = \delta\,\text{Post}_t \times \text{High}_{o} + \theta\,\text{Post}_t \times \text{High}_{o} \times \text{Young}_{a} + \alpha_i + \gamma_{c,a,s,t} + \varepsilon_{it}$, "
+        r"where High marks occupations in the top employment-weighted quintile of the ILO generative-AI exposure score at the country's ISCO digit level and Young marks cells aged 15 to 29. "
+        r"$\delta$ is the post-period effect for cells aged 30 and over, $\theta$ the additional effect for young cells and $\delta + \theta$ the effect for young cells, with its standard error from the same regression re-parameterised with separate older and young treatment dummies. "
         + SPEC_NOTE
         + " "
-        + r"The all-cells row is the triple-difference specification, so its $\delta$ is the effect for older cells and $\theta$ the additional effect for young cells; the young-only and older-only rows re-estimate the model within each age range. "
-        r"Country rows re-estimate the model within the country, sorted by the quintile estimate. Cells and clusters refer to the quintile run; the tercile and decile runs use the same cells. "
-        r"India is estimated separately on its urban sample to 2024Q4, before the PLFS redesign. "
+        r"Country blocks re-estimate the model within the country. "
+        r"India is estimated on its urban sample to 2024Q4, before the PLFS redesign, and is not in the pooled sample. "
+        + not_identified
         + STARS_NOTE
     )
     return table_float(
         "tab:country",
-        r"Post $\times$ high exposure and log employment: three treatment cuts",
-        "lcccrr",
+        r"Post $\times$ high exposure and log employment, pooled and by country",
+        "lcrr",
         header,
         rows,
         notes=notes,
-        header_rules=[r"\cmidrule(lr){2-4}"],
         tabcolsep="5pt",
     )
 
@@ -536,31 +560,14 @@ def main() -> None:
     cells = pd.read_parquet(CELLS_PATH)
     exposure = load_exposure_table()
     cells_summary = pd.read_csv(TABLES / "cells_summary.csv")
-    did = {
-        k: pd.read_csv(TABLES / f)
-        for k, f in [
-            ("q5", "did_log_emp.csv"),
-            ("t3", "did_log_emp_high.csv"),
-            ("d10", "did_log_emp_high_d10.csv"),
-        ]
-    }
     con = duckdb_connect(read_only=True)
     try:
         print("Table 1")
         tab1 = table_surveys(con, cells_summary)
 
-        print("Table 2: India re-estimated")
-        ind_cells = cells[
-            (cells["countrycode"] == "IND") & (cells["period"] <= IND_END)
-        ]
-        ind_frame = event_study_frame(ind_cells, exposure)
-        india = {
-            k: _did(ind_frame, t)
-            for k, t in [("q5", "high_q5"), ("t3", "high"), ("d10", "high_d10")]
-        }
-        for k, v in india.items():
-            print(f"  India {k}: {v['coef']:+.4f} ({v['se']:.4f}) G={v['n_clusters']}")
-        tab2 = table_country(did, india)
+        est = country_estimates(cells, exposure)
+        est.to_csv(TABLES / "country_log_emp.csv", index=False)
+        tab2 = table_country(est)
 
         rob = robustness_estimates(con, cells, exposure)
         rob.to_csv(TABLES / "robust_log_emp.csv", index=False)
