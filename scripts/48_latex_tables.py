@@ -674,11 +674,6 @@ ES_NOTE = (
     r"reference 2022Q4 (dashed line). Cell fixed effects and country $\times$ age group $\times$ sex $\times$ quarter fixed effects; "
     r"weights are mean 2022 cell employment; standard errors clustered by country $\times$ occupation."
 )
-YOUTH_NOTE = (
-    r"Sector $=$ ISIC Rev.\ 4 divisions 62 (computer programming and consultancy), 63 (information services) and 82 (office and business support, including call centres); South Africa 62 only; Mexico ENOE code 5611. "
-    r"For each country the upper panel shows employment in the sector, in its clerical and service occupations (ISCO 4 and 5) and in the whole economy, indexed to 2022, and the lower panel the under-25 share of sector employment against the economy-wide share. "
-    r"Annual averages of quarters; the latest year may be partial. Bolivia (290 sector workers in 2022) and Georgia (92) are too small for the share to be reliable."
-)
 FIGURES_SPEC = [
     dict(
         label="fig:es_pooled",
@@ -716,32 +711,11 @@ FIGURES_SPEC = [
         notes=r"Each panel re-estimates the model within the country; 95 percent bands. Outcome and specification as in the pooled figure. South Africa has 46 clusters and Argentina 31; Mexico contributes first-interview quarters only.",
     ),
     dict(
-        label="fig:youthshare",
-        caption="IT and business-process services: employment and under-25 share, annual averages (Argentina to Georgia)",
-        panels=[("itbpo_by_country_p1.png", None)],
-        width=r"0.85\textwidth",
-        notes=YOUTH_NOTE,
-    ),
-    dict(
-        label="fig:youthshare_b",
-        caption="IT and business-process services: employment and under-25 share, annual averages (Mexico to Uruguay, and India)",
-        panels=[("itbpo_by_country_p2.png", None)],
-        width=r"0.85\textwidth",
-        notes=YOUTH_NOTE,
-    ),
-    dict(
         label="fig:itbpo_quarterly",
         caption="IT and business-process services, quarterly, countries with sufficient sector sample",
         panels=[("itbpo_quarterly_portrait.png", None)],
         width=r"0.9\textwidth",
         notes=r"Brazil, Colombia, the Philippines, India and Uruguay, and a pooled series over Brazil, Colombia, the Philippines and Uruguay for quarters where all four are observed (India is left out of the pool: its block is four times the others combined and its sample design changes in 2025). Dashed line at 2022Q4. India before 2025Q2 is first-visit records only.",
-    ),
-    dict(
-        label="fig:phl",
-        caption="Philippines: the harmonised LFS against recent official and industry tabulations",
-        panels=[("phl_sector_leading_portrait.png", None)],
-        width=r"0.8\textwidth",
-        notes=r"Top: PSA OpenSTAT monthly employment by industry section (J information and communication; N administrative and support, which contains call centres) against the same sections in the harmonised LFS. Middle: the ISIC 62, 63 and 82 block from the harmonised LFS against IBPAP's end-year full-time headcount for the IT-BPM industry (2021 to 2025; 2026 and 2027 forecasts hollow). Bottom: the under-25 share of the block by quarter. All series indexed to 2022 $=$ 100 except the share.",
     ),
     dict(
         label="fig:split",
