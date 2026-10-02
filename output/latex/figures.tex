@@ -21,35 +21,39 @@
 
 \begin{figure}[htbp]
 \centering
-\subfloat[Cells aged 15--29]{\includegraphics[width=0.49\textwidth]{\tabfig/es_new_hire_share_young.png}}
-\hfill
-\subfloat[All cells]{\includegraphics[width=0.49\textwidth]{\tabfig/es_new_hire_share_all.png}}
-\caption{Event-study coefficients, new-hire share}
+\includegraphics[width=0.8\textwidth]{\tabfig/es_new_hire_share_all.png}
+\caption{Event-study coefficients, new-hire share, all cells}
 \label{fig:newhire}
-\floatfoot{\footnotesize \textit{Notes:} Outcome: weighted share of employed persons in the cell who started their current job within the previous twelve months, in share points. Seven countries with a tenure question: Brazil, Colombia, Ecuador, Argentina, South Africa (all quarters), Uruguay (first interviews) and Mexico (first-interview quarters). Coefficients $\beta_k$ on 1[quarter $= k$] $\times$ High (top exposure quintile) with 95 percent confidence bands; reference 2022Q4 (dashed line). Cell fixed effects and country $\times$ age group $\times$ sex $\times$ quarter fixed effects; weights are mean 2022 cell employment; standard errors clustered by country $\times$ occupation.}
+\floatfoot{\footnotesize \textit{Notes:} Outcome: weighted share of employed persons in the cell who started their current job within the previous twelve months, in share points. Seven countries with a tenure question: Brazil, Colombia, Ecuador, Argentina, South Africa (all quarters), Uruguay (first interviews) and Mexico (first-interview quarters). Coefficients $\beta_k$ on 1[quarter $= k$] $\times$ High (top exposure quintile) with 95 percent confidence bands; reference 2022Q4 (dashed line). Cell fixed effects and country $\times$ age group $\times$ sex $\times$ quarter fixed effects; weights are mean 2022 cell employment; standard errors clustered by country $\times$ occupation. The quarter coefficients average to the difference-in-differences estimate in Table~\ref{tab:newhire}.}
 \end{figure}
 
 \begin{figure}[htbp]
 \centering
-\subfloat[Cells aged 15--29]{\includegraphics[width=\textwidth]{\tabfig/es_new_hire_share_panel_country_young.png}}
-\\
-\subfloat[All cells]{\includegraphics[width=\textwidth]{\tabfig/es_new_hire_share_panel_country.png}}
-\caption{New-hire share event study by country}
+\includegraphics[width=\textwidth]{\tabfig/es_new_hire_share_panel_country.png}
+\caption{New-hire share event study by country, all cells}
 \label{fig:newhire_country}
-\floatfoot{\footnotesize \textit{Notes:} Each panel re-estimates the model within the country; 95 percent bands. South Africa has 8 clusters and Argentina 13, so their bands are wide.}
+\floatfoot{\footnotesize \textit{Notes:} Each panel re-estimates the model within the country; 95 percent bands. Outcome and specification as in the pooled figure. South Africa has 46 clusters and Argentina 31; Mexico contributes first-interview quarters only.}
 \end{figure}
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=\textwidth]{\tabfig/itbpo_by_country.png}
-\caption{IT and business-process services: employment and under-25 share, annual averages}
+\includegraphics[width=0.85\textwidth]{\tabfig/itbpo_by_country_p1.png}
+\caption{IT and business-process services: employment and under-25 share, annual averages (Brazil to Peru)}
 \label{fig:youthshare}
-\floatfoot{\footnotesize \textit{Notes:} Sector $=$ ISIC Rev.\ 4 divisions 62 (computer programming and consultancy), 63 (information services) and 82 (office and business support, including call centres); South Africa 62 only; Mexico ENOE code 5611. Top row: employment in the sector, in its clerical and service occupations (ISCO 4 and 5) and in the whole economy, indexed to 2022. Bottom row: under-25 share of sector employment against the economy-wide share. Annual averages of quarters; the latest year may be partial. Bolivia (290 sector workers in 2022) and Georgia (92) are too small for the share to be reliable.}
+\floatfoot{\footnotesize \textit{Notes:} Sector $=$ ISIC Rev.\ 4 divisions 62 (computer programming and consultancy), 63 (information services) and 82 (office and business support, including call centres); South Africa 62 only; Mexico ENOE code 5611. For each country the upper panel shows employment in the sector, in its clerical and service occupations (ISCO 4 and 5) and in the whole economy, indexed to 2022, and the lower panel the under-25 share of sector employment against the economy-wide share. Annual averages of quarters; the latest year may be partial. Bolivia (290 sector workers in 2022) and Georgia (92) are too small for the share to be reliable.}
 \end{figure}
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=\textwidth]{\tabfig/itbpo_quarterly.png}
+\includegraphics[width=0.85\textwidth]{\tabfig/itbpo_by_country_p2.png}
+\caption{IT and business-process services: employment and under-25 share, annual averages (Uruguay to India)}
+\label{fig:youthshare_b}
+\floatfoot{\footnotesize \textit{Notes:} Sector $=$ ISIC Rev.\ 4 divisions 62 (computer programming and consultancy), 63 (information services) and 82 (office and business support, including call centres); South Africa 62 only; Mexico ENOE code 5611. For each country the upper panel shows employment in the sector, in its clerical and service occupations (ISCO 4 and 5) and in the whole economy, indexed to 2022, and the lower panel the under-25 share of sector employment against the economy-wide share. Annual averages of quarters; the latest year may be partial. Bolivia (290 sector workers in 2022) and Georgia (92) are too small for the share to be reliable.}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.9\textwidth]{\tabfig/itbpo_quarterly_portrait.png}
 \caption{IT and business-process services, quarterly, countries with sufficient sector sample}
 \label{fig:itbpo_quarterly}
 \floatfoot{\footnotesize \textit{Notes:} Brazil, Colombia, the Philippines, India and Uruguay, and a pooled series over Brazil, Colombia, the Philippines and Uruguay for quarters where all four are observed (India is left out of the pool: its block is four times the others combined and its sample design changes in 2025). Dashed line at 2022Q4. India before 2025Q2 is first-visit records only.}
@@ -57,10 +61,10 @@
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=\textwidth]{\tabfig/phl_sector_leading.png}
+\includegraphics[width=0.8\textwidth]{\tabfig/phl_sector_leading_portrait.png}
 \caption{Philippines: the harmonised LFS against recent official and industry tabulations}
 \label{fig:phl}
-\floatfoot{\footnotesize \textit{Notes:} Left: PSA OpenSTAT monthly employment by industry section (J information and communication; N administrative and support, which contains call centres) against the same sections in the harmonised LFS. Centre: the ISIC 62, 63 and 82 block from the harmonised LFS against IBPAP's end-year full-time headcount for the IT-BPM industry (2021 to 2025; 2026 and 2027 forecasts hollow). Right: the under-25 share of the block by quarter.}
+\floatfoot{\footnotesize \textit{Notes:} Top: PSA OpenSTAT monthly employment by industry section (J information and communication; N administrative and support, which contains call centres) against the same sections in the harmonised LFS. Middle: the ISIC 62, 63 and 82 block from the harmonised LFS against IBPAP's end-year full-time headcount for the IT-BPM industry (2021 to 2025; 2026 and 2027 forecasts hollow). Bottom: the under-25 share of the block by quarter. All series indexed to 2022 $=$ 100 except the share.}
 \end{figure}
 
 \begin{figure}[htbp]

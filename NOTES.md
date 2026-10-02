@@ -82,9 +82,20 @@ added 2 Oct) is the plain DiD on the new-hire share, all cells, pooled
 (-0.007, SE 0.002) and for the seven tenure countries, no youth
 interaction (decision: the young-cell share is a weak hiring measure
 because young cells turn over fast; use the all-cells result only).
-Table 4 (treatment cut, continuous score, 2-digit cells, small cells kept,
+Layout decisions 2 Oct: robustness table is annex Table A1 (tab:robust,
+table_float(annex=True) switches numbering; input it last); the sector
+table is portrait with SE stacked; figures show all-cells results only
+for the new-hire share; the IT-BPO country figure is split into two
+portrait pages (itbpo_by_country_p1/_p2.png, six countries each), the
+quarterly and Philippines figures have portrait variants
+(43_itbpo_sector.py, 45_phl_sector_leading.py --from-csv redraws without
+the network). Numbering now: Tables 1 surveys, 2 country, 3 newhire,
+4 sector, A1 robust; Figures 1 es_pooled, 2 index, 3 newhire,
+4 newhire_country, 5-6 youthshare, 7 itbpo_quarterly, 8 phl, 9 split,
+10 es_country, 11 india.
+Table A1 (treatment cut, continuous score, 2-digit cells, small cells kept,
 urban only, social-security contributors only, 2022-vs-2021 placebo,
-leave-one-out) and Table 5 (sector DiD on country x quarter x industry
+leave-one-out) and Table 4 (sector DiD on country x quarter x industry
 group x sex cells, `lfspanel.sector`; IT-BPO against finance, professional
 services and public administration; outcomes log employment, 15-29 and
 under-25 shares, clerical share and log clerical employment) are estimated
@@ -101,7 +112,7 @@ control group. Alternative exposure indices stay out (no SOC-ISCO crosswalk).
 1. Paper repo: pull, create lfs-paper/tab_fig/v1/, copy the four
    fragments from output/latex/ plus the figures, set the \tabfig macros,
    compile, commit and push. Then replace the outline bullets with prose
-   (Table 5 now gives the identified sector result for section 6).
+   (Table 4 now gives the identified sector result for section 6).
 2. Eurostat: watch for the decision; on approval, set up the S-CIRCABC
    delivery and the confidentiality declarations.
 3. Paper: verify the 11 CHECK entries in references.bib; fix JEL codes

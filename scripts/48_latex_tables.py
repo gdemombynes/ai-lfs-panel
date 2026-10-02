@@ -4,8 +4,8 @@
     python scripts/48_latex_tables.py [--no-check]
 
 Writes output/latex/tab_surveys.tex (Table 1), tab_country.tex (Table 2),
-tab_newhire.tex (Table 3), tab_robust.tex (Table 4), tab_sector.tex (Table 5)
-and figures.tex (every
+tab_newhire.tex (Table 3), tab_sector.tex (Table 4), tab_robust.tex (annex
+Table A1, input after the main tables) and figures.tex (every
 figure float, images referenced as \\tabfig/<file> and copied from
 output/figures/ next to it), plus the estimates
 behind Tables 3 and 4 as output/tables/robust_log_emp.csv and
@@ -454,11 +454,11 @@ def table_newhire(est: pd.DataFrame) -> str:
     )
 
 
-# ------------------------------------------------------------------ Table 4
+# ------------------------------------------------------------------ Table A1 (annex)
 def robustness_estimates(
     con, cells: pd.DataFrame, exposure: pd.DataFrame
 ) -> pd.DataFrame:
-    """Every row of Table 4 as a record: label, group, estimates and counts."""
+    """Every row of Table A1 as a record: label, group, estimates and counts."""
     base_cells = cells[cells["countrycode"].isin(POOL)]
     frame = event_study_frame(base_cells, exposure)
     records: List[Dict[str, object]] = []
@@ -473,7 +473,7 @@ def robustness_estimates(
             f"  {group:12s} {label:48s} {rec['coef']:+.4f} ({rec['se']:.4f})  cells={rec['n_cells']:,} G={rec['n_clusters']}"
         )
 
-    print("Table 4: treatment definition")
+    print("Table A1: treatment definition")
     add("treatment", "Top quintile (baseline)", frame)
     add("treatment", "Top tercile", frame, "high")
     add("treatment", "Top decile", frame, "high_d10")
@@ -481,7 +481,7 @@ def robustness_estimates(
     cont = frame.assign(score_sd=frame["score_w"] / sd)
     add("treatment", "Continuous score (per standard deviation)", cont, "score_sd")
 
-    print("Table 4: cells and sample")
+    print("Table A1: cells and sample")
     two = event_study_frame(aggregate_cells(base_cells, 2), exposure)
     add("sample", "Two-digit cells for every country", two)
     add(
@@ -499,7 +499,7 @@ def robustness_estimates(
     records[-1]["countries"] = ",".join(formal_ccs)
     add("sample", "Placebo: 2022 against 2021, pre-period only", placebo_frame(frame))
 
-    print("Table 4: leave one country out")
+    print("Table A1: leave one country out")
     for cc in POOL:
         add("loo", f"Without {NAMES[cc]}", frame[frame["countrycode"] != cc])
     return pd.DataFrame(records)
@@ -559,16 +559,17 @@ def table_robust(rob: pd.DataFrame) -> str:
         notes=notes,
         size=r"\scriptsize",
         tabcolsep="5pt",
+        annex=True,
     )
 
 
-# ------------------------------------------------------------------ Table 5
+# ------------------------------------------------------------------ Table 4
 OUTCOMES = [
-    ("log_emp", ("Log", "employment")),
-    ("young_share", ("Share", "aged 15--29")),
+    ("log_emp", ("Log", "employ.")),
+    ("young_share", ("Share", "15--29")),
     ("u25_share", ("Share", "under 25")),
-    ("cler_share", ("Clerical and", "service share")),
-    ("log_cler_emp", ("Log clerical and", "service employment")),
+    ("cler_share", ("Clerical", "share")),
+    ("log_cler_emp", ("Log clerical", "employ.")),
 ]
 
 
@@ -595,22 +596,22 @@ def sector_estimates(scells: pd.DataFrame) -> pd.DataFrame:
             f"  {label:52s} log_emp {rec['log_emp_coef']:+.3f} ({rec['log_emp_se']:.3f})  young {rec['young_share_coef']:+.4f} ({rec['young_share_se']:.4f})  G={rec['log_emp_n_clusters']}"
         )
 
-    print("Table 5: sector difference in differences")
+    print("Table 4: sector difference in differences")
     pool = scells[scells["countrycode"].isin(POOL)]
     add("sample", "Eleven countries", pool)
     ind = scells[(scells["countrycode"] == "IND") & (scells["period"] <= IND_END)]
-    add("sample", f"Eleven countries plus India (to {IND_END})", pd.concat([pool, ind]))
+    add("sample", f"Plus India (to {IND_END})", pd.concat([pool, ind]))
     add(
         "sample",
-        "Without South Africa and Mexico",
+        "Without South Africa, Mexico",
         pool[~pool["countrycode"].isin(["ZAF", "MEX"])],
     )
-    add("controls", "Finance and insurance only", pool, ("finance",))
-    add("controls", "Professional and technical services only", pool, ("profserv",))
-    add("controls", "Public administration only", pool, ("pubadmin",))
+    add("controls", "Finance and insurance", pool, ("finance",))
+    add("controls", "Professional services", pool, ("profserv",))
+    add("controls", "Public administration", pool, ("pubadmin",))
     add(
         "exporters",
-        "Brazil, Colombia and the Philippines",
+        "Brazil, Colombia, Philippines",
         pool[pool["countrycode"].isin(EXPORTERS)],
     )
     add(
@@ -622,8 +623,8 @@ def sector_estimates(scells: pd.DataFrame) -> pd.DataFrame:
 def table_sector(sec: pd.DataFrame) -> str:
     rows: List[Sequence[str]] = []
     titles = {
-        "sample": "Panel A. Sample (controls: finance, professional services, public administration)",
-        "controls": "Panel B. Control industries (eleven countries)",
+        "sample": "Panel A. Sample (all three control industries)",
+        "controls": "Panel B. One control industry (eleven countries)",
         "exporters": "Panel C. Exporters and others",
     }
     for group, title in titles.items():
@@ -644,13 +645,13 @@ def table_sector(sec: pd.DataFrame) -> str:
             bottom += ["", ""]
             rows += [top, bottom]
     header = [
-        [""] + [top for _, (top, _) in OUTCOMES] + ["Cells", "Clusters"],
-        [""] + [bottom for _, (_, bottom) in OUTCOMES] + ["", ""],
+        [""] + [top for _, (top, _) in OUTCOMES] + ["Cells", "Clus-"],
+        [""] + [bottom for _, (_, bottom) in OUTCOMES] + ["", "ters"],
     ]
     notes = (
         r"Coefficient on Post $\times$ IT-BPO in sector cells (country $\times$ quarter $\times$ industry group $\times$ sex). "
         r"The treated group is IT and business-process services, ISIC Rev.\ 4 divisions 62, 63 and 82 (South Africa 62 only; Mexico ENOE code 5611); controls are finance and insurance (64--66), professional, scientific and technical services (69--75) and public administration (84). "
-        r"Shares are weighted fractions of the cell's employment; clerical and service occupations are ISCO-08 major groups 4 and 5. "
+        r"Shares are weighted fractions of the cell's employment; clerical means clerical, service and sales occupations, ISCO-08 major groups 4 and 5. "
         r"Post $=1$ from 2023Q1 onward. Cell fixed effects and country $\times$ sex $\times$ quarter fixed effects; weights are mean 2022 cell employment; cells enter when their mean unweighted 2022 count reaches 30. "
         r"Cells and clusters refer to the log employment column; standard errors are clustered by country $\times$ industry group. "
         r"$^{*}$ $p<0.10$, $^{**}$ $p<0.05$, $^{***}$ $p<0.01$ from the cluster-robust $t$ statistic with $G-1$ degrees of freedom."
@@ -662,8 +663,8 @@ def table_sector(sec: pd.DataFrame) -> str:
         header,
         rows,
         notes=notes,
-        size=r"\scriptsize",
-        landscape=True,
+        size=r"\footnotesize",
+        tabcolsep="3pt",
     )
 
 
@@ -672,6 +673,11 @@ ES_NOTE = (
     r"Coefficients $\beta_k$ on 1[quarter $= k$] $\times$ High (top exposure quintile) with 95 percent confidence bands; "
     r"reference 2022Q4 (dashed line). Cell fixed effects and country $\times$ age group $\times$ sex $\times$ quarter fixed effects; "
     r"weights are mean 2022 cell employment; standard errors clustered by country $\times$ occupation."
+)
+YOUTH_NOTE = (
+    r"Sector $=$ ISIC Rev.\ 4 divisions 62 (computer programming and consultancy), 63 (information services) and 82 (office and business support, including call centres); South Africa 62 only; Mexico ENOE code 5611. "
+    r"For each country the upper panel shows employment in the sector, in its clerical and service occupations (ISCO 4 and 5) and in the whole economy, indexed to 2022, and the lower panel the under-25 share of sector employment against the economy-wide share. "
+    r"Annual averages of quarters; the latest year may be partial. Bolivia (290 sector workers in 2022) and Georgia (92) are too small for the share to be reliable."
 )
 FIGURES_SPEC = [
     dict(
@@ -695,47 +701,47 @@ FIGURES_SPEC = [
     ),
     dict(
         label="fig:newhire",
-        caption="Event-study coefficients, new-hire share",
-        panels=[
-            ("es_new_hire_share_young.png", "Cells aged 15--29"),
-            ("es_new_hire_share_all.png", "All cells"),
-        ],
-        width=r"0.49\textwidth",
-        per_row=2,
+        caption="Event-study coefficients, new-hire share, all cells",
+        panels=[("es_new_hire_share_all.png", None)],
+        width=r"0.8\textwidth",
         notes=r"Outcome: weighted share of employed persons in the cell who started their current job within the previous twelve months, in share points. Seven countries with a tenure question: Brazil, Colombia, Ecuador, Argentina, South Africa (all quarters), Uruguay (first interviews) and Mexico (first-interview quarters). "
-        + ES_NOTE,
+        + ES_NOTE
+        + r" The quarter coefficients average to the difference-in-differences estimate in Table~\ref{tab:newhire}.",
     ),
     dict(
         label="fig:newhire_country",
-        caption="New-hire share event study by country",
-        panels=[
-            ("es_new_hire_share_panel_country_young.png", "Cells aged 15--29"),
-            ("es_new_hire_share_panel_country.png", "All cells"),
-        ],
+        caption="New-hire share event study by country, all cells",
+        panels=[("es_new_hire_share_panel_country.png", None)],
         width=r"\textwidth",
-        per_row=1,
-        notes=r"Each panel re-estimates the model within the country; 95 percent bands. South Africa has 8 clusters and Argentina 13, so their bands are wide.",
+        notes=r"Each panel re-estimates the model within the country; 95 percent bands. Outcome and specification as in the pooled figure. South Africa has 46 clusters and Argentina 31; Mexico contributes first-interview quarters only.",
     ),
     dict(
         label="fig:youthshare",
-        caption="IT and business-process services: employment and under-25 share, annual averages",
-        panels=[("itbpo_by_country.png", None)],
-        width=r"\textwidth",
-        notes=r"Sector $=$ ISIC Rev.\ 4 divisions 62 (computer programming and consultancy), 63 (information services) and 82 (office and business support, including call centres); South Africa 62 only; Mexico ENOE code 5611. Top row: employment in the sector, in its clerical and service occupations (ISCO 4 and 5) and in the whole economy, indexed to 2022. Bottom row: under-25 share of sector employment against the economy-wide share. Annual averages of quarters; the latest year may be partial. Bolivia (290 sector workers in 2022) and Georgia (92) are too small for the share to be reliable.",
+        caption="IT and business-process services: employment and under-25 share, annual averages (Brazil to Peru)",
+        panels=[("itbpo_by_country_p1.png", None)],
+        width=r"0.85\textwidth",
+        notes=YOUTH_NOTE,
+    ),
+    dict(
+        label="fig:youthshare_b",
+        caption="IT and business-process services: employment and under-25 share, annual averages (Uruguay to India)",
+        panels=[("itbpo_by_country_p2.png", None)],
+        width=r"0.85\textwidth",
+        notes=YOUTH_NOTE,
     ),
     dict(
         label="fig:itbpo_quarterly",
         caption="IT and business-process services, quarterly, countries with sufficient sector sample",
-        panels=[("itbpo_quarterly.png", None)],
-        width=r"\textwidth",
+        panels=[("itbpo_quarterly_portrait.png", None)],
+        width=r"0.9\textwidth",
         notes=r"Brazil, Colombia, the Philippines, India and Uruguay, and a pooled series over Brazil, Colombia, the Philippines and Uruguay for quarters where all four are observed (India is left out of the pool: its block is four times the others combined and its sample design changes in 2025). Dashed line at 2022Q4. India before 2025Q2 is first-visit records only.",
     ),
     dict(
         label="fig:phl",
         caption="Philippines: the harmonised LFS against recent official and industry tabulations",
-        panels=[("phl_sector_leading.png", None)],
-        width=r"\textwidth",
-        notes=r"Left: PSA OpenSTAT monthly employment by industry section (J information and communication; N administrative and support, which contains call centres) against the same sections in the harmonised LFS. Centre: the ISIC 62, 63 and 82 block from the harmonised LFS against IBPAP's end-year full-time headcount for the IT-BPM industry (2021 to 2025; 2026 and 2027 forecasts hollow). Right: the under-25 share of the block by quarter.",
+        panels=[("phl_sector_leading_portrait.png", None)],
+        width=r"0.8\textwidth",
+        notes=r"Top: PSA OpenSTAT monthly employment by industry section (J information and communication; N administrative and support, which contains call centres) against the same sections in the harmonised LFS. Middle: the ISIC 62, 63 and 82 block from the harmonised LFS against IBPAP's end-year full-time headcount for the IT-BPM industry (2021 to 2025; 2026 and 2027 forecasts hollow). Bottom: the under-25 share of the block by quarter. All series indexed to 2022 $=$ 100 except the share.",
     ),
     dict(
         label="fig:split",
@@ -813,7 +819,7 @@ def main() -> None:
 
         rob = robustness_estimates(con, cells, exposure)
         rob.to_csv(TABLES / "robust_log_emp.csv", index=False)
-        tab4 = table_robust(rob)
+        tab5 = table_robust(rob)
 
         scells = build_sector_cells(con)
         SECTOR_CELLS_PATH.parent.mkdir(parents=True, exist_ok=True)
@@ -832,7 +838,7 @@ def main() -> None:
         con.close()
     sec = sector_estimates(scells)
     sec.to_csv(TABLES / "sector_did.csv", index=False)
-    tab5 = table_sector(sec)
+    tab4 = table_sector(sec)
 
     figs, used = figures_fragment()
     for name in used:
@@ -841,8 +847,8 @@ def main() -> None:
         write_fragment(LATEX / "tab_surveys.tex", tab1),
         write_fragment(LATEX / "tab_country.tex", tab2),
         write_fragment(LATEX / "tab_newhire.tex", tab3),
-        write_fragment(LATEX / "tab_robust.tex", tab4),
-        write_fragment(LATEX / "tab_sector.tex", tab5),
+        write_fragment(LATEX / "tab_sector.tex", tab4),
+        write_fragment(LATEX / "tab_robust.tex", tab5),  # annex: numbered A1
         write_fragment(LATEX / "figures.tex", figs),
     ]
     for p in paths:

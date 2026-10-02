@@ -9,7 +9,8 @@ block from the harmonised LFS, quarterly; and IBPAP's annual full-time
 headcount for the IT-BPM industry. Everything indexed to 2022 = 100.
 
 Writes output/tables/phl_sector_leading.csv and
-output/figures/phl_sector_leading.png.
+output/figures/phl_sector_leading.png (and a stacked _portrait variant);
+``--from-csv`` redraws both from the saved csv without fetching.
 """
 
 from __future__ import annotations
@@ -110,7 +111,148 @@ def panel_series() -> pd.DataFrame:
     return df
 
 
+def plot(
+    monthly: pd.DataFrame, lfs: pd.DataFrame, ib: pd.DataFrame, path, tall: bool = False
+) -> None:
+    """Three panels side by side (default) or stacked (``tall``) for a portrait page."""
+    if tall:
+        fig, axes = plt.subplots(3, 1, figsize=(8, 10.5))
+    else:
+        fig, axes = plt.subplots(1, 3, figsize=(15, 4.6))
+    fs_leg, fs_title = (8, 10) if tall else (6.5, 9)
+    ax = axes[0]
+    t = monthly.copy()
+    t["x"] = t["year"] + (t["month"] - 1) / 12
+    ax.plot(
+        t["x"],
+        t["N_admin_support_idx"],
+        color="#dd8452",
+        lw=1,
+        label="PSA monthly: section N admin. and support",
+    )
+    ax.plot(
+        t["x"],
+        t["J_info_comm_idx"],
+        color="#4c72b0",
+        lw=1,
+        label="PSA monthly: section J information and communication",
+    )
+    ax.plot(
+        t["x"], t["total_idx"], color="grey", lw=1, label="PSA monthly: all employment"
+    )
+    q = lfs.copy()
+    q["x"] = (
+        q["period"].str[:4].astype(int)
+        + (q["period"].str[-1].astype(int) - 1) / 4
+        + 0.125
+    )
+    ax.plot(
+        q["x"],
+        q["N_admin_support_idx"],
+        "s",
+        color="#dd8452",
+        ms=4,
+        label="harmonised LFS: section N",
+    )
+    ax.plot(
+        q["x"],
+        q["J_info_comm_idx"],
+        "s",
+        color="#4c72b0",
+        ms=4,
+        label="harmonised LFS: section J",
+    )
+    ax.axhline(100, color="grey", lw=0.6)
+    ax.axvline(2022.75, color="grey", ls="--", lw=0.8)
+    ax.set_title(
+        "Industry sections, PSA monthly vs harmonised quarterly", fontsize=fs_title
+    )
+    ax.set_ylabel("2022 = 100")
+    ax.legend(fontsize=fs_leg)
+    ax = axes[1]
+    ax.plot(
+        q["x"],
+        q["itbpo_idx"],
+        "o-",
+        ms=3,
+        label="harmonised LFS: ISIC 62+63+82, quarterly",
+    )
+    ax.plot(
+        ib.loc[~ib.forecast, "year"] + 0.5,
+        ib.loc[~ib.forecast, "idx"],
+        "D-",
+        color="#c44e52",
+        ms=5,
+        label="IBPAP full-time headcount, end-year",
+    )
+    ax.plot(
+        ib.loc[ib.forecast, "year"] + 0.5,
+        ib.loc[ib.forecast, "idx"],
+        "D--",
+        color="#c44e52",
+        ms=5,
+        mfc="white",
+        label="IBPAP forecast (2026, 2027)",
+    )
+    ax.plot(t["x"], t["total_idx"], color="grey", lw=1, label="all employment (PSA)")
+    ax.axhline(100, color="grey", lw=0.6)
+    ax.axvline(2022.75, color="grey", ls="--", lw=0.8)
+    ax.set_title("IT-BPO block vs industry headcount", fontsize=fs_title)
+    ax.legend(fontsize=fs_leg)
+    ax = axes[2]
+    ax.plot(
+        q["x"],
+        q["itbpo_u25"],
+        "o-",
+        ms=3,
+        label="under-25 share, ISIC 62+63+82 (harmonised LFS)",
+    )
+    ax.axvline(2022.75, color="grey", ls="--", lw=0.8)
+    ax.set_ylim(0, 30)
+    ax.set_title("Youth share of the IT-BPO block, quarterly", fontsize=fs_title)
+    ax.set_ylabel("percent")
+    ax.legend(fontsize=fs_leg)
+    fig.suptitle(
+        "Philippines: IT and business-process employment in recent tabulations",
+        fontsize=11,
+    )
+    fig.tight_layout()
+    fig.savefig(path, dpi=140)
+    plt.close(fig)
+
+
+def from_csv(path):
+    """Rebuild the three frames from a saved phl_sector_leading.csv (no network)."""
+    saved = pd.read_csv(path)
+    monthly = saved[saved["source"] == "PSA OpenSTAT monthly"].copy()
+    lfs = saved[saved["source"] == "harmonised LFS quarterly"].copy()
+    ib = saved[saved["source"] == "IBPAP annual headcount"].copy()
+    ib["forecast"] = ib["forecast"].astype(bool)
+    return monthly, lfs, ib
+
+
 def main() -> None:
+    import argparse
+
+    ap = argparse.ArgumentParser(description=__doc__)
+    ap.add_argument(
+        "--from-csv",
+        action="store_true",
+        help="redraw the figures from output/tables/phl_sector_leading.csv",
+    )
+    args = ap.parse_args()
+    if args.from_csv:
+        monthly, lfs, ib = from_csv(OUTPUT / "tables" / "phl_sector_leading.csv")
+        plot(monthly, lfs, ib, OUTPUT / "figures" / "phl_sector_leading.png")
+        plot(
+            monthly,
+            lfs,
+            ib,
+            OUTPUT / "figures" / "phl_sector_leading_portrait.png",
+            tall=True,
+        )
+        print("redrawn from csv")
+        return
     ps = fetch_openstat()
     monthly = ps.pivot_table(
         index=["year", "month", "period"], columns="series", values="thousands"
@@ -159,104 +301,14 @@ def main() -> None:
     )
     out.round(2).to_csv(tables / "phl_sector_leading.csv", index=False)
 
-    fig, axes = plt.subplots(1, 3, figsize=(15, 4.6))
-    ax = axes[0]
-    t = monthly.copy()
-    t["x"] = t["year"] + (t["month"] - 1) / 12
-    ax.plot(
-        t["x"],
-        t["N_admin_support_idx"],
-        color="#dd8452",
-        lw=1,
-        label="PSA monthly: section N admin. and support",
+    plot(monthly, lfs, ib, OUTPUT / "figures" / "phl_sector_leading.png")
+    plot(
+        monthly,
+        lfs,
+        ib,
+        OUTPUT / "figures" / "phl_sector_leading_portrait.png",
+        tall=True,
     )
-    ax.plot(
-        t["x"],
-        t["J_info_comm_idx"],
-        color="#4c72b0",
-        lw=1,
-        label="PSA monthly: section J information and communication",
-    )
-    ax.plot(
-        t["x"], t["total_idx"], color="grey", lw=1, label="PSA monthly: all employment"
-    )
-    q = lfs.copy()
-    q["x"] = (
-        q["period"].str[:4].astype(int)
-        + (q["period"].str[-1].astype(int) - 1) / 4
-        + 0.125
-    )
-    ax.plot(
-        q["x"],
-        q["N_admin_support_idx"],
-        "s",
-        color="#dd8452",
-        ms=4,
-        label="harmonised LFS: section N",
-    )
-    ax.plot(
-        q["x"],
-        q["J_info_comm_idx"],
-        "s",
-        color="#4c72b0",
-        ms=4,
-        label="harmonised LFS: section J",
-    )
-    ax.axhline(100, color="grey", lw=0.6)
-    ax.axvline(2022.75, color="grey", ls="--", lw=0.8)
-    ax.set_title("Industry sections, PSA monthly vs harmonised quarterly", fontsize=9)
-    ax.set_ylabel("2022 = 100")
-    ax.legend(fontsize=6.5)
-    ax = axes[1]
-    ax.plot(
-        q["x"],
-        q["itbpo_idx"],
-        "o-",
-        ms=3,
-        label="harmonised LFS: ISIC 62+63+82, quarterly",
-    )
-    ax.plot(
-        ib.loc[~ib.forecast, "year"] + 0.5,
-        ib.loc[~ib.forecast, "idx"],
-        "D-",
-        color="#c44e52",
-        ms=5,
-        label="IBPAP full-time headcount, end-year",
-    )
-    ax.plot(
-        ib.loc[ib.forecast, "year"] + 0.5,
-        ib.loc[ib.forecast, "idx"],
-        "D--",
-        color="#c44e52",
-        ms=5,
-        mfc="white",
-        label="IBPAP forecast (2026, 2027)",
-    )
-    ax.plot(t["x"], t["total_idx"], color="grey", lw=1, label="all employment (PSA)")
-    ax.axhline(100, color="grey", lw=0.6)
-    ax.axvline(2022.75, color="grey", ls="--", lw=0.8)
-    ax.set_title("IT-BPO block vs industry headcount", fontsize=9)
-    ax.legend(fontsize=6.5)
-    ax = axes[2]
-    ax.plot(
-        q["x"],
-        q["itbpo_u25"],
-        "o-",
-        ms=3,
-        label="under-25 share, ISIC 62+63+82 (harmonised LFS)",
-    )
-    ax.axvline(2022.75, color="grey", ls="--", lw=0.8)
-    ax.set_ylim(0, 30)
-    ax.set_title("Youth share of the IT-BPO block, quarterly", fontsize=9)
-    ax.set_ylabel("percent")
-    ax.legend(fontsize=6.5)
-    fig.suptitle(
-        "Philippines: IT and business-process employment in recent tabulations",
-        fontsize=11,
-    )
-    fig.tight_layout()
-    fig.savefig(OUTPUT / "figures" / "phl_sector_leading.png", dpi=140)
-    plt.close(fig)
     last = monthly.sort_values(["year", "month"]).tail(1).iloc[0]
     print(
         f"PSA latest: {int(last.year)}-{int(last.month):02d}; N idx {last.N_admin_support_idx:.0f}, J idx {last.J_info_comm_idx:.0f}"
