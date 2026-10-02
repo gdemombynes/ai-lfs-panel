@@ -50,7 +50,6 @@ from lfspanel.latex import (
     write_fragment,
 )
 from lfspanel.sector import (
-    CONTROLS,
     SECTOR_CELLS_PATH,
     build_sector_cells,
     sector_frame,
@@ -565,106 +564,98 @@ def table_robust(rob: pd.DataFrame) -> str:
 
 # ------------------------------------------------------------------ Table 4
 OUTCOMES = [
-    ("log_emp", ("Log", "employ.")),
-    ("young_share", ("Share", "15--29")),
-    ("u25_share", ("Share", "under 25")),
-    ("cler_share", ("Clerical", "share")),
-    ("log_cler_emp", ("Log clerical", "employ.")),
+    ("log_emp", "Log employment", 3),
+    ("young_share", "Share aged 15--29", 4),
 ]
 
 
 def sector_estimates(scells: pd.DataFrame) -> pd.DataFrame:
+    """Sector difference in differences, pooled and within each country."""
     records: List[Dict[str, object]] = []
+    pool = scells[scells["countrycode"].isin(POOL)]
 
-    def add(
-        group: str, label: str, sub: pd.DataFrame, controls: Sequence[str] = CONTROLS
-    ) -> None:
-        fr = sector_frame(sub, controls=controls)
-        rec: Dict[str, object] = {
-            "group": group,
-            "label": label,
-            "controls": "+".join(controls),
-        }
-        for outcome, _ in OUTCOMES:
-            d = estimate_did(fr, outcome=outcome, treat="treated").iloc[0]
-            rec[f"{outcome}_coef"] = float(d.coef)
-            rec[f"{outcome}_se"] = float(d.se)
-            rec[f"{outcome}_n_cells"] = int(d.n_cells)
-            rec[f"{outcome}_n_clusters"] = int(d.n_clusters)
+    def add(subset: str, sub: pd.DataFrame) -> None:
+        fr = sector_frame(sub)
+        rec: Dict[str, object] = {"subset": subset}
+        ok = fr["treated"].sum() > 0 and (fr["treated"] == 0).sum() > 0
+        for outcome, _, _ in OUTCOMES:
+            if ok:
+                d = estimate_did(fr, outcome=outcome, treat="treated").iloc[0]
+                rec[f"{outcome}_coef"] = float(d.coef)
+                rec[f"{outcome}_se"] = float(d.se)
+                rec[f"{outcome}_n_cells"] = int(d.n_cells)
+                rec[f"{outcome}_n_clusters"] = int(d.n_clusters)
+            else:
+                rec[f"{outcome}_coef"] = float("nan")
+                rec[f"{outcome}_se"] = float("nan")
+                rec[f"{outcome}_n_cells"] = 0
+                rec[f"{outcome}_n_clusters"] = 0
         records.append(rec)
         print(
-            f"  {label:52s} log_emp {rec['log_emp_coef']:+.3f} ({rec['log_emp_se']:.3f})  young {rec['young_share_coef']:+.4f} ({rec['young_share_se']:.4f})  G={rec['log_emp_n_clusters']}"
+            f"  {subset:12s} log_emp {rec['log_emp_coef']:+.3f} ({rec['log_emp_se']:.3f})  "
+            f"young {rec['young_share_coef']:+.4f} ({rec['young_share_se']:.4f})  "
+            f"G={rec['log_emp_n_clusters']}"
         )
 
     print("Table 4: sector difference in differences")
-    pool = scells[scells["countrycode"].isin(POOL)]
-    add("sample", "Eleven countries", pool)
-    ind = scells[(scells["countrycode"] == "IND") & (scells["period"] <= IND_END)]
-    add("sample", f"Plus India (to {IND_END})", pd.concat([pool, ind]))
-    add(
-        "sample",
-        "Without South Africa, Mexico",
-        pool[~pool["countrycode"].isin(["ZAF", "MEX"])],
-    )
-    add("controls", "Finance and insurance", pool, ("finance",))
-    add("controls", "Professional services", pool, ("profserv",))
-    add("controls", "Public administration", pool, ("pubadmin",))
-    add(
-        "exporters",
-        "Brazil, Colombia, Philippines",
-        pool[pool["countrycode"].isin(EXPORTERS)],
-    )
-    add(
-        "exporters", "Other eight countries", pool[~pool["countrycode"].isin(EXPORTERS)]
-    )
+    add("all", pool)
+    for cc in POOL:
+        add(f"country_{cc}", pool[pool["countrycode"] == cc])
     return pd.DataFrame(records)
 
 
 def table_sector(sec: pd.DataFrame) -> str:
+    e = sec.set_index("subset")
+
+    def line(label: str, r: pd.Series) -> List[str]:
+        out = [label]
+        for outcome, _, digits in OUTCOMES:
+            top, bottom = coef_lines(
+                r[f"{outcome}_coef"],
+                r[f"{outcome}_se"],
+                int(r[f"{outcome}_n_clusters"]),
+                digits,
+            )
+            out.append(f"{top} {bottom}" if top else "n.a.")
+        if r["log_emp_n_clusters"] > 0:
+            out += [int_fmt(r["log_emp_n_cells"]), int_fmt(r["log_emp_n_clusters"])]
+        else:
+            out += ["", ""]
+        return out
+
     rows: List[Sequence[str]] = []
-    titles = {
-        "sample": "Panel A. Sample (all three control industries)",
-        "controls": "Panel B. One control industry (eleven countries)",
-        "exporters": "Panel C. Exporters and others",
-    }
-    for group, title in titles.items():
-        rows.append(panel(title))
-        for _, r in sec[sec["group"] == group].iterrows():
-            top, bottom = [escape(r.label)], [""]
-            for outcome, _ in OUTCOMES:
-                digits = 3 if outcome.startswith("log") else 4
-                a, b = coef_lines(
-                    r[f"{outcome}_coef"],
-                    r[f"{outcome}_se"],
-                    int(r[f"{outcome}_n_clusters"]),
-                    digits,
-                )
-                top.append(a)
-                bottom.append(b)
-            top += [int_fmt(r["log_emp_n_cells"]), int_fmt(r["log_emp_n_clusters"])]
-            bottom += ["", ""]
-            rows += [top, bottom]
-    header = [
-        [""] + [top for _, (top, _) in OUTCOMES] + ["Cells", "Clus-"],
-        [""] + [bottom for _, (_, bottom) in OUTCOMES] + ["", "ters"],
+    rows.append(line("All countries", e.loc["all"]))
+    rows.append(MIDRULE)
+    for cc in POOL:
+        rows.append(line(NAMES[cc], e.loc[f"country_{cc}"]))
+    header = [["", "Log employment", "Share aged 15--29", "Cells", "Clusters"]]
+    missing = [
+        NAMES[c] for c in POOL if e.loc[f"country_{c}", "log_emp_n_clusters"] == 0
     ]
     notes = (
-        r"Coefficient on Post $\times$ IT-BPO in sector cells (country $\times$ quarter $\times$ industry group $\times$ sex). "
+        r"Coefficient on Post $\times$ IT-BPO in sector cells (country $\times$ quarter $\times$ industry group $\times$ sex), with the standard error in parentheses. "
         r"The treated group is IT and business-process services, ISIC Rev.\ 4 divisions 62, 63 and 82 (South Africa 62 only; Mexico ENOE code 5611); controls are finance and insurance (64--66), professional, scientific and technical services (69--75) and public administration (84). "
-        r"Shares are weighted fractions of the cell's employment; clerical means clerical, service and sales occupations, ISCO-08 major groups 4 and 5. "
+        r"Share aged 15--29 is the weighted fraction of the cell's employment in that age range, in share points. "
         r"Post $=1$ from 2023Q1 onward. Cell fixed effects and country $\times$ sex $\times$ quarter fixed effects; weights are mean 2022 cell employment; cells enter when their mean unweighted 2022 count reaches 30. "
-        r"Cells and clusters refer to the log employment column; standard errors are clustered by country $\times$ industry group. "
-        r"$^{*}$ $p<0.10$, $^{**}$ $p<0.05$, $^{***}$ $p<0.01$ from the cluster-robust $t$ statistic with $G-1$ degrees of freedom."
+        r"Country rows re-estimate the model within the country, with sex $\times$ quarter fixed effects. "
+        r"Cells are cell-quarters in the log employment regression; clusters are country $\times$ industry group, so a country row has at most four clusters and its standard errors and stars should be read with caution. "
+        + (
+            "n.a.: no IT-BPO cell reaches the 2022 floor in "
+            + ", ".join(missing)
+            + ". "
+            if missing
+            else ""
+        )
+        + r"$^{*}$ $p<0.10$, $^{**}$ $p<0.05$, $^{***}$ $p<0.01$ from the cluster-robust $t$ statistic with $G-1$ degrees of freedom."
     )
     return table_float(
         "tab:sector",
         "IT and business-process services against other white-collar services: sector difference in differences",
-        "lcccccrr",
+        "lccrr",
         header,
         rows,
         notes=notes,
-        size=r"\footnotesize",
-        tabcolsep="3pt",
+        tabcolsep="5pt",
     )
 
 

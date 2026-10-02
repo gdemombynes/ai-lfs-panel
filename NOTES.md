@@ -100,8 +100,10 @@ Table A1 (treatment cut, continuous score, 2-digit cells, small cells kept,
 urban only, social-security contributors only, 2022-vs-2021 placebo,
 leave-one-out) and Table 4 (sector DiD on country x quarter x industry
 group x sex cells, `lfspanel.sector`; IT-BPO against finance, professional
-services and public administration; outcomes log employment, 15-29 and
-under-25 shares, clerical share and log clerical employment) are estimated
+services and public administration; revised 2 Oct to two outcomes, log
+employment and the 15-29 share, pooled plus one within-country run per
+country with at most 4 clusters each, Georgia n.a.; the control-group and
+exporter panels were dropped, the exporter split having been circular) are estimated
 in the script and saved to output/tables/robust_log_emp.csv and
 sector_did.csv. The script compiles every fragment with TeX Live and saves
 output/latex/preview.pdf (ignored by git). Run time about one minute.
