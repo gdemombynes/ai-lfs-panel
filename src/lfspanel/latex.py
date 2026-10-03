@@ -216,8 +216,21 @@ def figure_float(
     return "\n".join(lines) + "\n"
 
 
-def write_fragment(path: Path, text: str) -> Path:
+def write_fragment(
+    path: Path, text: str, tex_root: Optional[str] = "../../main.tex"
+) -> Path:
+    r"""Write a LaTeX fragment, prefixed with a ``%!TEX root`` directive.
+
+    The directive tells TeXShop (and most other front ends) to typeset the
+    whole paper when a fragment is the frontmost window. Without it, hitting
+    Typeset on a fragment fails with "Environment figure undefined", because
+    the fragment has no ``\documentclass`` of its own. ``tex_root`` is
+    relative to the fragment's final location in the paper repo; pass None to
+    write a bare fragment.
+    """
     path.parent.mkdir(parents=True, exist_ok=True)
+    if tex_root:
+        text = f"%!TEX root = {tex_root}\n" + text
     path.write_text(text, encoding="utf-8")
     return path
 

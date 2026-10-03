@@ -40,3 +40,4 @@ data/processed/*.duckdb.wal
 # Generated previews
 output/latex/preview.pdf
 output/latex/*.png
+output/latex/*.log
