@@ -120,6 +120,7 @@ def table_float(
     note_items: Sequence[str] = (),
     tabcolsep: Optional[str] = None,
     annex: bool = False,
+    annex_reset: bool = True,
 ) -> str:
     """A complete table float with booktabs rules inside ``threeparttable``.
 
@@ -128,14 +129,16 @@ def table_float(
     rows (sequences of already formatted cells), ``panel(title)`` markers,
     ``MIDRULE`` or ``SPACE``. ``note_items`` are extra lettered notes placed
     after the main note. ``annex`` switches table numbering to A1, A2, ...
-    from this table on, so annex fragments go after the main tables.
+    from this table on, so annex fragments go after the main tables; pass
+    ``annex_reset=False`` on every annex table but the first.
     """
     ncols = _count_columns(colspec)
     lines: List[str] = []
     env = "sidewaystable" if landscape else "table"
     if annex:  # numbered A1, A2, ...: input annex tables after the main ones
         lines.append(r"\renewcommand{\thetable}{A\arabic{table}}")
-        lines.append(r"\setcounter{table}{0}")
+        if annex_reset:  # only the first annex table restarts the counter
+            lines.append(r"\setcounter{table}{0}")
     lines.append(rf"\begin{{{env}}}[{placement}]")
     lines.append(r"\centering")
     lines.append(size)

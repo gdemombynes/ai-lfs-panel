@@ -6,7 +6,9 @@
 Writes output/latex/tab_surveys.tex (Table 1), tab_country.tex (Table 2),
 tab_newhire.tex (Table 3), tab_sector.tex (Table 4), tab_sector_total.tex
 (Table 4b, IT-BPO against all other employment), tab_robust.tex (annex
-Table A1, input after the main tables) and figures.tex (every
+Table A1, input after the main tables), tab_itbpo_headcount.tex (annex Table
+A2: weighted IT-BPO workers by country and quarter), tab_itbpo_share.tex
+(annex Table A3: the same as a share of employment) and figures.tex (every
 figure float, images referenced as \\tabfig/<file> and copied from
 output/figures/ next to it), plus the estimates
 behind Tables 3 and 4 as output/tables/robust_log_emp.csv and
@@ -687,6 +689,86 @@ def table_sector(sec: pd.DataFrame, total: bool = False) -> str:
     )
 
 
+# ------------------------------------------------------------------ Tables A2, A3
+def headcount_table(scells: pd.DataFrame) -> pd.DataFrame:
+    """IT-BPO workers (weighted, thousands), respondents, total employment and the share."""
+    total = scells.groupby(["countrycode", "period"])["emp"].sum().rename("total")
+    s = scells[scells["sector"] == "itbpo"]
+    g = s.groupby(["countrycode", "period"]).agg(
+        workers=("emp", "sum"), respondents=("n", "sum")
+    )
+    g = g.join(total).reset_index()
+    g["workers_k"] = g["workers"] / 1e3
+    g["total_k"] = g["total"] / 1e3
+    g["share_pct"] = 100 * g["workers"] / g["total"]
+    return g.sort_values(["countrycode", "period"]).reset_index(drop=True)
+
+
+DEF_NOTE = (
+    r"IT and business-process services as defined in the analysis: ISIC Rev.\ 4 divisions 62, 63 and 82; South Africa division 62 only (SIC 88 lumps business services); Mexico ENOE code 5611 (business support and employment services; computer services not separable). "
+    r"Survey weights as published; Uruguay person-months (weight divided by three); India urban sample from 2021Q3, first visits only, reweighted to the full sample from 2025Q2. "
+    r"Blank where the quarter is not in the panel. "
+)
+
+
+def table_headcount(hc: pd.DataFrame, share: bool = False) -> str:
+    """Annex A2 (workers, thousands) or, with ``share``, A3 (percent of employment)."""
+    codes = POOL + ["IND"]
+    col = "share_pct" if share else "workers_k"
+    wide = hc.pivot(index="period", columns="countrycode", values=col)
+    rows: List[Sequence[str]] = []
+    for period in sorted(wide.index):
+        row = [period]
+        for cc in codes:
+            v = wide.loc[period].get(cc)
+            if pd.isna(v):
+                row.append("")
+            else:
+                row.append(f"{v:.2f}" if share else int_fmt(v))
+        rows.append(row)
+    base = hc[hc["period"].str.startswith("2022")].groupby("countrycode")
+    rows.append(MIDRULE)
+    if share:
+        tot = base["total_k"].mean()
+        rows.append(
+            ["Employed 2022, thousands"]
+            + [int_fmt(tot.get(cc)) if cc in tot else "" for cc in codes]
+        )
+    n22 = base["respondents"].mean()
+    rows.append(
+        ["Respondents 2022"]
+        + [int_fmt(n22.get(cc)) if cc in n22 else "" for cc in codes]
+    )
+    header = [["Quarter"] + [NAMES[cc] for cc in codes]]
+    if share:
+        notes = (
+            r"Weighted employment in IT and business-process services as a percentage of all weighted employment aged 15 and over in the same survey quarter. "
+            + DEF_NOTE
+            + r"The last rows give the 2022 mean of total weighted employment (thousands) and the mean unweighted number of sector respondents per quarter in 2022."
+        )
+        caption = "IT and business-process services: share of employment by country and quarter (percent)"
+    else:
+        notes = (
+            r"Weighted number of employed persons, in thousands, in IT and business-process services. "
+            + DEF_NOTE
+            + r"The last row is the mean unweighted number of sector respondents per quarter in 2022."
+        )
+        caption = "IT and business-process services: estimated workers by country and quarter (thousands)"
+    return table_float(
+        "tab:itbpo_share" if share else "tab:itbpo_headcount",
+        caption,
+        "l" + "r" * len(codes),
+        header,
+        rows,
+        notes=notes,
+        size=r"\scriptsize",
+        tabcolsep="3pt",
+        landscape=True,
+        annex=True,
+        annex_reset=False,
+    )
+
+
 # ------------------------------------------------------------------ Figures
 ES_NOTE = (
     r"Coefficients $\beta_k$ on 1[quarter $= k$] $\times$ High (top exposure quintile) with 95 percent confidence bands; "
@@ -835,6 +917,10 @@ def main() -> None:
     sec_total = sector_estimates(scells, controls=(REST,), cluster="cell")
     sec_total.to_csv(TABLES / "sector_did_total.csv", index=False)
     tab4b = table_sector(sec_total, total=True)
+    hc = headcount_table(scells)
+    hc.round(3).to_csv(TABLES / "itbpo_headcount.csv", index=False)
+    taba2 = table_headcount(hc)
+    taba3 = table_headcount(hc, share=True)
 
     figs, used = figures_fragment()
     for stale in LATEX.glob("*.png"):  # images no figure references any more
@@ -849,6 +935,8 @@ def main() -> None:
         write_fragment(LATEX / "tab_sector.tex", tab4),
         write_fragment(LATEX / "tab_sector_total.tex", tab4b),
         write_fragment(LATEX / "tab_robust.tex", tab5),  # annex: numbered A1
+        write_fragment(LATEX / "tab_itbpo_headcount.tex", taba2),  # annex A2
+        write_fragment(LATEX / "tab_itbpo_share.tex", taba3),  # annex A3
         write_fragment(LATEX / "figures.tex", figs),
     ]
     for p in paths:

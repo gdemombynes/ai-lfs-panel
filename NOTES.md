@@ -51,7 +51,11 @@ share; pooled plus one row per country, at most 4 clusters each); Table 4b
 tab_sector_total (same vs all other employment, clustered by cell); annex
 Table A1 tab_robust (treatment cuts, continuous score, 2-digit cells,
 small cells kept, urban, social-security, 2022-vs-2021 placebo,
-leave-one-out; `annex=True` switches numbering, input it last); figures.tex
+leave-one-out; `annex=True` switches numbering, input it last); annex
+Tables A2 tab_itbpo_headcount and A3 tab_itbpo_share (weighted IT-BPO
+workers by country and quarter, thousands, and as a percent of employment;
+landscape; output/tables/itbpo_headcount.csv has workers, respondents,
+total and share; added 4 Oct); figures.tex
 (8 floats: es_pooled, index, newhire, newhire_country, itbpo_quarterly,
 split, es_country, india; images as \tabfig/<file>, copied beside it).
 Every fragment starts with `%!TEX root = ../../main.tex` so TeXShop

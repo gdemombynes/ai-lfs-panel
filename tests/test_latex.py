@@ -76,6 +76,13 @@ def test_table_float_structure():
     assert table_float("tab:y", "c", "lc", [["a", "b"]], [], landscape=True).startswith(
         r"\begin{sidewaystable}"
     )
+    first = table_float("tab:a1", "c", "lc", [["a", "b"]], [], annex=True)
+    assert r"\renewcommand{\thetable}{A\arabic{table}}" in first
+    assert r"\setcounter{table}{0}" in first
+    second = table_float(
+        "tab:a2", "c", "lc", [["a", "b"]], [], annex=True, annex_reset=False
+    )
+    assert r"\setcounter{table}{0}" not in second
 
 
 @pytest.mark.skipif(find_pdflatex() is None, reason="pdflatex not installed")
