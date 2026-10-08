@@ -4,7 +4,7 @@ Read at the start of every session; update at the end of every session
 (progress made, decisions taken, next steps). Keep it short: this is a
 handover note, not a log. Dated history goes in git.
 
-Last updated: 2026-10-03
+Last updated: 2026-10-08
 
 ## Related folders
 
@@ -77,6 +77,18 @@ Philippines figure (PNGs still produced by 43 and 45; 45 has --from-csv).
 Eurostat EU-LFS proposal submitted 2 Oct 2026; delivery expected about
 January 2027 if approved.
 
+Git. The session's work (14 commits, 2 to 4 Oct) is on branch
+`latex-tables`, open as PR #1 against main
+(github.com/gdemombynes/ai-lfs-panel/pull/1, opened 8 Oct). Local main
+holds the same commits and was not pushed; after the merge,
+`git checkout main && git pull`.
+
+Sector definition, assessed 4 Oct: ISIC 62+63+82 is the standard IT-BPM
+mapping but 82 is a grab-bag (call centres 8220 are half of it in Peru, a
+fifth in Ecuador; only BOL, ECU, PER, URY code industry at 4 digits) and
+captive call centres in banks and telecoms sit in the controls. Agreed
+reading: the outsourcing industry, not all exposed customer-contact work.
+
 ## Next steps
 
 1. Paper: replace the outline bullets in lfs-paper/main.tex with prose
@@ -84,12 +96,19 @@ January 2027 if approved.
    tables and figures" section to where it is cited; fix or drop the
    `fig:youthshare` reference (Table 4's youth-share column replaces it).
    To refresh exhibits: run 48, copy output/latex/*.tex and *.png to
-   lfs-paper/tab_fig/v1/, compile, commit, push.
+   lfs-paper/tab_fig/v1/, compile, commit, push. The copies there predate
+   the `%!TEX root` directive and Tables 4b, A2, A3; refresh and add the
+   three `\input` lines to the draft-exhibits section.
 2. Paper: verify the 11 CHECK entries in references.bib; JEL codes and
    keywords; abstract once results settle.
-3. Sector: an external export-orientation measure (UNCTAD/WTO computer and
-   business services exports over GDP, fixed pre-2023) if an exporter
-   split is wanted; a SOC-ISCO crosswalk before any alternative index.
+3. Sector: report IT (62+63) and BPO (82) separately in Table 4 (43 already
+   computes it_k and bpo_k); add an ISCO 4222 contact-centre clerks DiD
+   against other clerical occupations as the occupation-based cross-check
+   (BRA, COL, MEX, PER, ECU, URY, GEO code it; ARG, PHL, IND, ZAF do not);
+   a narrow 8220 robustness row for the four 4-digit countries. External
+   export-orientation measure (UNCTAD/WTO services exports over GDP, fixed
+   pre-2023) if an exporter split is wanted; SOC-ISCO crosswalk before any
+   alternative index.
 4. Eurostat: watch for the decision; on approval set up S-CIRCABC delivery
    and the confidentiality declarations.
 5. Transition file: per-country, per-quarter-pair re-observation weights
