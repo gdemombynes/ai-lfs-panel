@@ -94,8 +94,17 @@ session scratchpad, not in the repo.
   Recent College Graduates" (NBER WP 35796, September 2026). CPS microdata,
   June to August 2026: no statistically significant rise in unemployment of
   recent college graduates relative to earlier summers, older graduates or
-  young workers without degrees. A null on the stock of unemployment for the
-  group Brynjolfsson et al. flag; it does not look at hiring or occupations.
+  young workers without degrees, in both difference-in-differences and
+  event-study form, and no rise either under an expanded definition that
+  counts those "wanting a job", which adds nearly two points to the rate.
+  A null on the stock of unemployment for the group Brynjolfsson et al.
+  flag. It does not look at hiring flows, which is the margin this panel
+  finds, but it does interact 2026 unemployment with AI exposure and with
+  remote-work availability by occupation, and reports some evidence of a
+  positive relationship with remote work rather than with exposure. That
+  last result belongs in the interpretation section: it is the US version
+  of the remote-work reading, which has less purchase in economies where
+  teleworkable employment is small.
 
 ## Job quality
 
