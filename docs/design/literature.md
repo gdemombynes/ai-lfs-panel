@@ -1,4 +1,4 @@
-# Related work (as of 2026-09-06)
+# Related work (as of 2026-10-12)
 
 Closest to this project, found through Google Scholar; PDFs saved in the
 session scratchpad, not in the repo.
@@ -25,9 +25,15 @@ session scratchpad, not in the repo.
   young hires fall 1.3 % more. No effect for prime-age or older workers.
   Adjustment runs through entry wages and contract terms rather than
   aggregate hiring levels.
-- **Huang, Liu, Wang and Yu (2026), "Who Takes the Hit? The Uneven Impacts
-  of Generative AI on Labor Demand Across Countries"** (SSRN). Cross-country
-  design on ILOSTAT occupation-level employment.
+- **Huang, Jingyun, Yan Liu, He Wang and Shu Yu (2026), "Who Takes the
+  Hit? The Uneven Impacts of Generative AI on Labor Demand Across
+  Countries"** (SSRN 6868421, posted 1 June 2026; World Bank, with Huang
+  also at Rice). Cross-country design on ILOSTAT occupation-level
+  employment. Displacement so far shows up in high-income countries only:
+  limited AI adoption, weaker complementary factors and lower exposure to
+  digitally tradable services have muted it in middle- and low-income
+  countries. That is the claim this panel tests on household survey
+  microdata rather than on occupation aggregates.
 - **Demombynes, Langbein and Weber (2025), "The exposure of workers to
   artificial intelligence in low- and middle-income countries"** (World
   Bank). Exposure with microdata across LMICs.
@@ -35,6 +41,33 @@ session scratchpad, not in the repo.
   exposure applied to Latin American microdata with a digital-access
   adjustment.
 - **IMF WP 25/43 (2025)** on the Philippines: exposure and complementarity.
+- **Kirby, Patrick, Jonah Rexer and Siddharth Sharma (2025), "Artificial
+  Intelligence, Real Impact: Labor Market Implications of AI Adoption in
+  South Asia"**, chapter 2 of the World Bank's *South Asia Development
+  Update: Jobs, AI, and Trade* (released 7 October 2025). Online job
+  listings combined with occupational exposure and AI-human
+  complementarity. Only 7 percent of South Asian jobs are highly exposed
+  without being complementary, against a 15 percent average in other
+  EMDEs; jobs requiring AI skills carry a wage premium near 30 percent.
+  Generative AI has already cut monthly job listings about 20 percent for
+  the most exposed, least complementary white-collar occupations (call
+  centre agents, software developers), with no decline where
+  complementarity is high; the largest slowdowns fall on middle-skilled
+  and entry-level workers and on business services. India's ICT-BPM market
+  was 5.4 million jobs and 7.5 percent of GDP in 2023. The closest paper
+  in substance to this project's IT-BPO and entry-margin results, but on
+  vacancies rather than employment, and on exposure indices rather than
+  observed sector cells.
+- **Hanney, Oliver and Oliver Kim (2026), "Tomorrow's AI Won't Meet
+  Today's World"**, *In Development*, 26 September 2026 (commentary, not
+  peer reviewed). Reports a 32 percent relative fall in entry-level IT
+  employment in India after the 2022 ChatGPT launch, from Indian labour
+  force data, while warning against overreading it: the Green Revolution
+  and Y2K show workers and firms adjusting in ways that static
+  extrapolation misses. Relevant twice over, since the magnitude overlaps
+  this panel's India annex and the adjustment argument is the natural
+  counter-reading for the interpretation section. The source of the
+  32 percent figure still needs pinning down.
 
 ## Call centres specifically
 
@@ -63,6 +96,29 @@ session scratchpad, not in the repo.
   recent college graduates relative to earlier summers, older graduates or
   young workers without degrees. A null on the stock of unemployment for the
   group Brynjolfsson et al. flag; it does not look at hiring or occupations.
+
+## Job quality
+
+- **Thomas, Chris, Cosmina Dorobantu, Florian Ostmann, Helen Margetts,
+  Rebecca Clark, Georgia Meyer and Akash Uppal (2026), "State of AI and
+  Society: AI's Impacts on the Quality of Work"** (LSE Data Science
+  Institute, September 2026, 36 pp., for the 2026 Global Forum for AI and
+  the Social Sciences). An evidence review organised around a
+  15-dimension framework that separates the conditions of work (benefits,
+  fair procedures, health and safety, privacy, stability and security,
+  worker voice, working time and intensity) from the nature of work
+  (autonomy, contribution, enjoyment, relationships, skill development,
+  achievement, recognition, value alignment). Not an employment-effects
+  paper, but two findings bear on this one: junior roles undergo a
+  "seniorisation" as routine work is automated, shifting entry-level jobs
+  towards judgement and relationship building and thinning the
+  foundational-skill rungs, while mid-career workers gain most from AI;
+  and several of the effects push work towards the informal end of the
+  labour market, which the report argues gets less attention than it
+  deserves. Useful for framing the entry-margin result as a change in the
+  content of entry jobs, not only in their number, and it connects to the
+  apprenticeship and expertise-loss papers already cited in the
+  interpretation section.
 
 ## World Development Report 2026 and its background papers
 
