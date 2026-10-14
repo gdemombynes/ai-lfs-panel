@@ -4,7 +4,7 @@ Read at the start of every session; update at the end of every session
 (progress made, decisions taken, next steps). Keep it short: this is a
 handover note, not a log. Dated history goes in git.
 
-Last updated: 2026-10-12
+Last updated: 2026-10-13
 
 ## Related folders
 
@@ -117,9 +117,8 @@ literature.md in Claude/ai-lfs-panel is now stale.
    tables and figures" section to where it is cited; fix or drop the
    `fig:youthshare` reference (Table 4's youth-share column replaces it).
    To refresh exhibits: run 48, copy output/latex/*.tex and *.png to
-   lfs-paper/tab_fig/v1/, compile, commit, push. The copies there predate
-   the `%!TEX root` directive and Tables 4b, A2, A3; refresh and add the
-   three `\input` lines to the draft-exhibits section.
+   lfs-paper/tab_fig/v1/, compile, commit, push (last done 13 Oct, in
+   step with this repo through the Table 1 note fix).
 2. Paper: verify the 11 CHECK entries in references.bib; JEL codes and
    keywords; abstract once results settle.
 3. Sector: report IT (62+63) and BPO (82) separately in Table 4 (43 already
