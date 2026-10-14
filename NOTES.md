@@ -4,7 +4,7 @@ Read at the start of every session; update at the end of every session
 (progress made, decisions taken, next steps). Keep it short: this is a
 handover note, not a log. Dated history goes in git.
 
-Last updated: 2026-10-08
+Last updated: 2026-10-12
 
 ## Related folders
 
@@ -88,6 +88,27 @@ mapping but 82 is a grab-bag (call centres 8220 are half of it in Peru, a
 fifth in Ecuador; only BOL, ECU, PER, URY code industry at 4 digits) and
 captive call centres in banks and telecoms sit in the controls. Agreed
 reading: the outsourcing industry, not all exposed customer-contact work.
+
+Literature, 12 Oct. Five URLs supplied; three were new and went into
+`docs/design/literature.md` and lfs-paper `references.bib` together:
+Kirby, Rexer and Sharma, chapter 2 of the World Bank's South Asia
+Development Update of Oct 2025 (job listings down about 20 percent for
+the most exposed, least complementary white-collar occupations,
+concentrated on entry-level workers and business services, on vacancies
+rather than employment); Hanney and Kim in In Development, 26 Sep 2026
+(a 32 percent relative fall in entry-level IT employment in India, plus
+the adjustment counter-argument); and the LSE Data Science Institute's
+"State of AI and Society: AI's Impacts on the Quality of Work", Sep 2026,
+in a new "Job quality" section, the source of the "seniorisation" of
+entry-level roles. The other two were already held: SSRN 6868421 is the
+existing Huang et al. entry, whose CHECK it resolved, and NBER w35796 is
+Fairlie and Wu. Checking the latter against the NBER abstract corrected
+the note, which wrongly said the paper ignores occupations: it does
+interact 2026 unemployment with AI exposure and remote-work availability
+by occupation and finds a positive relationship with remote work rather
+than exposure, which is the US counterpart of the remote-work reading in
+the paper's interpretation section. The Google Drive copy of
+literature.md in Claude/ai-lfs-panel is now stale.
 
 ## Next steps
 
