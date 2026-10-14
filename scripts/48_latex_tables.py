@@ -224,7 +224,7 @@ def table_surveys(con, cells_summary: pd.DataFrame) -> str:
         "Employed per quarter is the unweighted count of employed persons in the harmonised file, rounded to hundreds. "
         "Cell digits is the ISCO-08 level of the analysis cells (three where at least 90 percent of employment resolves to three digits, else two); "
         r"\% at 3+ digits is the employment-weighted share of workers whose occupation code resolves to three or more digits. "
-        "Occupations in cells and the share of cells under the 30-observation floor refer to the baseline year 2022. "
+        "Occupations in cells is the number of distinct ISCO-08 codes at that depth observed among employed persons aged 15 and over in any quarter (ISCO-08 has 130 minor and 43 sub-major groups); the number with at least one cell above the floor is the cluster count in Table~\\ref{tab:country}. The share of cells under the 30-observation floor refers to the baseline year 2022. "
         "Tenure says whether the survey asks job tenure, which defines the new-hire share. "
         "India and Nigeria are outside the pooled estimates."
     )
