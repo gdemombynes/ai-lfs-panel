@@ -9,8 +9,9 @@ Mexico's ENOE classifier does not separate computer services, so it uses
 ENOE code 5611 (business support and employment services). Nigeria (no
 2022) and India's NCO-2004 quarters are left out.
 
-Writes output/tables/itbpo_by_country.csv and
-output/figures/itbpo_by_country.png.
+Writes output/tables/itbpo_by_country.csv and output/figures/itbpo_by_country.png
+(plus portrait variants itbpo_by_country_p1.png, _p2.png and
+itbpo_quarterly_portrait.png for the paper).
 """
 
 from __future__ import annotations
@@ -25,18 +26,19 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402
 
 DB = PROCESSED / "panel.duckdb"
+# alphabetical by country name, India (annex) last
 ORDER = [
+    "ARG",
+    "BOL",
     "BRA",
     "COL",
-    "MEX",
-    "ARG",
     "ECU",
-    "PER",
-    "URY",
-    "BOL",
-    "ZAF",
     "GEO",
+    "MEX",
+    "PER",
     "PHL",
+    "ZAF",
+    "URY",
     "IND",
 ]
 DEFINITION = {
@@ -85,9 +87,9 @@ def build() -> pd.DataFrame:
     return t
 
 
-def plot(t: pd.DataFrame, path) -> None:
-    codes = [c for c in ORDER if c in set(t["countrycode"])]
-    ncol = 6
+def plot(t: pd.DataFrame, path, codes=None, ncol: int = 6) -> None:
+    """Employment and under-25 share by country; ``codes`` and ``ncol`` set the layout."""
+    codes = [c for c in (codes or ORDER) if c in set(t["countrycode"])]
     nrow = -(-len(codes) // ncol)
     fig, axes = plt.subplots(2 * nrow, ncol, figsize=(3.2 * ncol, 5.5 * nrow))
     for i, cc in enumerate(codes):
@@ -109,7 +111,7 @@ def plot(t: pd.DataFrame, path) -> None:
         ax2 = axes[2 * r + 1][c]
         ax2.plot(s["yr"], s["u25_itbpo"], marker="o", label="under-25 share, IT-BPO")
         ax2.plot(s["yr"], s["u25_all"], color="grey", label="under-25 share, all")
-        ax2.set_ylim(0, 45)
+        ax2.set_ylim(0, 30)
     for r in range(nrow):
         axes[2 * r][0].set_ylabel("employment, 2022 = 100")
         axes[2 * r + 1][0].set_ylabel("share under 25, %")
@@ -171,7 +173,7 @@ def plot_split(t: pd.DataFrame, path) -> None:
     plt.close(fig)
 
 
-QUARTERLY = ["BRA", "COL", "PHL", "IND", "URY"]
+QUARTERLY = ["BRA", "COL", "IND", "PHL", "URY"]  # alphabetical by name
 SQL_Q = """
 with e as (
   select countrycode, period, weight, age, occup_isco,
@@ -225,14 +227,18 @@ def build_quarterly() -> pd.DataFrame:
     return q
 
 
-def plot_quarterly(q: pd.DataFrame, path) -> None:
+def plot_quarterly(q: pd.DataFrame, path, ncol: int = 6) -> None:
+    """Quarterly sector series; ``ncol`` countries per row, two panel rows each."""
     codes = QUARTERLY + ["ALL"]
     names = {"ALL": "Pooled (BRA, COL, PHL, URY)"}
-    fig, axes = plt.subplots(2, len(codes), figsize=(3.2 * len(codes), 6))
+    nrow = -(-len(codes) // ncol)
+    fig, axes = plt.subplots(2 * nrow, ncol, figsize=(3.2 * ncol, 5.0 * nrow + 0.5))
+    axes = axes.reshape(2 * nrow, ncol)
     for i, cc in enumerate(codes):
+        r, c = divmod(i, ncol)
         s = q[q["countrycode"] == cc].sort_values("period")
         x = s["period"].str[:4].astype(int) + (s["period"].str[-1].astype(int) - 1) / 4
-        ax = axes[0][i]
+        ax = axes[2 * r][c]
         ax.plot(x, s["itbpo_idx"], marker="o", ms=2.5, label="IT-BPO industries")
         ax.plot(
             x,
@@ -246,12 +252,17 @@ def plot_quarterly(q: pd.DataFrame, path) -> None:
         ax.axvline(2022.75, color="grey", ls="--", lw=0.8)
         ax.set_title(names.get(cc, cc), fontsize=10)
         ax.set_ylim(60, 160)
-        ax2 = axes[1][i]
+        ax2 = axes[2 * r + 1][c]
         ax2.plot(x, s["u25_itbpo"], marker="o", ms=2.5)
         ax2.axvline(2022.75, color="grey", ls="--", lw=0.8)
         ax2.set_ylim(0, 35)
-    axes[0][0].set_ylabel("employment, 2022 = 100")
-    axes[1][0].set_ylabel("share under 25, %")
+    for r in range(nrow):
+        axes[2 * r][0].set_ylabel("employment, 2022 = 100")
+        axes[2 * r + 1][0].set_ylabel("share under 25, %")
+    for i in range(len(codes), nrow * ncol):
+        r, c = divmod(i, ncol)
+        axes[2 * r][c].axis("off")
+        axes[2 * r + 1][c].axis("off")
     axes[0][0].legend(fontsize=7)
     fig.suptitle(
         "IT and business-process services (ISIC 62, 63, 82), quarterly: countries with sufficient sector sample",
@@ -269,10 +280,14 @@ def main() -> None:
     t.round(3).to_csv(tables / "itbpo_by_country.csv", index=False)
     (OUTPUT / "figures").mkdir(parents=True, exist_ok=True)
     plot(t, OUTPUT / "figures" / "itbpo_by_country.png")
+    # portrait versions for the paper: six countries a page, three per row
+    plot(t, OUTPUT / "figures" / "itbpo_by_country_p1.png", ORDER[:6], ncol=3)
+    plot(t, OUTPUT / "figures" / "itbpo_by_country_p2.png", ORDER[6:], ncol=3)
     plot_split(t, OUTPUT / "figures" / "itbpo_occupation_split.png")
     q = build_quarterly()
     q.round(3).to_csv(tables / "itbpo_quarterly.csv", index=False)
     plot_quarterly(q, OUTPUT / "figures" / "itbpo_quarterly.png")
+    plot_quarterly(q, OUTPUT / "figures" / "itbpo_quarterly_portrait.png", ncol=3)
     cols = ["countrycode", "yr", "n_itbpo", "itbpo_share_pct", "itbpo_idx", "itbpo_prof_idx",
             "itbpo_cler_idx", "emp_all_idx", "u25_itbpo", "u25_all"]  # fmt: skip
     print(

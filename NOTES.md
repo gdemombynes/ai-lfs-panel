@@ -4,7 +4,7 @@ Read at the start of every session; update at the end of every session
 (progress made, decisions taken, next steps). Keep it short: this is a
 handover note, not a log. Dated history goes in git.
 
-Last updated: 2026-10-02
+Last updated: 2026-10-12
 
 ## Related folders
 
@@ -14,106 +14,128 @@ Last updated: 2026-10-02
   (origin https://git.overleaf.com/6abbd6d15303f68d78c2656f). Has its own
   CLAUDE.md (pull before any edit, push after every commit, single branch,
   changes marked with `\add{}` in red and `\del{}` struck through) and
-  NOTES.md. `main.tex` holds the section skeleton from
-  docs/design/paper-outline.md, a proposed-exhibits list and
-  `references.bib` (50 entries). Quy-Toan Do edits on Overleaf.
-- TeX: TeX Live 2026 (full scheme) installed 30 Sep 2026 in
-  ~/texlive/2026, user-owned, no MacTeX GUI apps; binaries on PATH via
-  ~/.zshrc (texlive/2026/bin/universal-darwin). Update packages with
-  `tlmgr update --self --all`. The paper compiles with `latexmk -pdf`.
+  NOTES.md. Quy-Toan Do edits on Overleaf.
+- TeX Live 2026 in ~/texlive/2026 (user-owned, on PATH via ~/.zshrc;
+  `tlmgr update --self --all`). The paper compiles with `latexmk -pdf`.
 - Google Drive, folder Claude/ai-lfs-panel: copies of literature.md,
-  paper-outline.md and eu-lfs-proposal.md. A stale "EU LFS proposal.docx"
-  sits at the Drive root (pre-revision, includes SILC); the docx cannot be
-  replaced through the Drive connector, only text files can.
+  paper-outline.md and eu-lfs-proposal.md (a stale "EU LFS proposal.docx"
+  at the Drive root cannot be replaced through the connector).
 
 ## Where things stand
 
 Data. Eleven countries in the pooled quarterly panel (ARG, BOL, BRA, COL,
 ECU, GEO, MEX, PER, PHL, URY, ZAF), 2021Q1 to the latest quarter each,
-validated against official rates. India harmonised but kept as an annex
-(2025 redesign). Nigeria has no pre-period. Egypt: ERF access obtained
-for 2021 to 2024, but the files have not been found on this Mac or in
-Drive. Costa Rica ECE 2021 to 2026Q2 is on INEC's catalogue (ids 293,
-302, 306, 331, 369, 384; login needed, user downloads); Honduras EPHPM is
-annual only. Person ids link across quarters for eight countries; no
-office publishes longitudinal weights; re-observation logits are in
-docs/design/reobservation-diagnostics.docx.
+validated against official rates. Employment status follows each office's
+own classification, harmonised to the GLD coding, not re-derived. India
+harmonised but an annex (2025 redesign). Nigeria has no pre-period. Egypt:
+ERF access for 2021 to 2024, files not found. Costa Rica ON HOLD: INEC's
+NADA catalogue (ids 293, 302, 306, 331, 369, 384, one bundle a year)
+needs a login the user could not register for. Person ids link across
+quarters for eight countries; no longitudinal weights published.
 
-Analysis. Primary treatment is the top employment-weighted quintile of the
-ILO exposure score. Pooled post x high on log employment is +0.017
-(SE 0.023); young new-hire share is -0.010 (SE 0.005). IT-BPO sector series
-annual by country, quarterly for BRA, COL, PHL, URY, IND. Tables 1, 2 and
-Figures 1 to 5 with value tables are in docs/design/paper-tables-draft.docx
-(built by scripts/44_paper_tables.py).
+Exposure. ILO WP 140 (Gmyrek et al. 2025) task scores, 427 unit groups,
+from github.com/pgmyrek/2025_GenAI_scores_ISCO08; aggregated to 3, 2, 1
+digits with 2022 employment weights from BRA, COL, ECU, PER; treatment is
+the top employment-weighted quintile at each country's cell digit level.
 
-Literature. docs/design/literature.md now covers the Imas and Schaal
-review of 29 Sep 2026 (26 papers added 30 Sep); the same papers are in
-lfs-paper/references.bib with marked bullets in the paper's Introduction
-and Interpretation.
+Paper exhibits (2 Oct, all in this repo and pushed to lfs-paper
+tab_fig/v1/). scripts/48_latex_tables.py writes output/latex/: Table 1
+tab_surveys; Table 2 tab_country (quintile only, pooled delta, theta,
+delta+theta, then delta and delta+theta per country, alphabetical, with
+the top-quintile share of 2025 employment; Georgia n.a., no young cell
+reaches the floor); Table 3 tab_newhire (plain DiD on the new-hire share,
+all cells, seven tenure countries; the young-cell share was judged a weak
+hiring measure and dropped); Table 4 tab_sector (IT-BPO vs finance,
+professional services, public administration; log employment and 15-29
+share; pooled plus one row per country, at most 4 clusters each); Table 4b
+tab_sector_total (same vs all other employment, clustered by cell); annex
+Table A1 tab_robust (treatment cuts, continuous score, 2-digit cells,
+small cells kept, urban, social-security, 2022-vs-2021 placebo,
+leave-one-out; `annex=True` switches numbering, input it last); annex
+Tables A2 tab_itbpo_headcount and A3 tab_itbpo_share (weighted IT-BPO
+workers by country and quarter, thousands, and as a percent of employment;
+landscape; output/tables/itbpo_headcount.csv has workers, respondents,
+total and share; added 4 Oct); figures.tex
+(8 floats: es_pooled, index, newhire, newhire_country, itbpo_quarterly,
+split, es_country, india; images as \tabfig/<file>, copied beside it).
+Every fragment starts with `%!TEX root = ../../main.tex` so TeXShop
+typesets the paper from a fragment (user's change, 2 Oct). Every fragment
+is compiled with TeX Live; output/latex/preview.pdf is the check
+(git-ignored). Run time about one minute. Library: lfspanel.latex
+(stars from the cluster-robust t with G-1 df, SE to the right of the
+coefficient), lfspanel.sector (sector cells incl. a `rest` group),
+analysis.aggregate_cells, placebo_frame, estimate_did(triple) returning
+delta+theta. Headline numbers: pooled delta +0.017 (0.023), stable under
+every cut, placebo 0.001; new-hire share -0.007 (0.002); sector youth
+share -0.032 (0.004) with sector employment +0.077 (0.034).
 
-Eurostat EU-LFS proposal. LFS only. Working file:
-docs/design/EU LFS proposal draft Sept 12.docx, markdown twin
-docs/design/eu-lfs-proposal.md. Reviewed 28 Sep against Eurostat's
-"How to apply" guide: see next steps.
+Dropped on 2 Oct: the exporter split (BRA, COL, PHL was a reading of the
+outcome, not an external measure), the control-group panel, the under-25
+and clerical columns of Table 4, the IT-BPO country-page figures and the
+Philippines figure (PNGs still produced by 43 and 45; 45 has --from-csv).
 
-## In progress: LaTeX tables for the paper (planned 2 Oct, not started)
+Eurostat EU-LFS proposal submitted 2 Oct 2026; delivery expected about
+January 2027 if approved.
 
-Decisions taken with the user: build Tables 1 to 4 in this repo as
-complete LaTeX floats (threeparttable, booktabs, caption, label, notes)
-that `\input` into the paper with one line; labels tab:surveys,
-tab:country, tab:robust, tab:sector; coefficients with SE in parentheses
-and stars at 10, 5 and 1 percent from the cluster-robust t statistic;
-Table 3 and Table 4 with new estimation; alternative exposure indices
-stay out until a SOC-ISCO crosswalk exists. Output to a new
-`output/latex/` directory, copied later to lfs-paper/tab_fig/v1/.
+Git. The session's work (14 commits, 2 to 4 Oct) is on branch
+`latex-tables`, open as PR #1 against main
+(github.com/gdemombynes/ai-lfs-panel/pull/1, opened 8 Oct). Local main
+holds the same commits and was not pushed; after the merge,
+`git checkout main && git pull`.
 
-What exists to reuse (from the 2 Oct exploration):
-- scripts/44_paper_tables.py: constants NAMES, SURVEY, POOL, NOTE1; the
-  Table 1 DuckDB query (view `employed`, source='own'); `cs_()` formatter;
-  `row_for()` for Table 2; finished note strings for every table.
-- Table 2 inputs on disk: did_log_emp.csv (quintile), did_log_emp_high.csv
-  (tercile), did_log_emp_high_d10.csv (decile), did_log_emp_IND_to2024Q4.csv;
-  columns term,coef,se,n_cells,n_clusters,subset; term post_x_treat and,
-  for subset all, post_x_treat_x_young. Tercile and decile runs lack
-  country_young rows. The India tercile cell in 44 is a hard-coded string;
-  re-derive it.
-- analysis.py: estimate_did / estimate_event_study are pure functions over
-  event_study_frame(cells, exposure); Table 3 rows can loop over modified
-  frames in one script instead of rerunning 41_event_study.py. Options
-  that exist: --treat score_w (continuous), --exclude cc (leave-one-out),
-  --keep-small. Do not exist: 2-digit cells for all (re-aggregate
-  cells.parquet to isco[:2] in-script or override `depth` in
-  build_cells), urban only and formal only (cells.parquet has no urban or
-  socialsec dimension; needs a build_cells variant). No stars or p-values
-  are computed anywhere; derive from coef/se. The event-study k=0 row has
-  blank n_cells.
-- Table 4: no sector-level regression exists; 43_itbpo_sector.py is
-  descriptive SQL (ISIC 62+63 it, 82 bpo; ZAF 62 only; MEX industry_orig
-  5611). Build sector cells (country x quarter x industry group x age x
-  sex) with treated = IT-BPO and controls = finance 64-66, professional
-  services 69-75, public administration 84, then reuse demean/wls_cluster
-  for youth share and clerical employment outcomes.
+Sector definition, assessed 4 Oct: ISIC 62+63+82 is the standard IT-BPM
+mapping but 82 is a grab-bag (call centres 8220 are half of it in Peru, a
+fifth in Ecuador; only BOL, ECU, PER, URY code industry at 4 digits) and
+captive call centres in banks and telecoms sit in the controls. Agreed
+reading: the outsourcing industry, not all exposed customer-contact work.
+
+Literature, 12 Oct. Five URLs supplied; three were new and went into
+`docs/design/literature.md` and lfs-paper `references.bib` together:
+Kirby, Rexer and Sharma, chapter 2 of the World Bank's South Asia
+Development Update of Oct 2025 (job listings down about 20 percent for
+the most exposed, least complementary white-collar occupations,
+concentrated on entry-level workers and business services, on vacancies
+rather than employment); Hanney and Kim in In Development, 26 Sep 2026
+(a 32 percent relative fall in entry-level IT employment in India, plus
+the adjustment counter-argument); and the LSE Data Science Institute's
+"State of AI and Society: AI's Impacts on the Quality of Work", Sep 2026,
+in a new "Job quality" section, the source of the "seniorisation" of
+entry-level roles. The other two were already held: SSRN 6868421 is the
+existing Huang et al. entry, whose CHECK it resolved, and NBER w35796 is
+Fairlie and Wu. Checking the latter against the NBER abstract corrected
+the note, which wrongly said the paper ignores occupations: it does
+interact 2026 unemployment with AI exposure and remote-work availability
+by occupation and finds a positive relationship with remote work rather
+than exposure, which is the US counterpart of the remote-work reading in
+the paper's interpretation section. The Google Drive copy of
+literature.md in Claude/ai-lfs-panel is now stale.
 
 ## Next steps
 
-1. Write scripts/48_latex_tables.py (and a sector-cell builder for
-   Table 4) per the plan above; verify each fragment compiles standalone
-   with TeX Live; commit here, then copy to lfs-paper/tab_fig/v1/ and
-   point the \tabfig macros at it.
-2. Eurostat proposal: (a) settle the eligibility question (recognised
-   entity is World Bank DEC, individual researcher's unit is outside DEC);
-   (b) consider extending access to 31/12/2031; (c) add applicant notes on
-   confidentiality declarations, frontend-user role, S-CIRCABC delivery and
-   the closing declaration; fill the yellow fields; submit via the portal.
-3. Paper: replace the outline bullets in lfs-paper/main.tex with prose,
-   section by section, under the change-marking rules; verify the 11
-   CHECK entries in references.bib.
-4. Transition file: per-country, per-quarter-pair re-observation weights
-   with interview-number dummies for the eight linkable countries,
-   excluding ZAF 2025Q4 to 2026Q1 and MEX pairs from 2025Q4/2026Q1; check
-   against published gross flows (BRA, MEX, ZAF).
-5. Egypt: locate the ERF files, then build fetch/read/harmonize for
-   2021 to 2024. Costa Rica: once the user downloads the INEC bundles,
-   build the country modules on the Brazil pattern.
-6. Standing watches: Egypt daily (log not being written, check), MoSPI
+1. Paper: replace the outline bullets in lfs-paper/main.tex with prose
+   under the change-marking rules, moving each float from the "Draft
+   tables and figures" section to where it is cited; fix or drop the
+   `fig:youthshare` reference (Table 4's youth-share column replaces it).
+   To refresh exhibits: run 48, copy output/latex/*.tex and *.png to
+   lfs-paper/tab_fig/v1/, compile, commit, push. The copies there predate
+   the `%!TEX root` directive and Tables 4b, A2, A3; refresh and add the
+   three `\input` lines to the draft-exhibits section.
+2. Paper: verify the 11 CHECK entries in references.bib; JEL codes and
+   keywords; abstract once results settle.
+3. Sector: report IT (62+63) and BPO (82) separately in Table 4 (43 already
+   computes it_k and bpo_k); add an ISCO 4222 contact-centre clerks DiD
+   against other clerical occupations as the occupation-based cross-check
+   (BRA, COL, MEX, PER, ECU, URY, GEO code it; ARG, PHL, IND, ZAF do not);
+   a narrow 8220 robustness row for the four 4-digit countries. External
+   export-orientation measure (UNCTAD/WTO services exports over GDP, fixed
+   pre-2023) if an exporter split is wanted; SOC-ISCO crosswalk before any
+   alternative index.
+4. Eurostat: watch for the decision; on approval set up S-CIRCABC delivery
+   and the confidentiality declarations.
+5. Transition file: per-country, per-quarter-pair re-observation weights
+   for the eight linkable countries (exclude ZAF 2025Q4-2026Q1 and MEX
+   pairs from 2025Q4/2026Q1); check against published gross flows.
+6. Egypt: locate the ERF files, then build the modules. Costa Rica: once
+   the user has the INEC bundles, build on the Brazil pattern.
+7. Standing watches: Egypt daily (log not being written, check), MoSPI
    hourly, Italy public-use file, ISSDA request.

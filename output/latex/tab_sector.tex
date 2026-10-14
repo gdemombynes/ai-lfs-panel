@@ -1,0 +1,33 @@
+%!TEX root = ../../main.tex
+\begin{table}[htbp]
+\centering
+\small
+\setlength{\tabcolsep}{5pt}
+\begin{threeparttable}
+\caption{IT and business-process services against other white-collar services: sector difference in differences}
+\label{tab:sector}
+\begin{tabular}{lccrr}
+\toprule
+ & Log employment & Share aged 15--29 & Cells & Clusters \\
+\midrule
+All countries & $0.077^{**}$ $(0.034)$ & $-0.0319^{***}$ $(0.0037)$ & 1\,644 & 42 \\
+\midrule
+Argentina & $-0.020$ $(0.057)$ & $-0.0314^{**}$ $(0.0080)$ & 168 & 4 \\
+Bolivia & $0.266^{***}$ $(0.012)$ & $-0.0168$ $(0.0077)$ & 160 & 4 \\
+Brazil & $0.042$ $(0.029)$ & $-0.0313^{***}$ $(0.0044)$ & 176 & 4 \\
+Colombia & $0.061^{**}$ $(0.018)$ & $-0.0178^{**}$ $(0.0043)$ & 144 & 4 \\
+Ecuador & $-0.069$ $(0.037)$ & $-0.0592^{***}$ $(0.0032)$ & 152 & 4 \\
+Georgia & n.a. & n.a. &  &  \\
+Mexico & $0.002$ $(0.030)$ & $-0.0229^{**}$ $(0.0043)$ & 176 & 4 \\
+Peru & $-0.202^{***}$ $(0.033)$ & $-0.0577^{***}$ $(0.0090)$ & 144 & 4 \\
+Philippines & $0.207^{***}$ $(0.019)$ & $-0.0284^{*}$ $(0.0106)$ & 152 & 4 \\
+South Africa & $0.156^{**}$ $(0.016)$ & $-0.0887^{***}$ $(0.0065)$ & 108 & 3 \\
+Uruguay & $0.083^{**}$ $(0.023)$ & $-0.0295$ $(0.0139)$ & 144 & 4 \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}[flushleft]
+\footnotesize
+\item \textit{Notes:} Coefficient on Post $\times$ IT-BPO in sector cells (country $\times$ quarter $\times$ industry group $\times$ sex), with the standard error in parentheses. The treated group is IT and business-process services, ISIC Rev.\ 4 divisions 62, 63 and 82 (South Africa 62 only; Mexico ENOE code 5611); controls are finance and insurance (64--66), professional, scientific and technical services (69--75) and public administration (84). Share aged 15--29 is the weighted fraction of the cell's employment in that age range, in share points. Post $=1$ from 2023Q1 onward. Cell fixed effects and country $\times$ sex $\times$ quarter fixed effects; weights are mean 2022 cell employment; cells enter when their mean unweighted 2022 count reaches 30. Country rows re-estimate the model within the country, with sex $\times$ quarter fixed effects. Cells are cell-quarters in the log employment regression; clusters are country $\times$ industry group, so a country row has at most four clusters and its standard errors and stars should be read with caution. n.a.: no IT-BPO cell reaches the 2022 floor in Georgia. $^{*}$ $p<0.10$, $^{**}$ $p<0.05$, $^{***}$ $p<0.01$ from the cluster-robust $t$ statistic with $G-1$ degrees of freedom.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}

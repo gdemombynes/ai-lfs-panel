@@ -137,7 +137,7 @@ Employment in Eleven Labour Force Surveys, 2021 to 2026
   half-years, employment index by quintile, sector youth share.
 
 ## Still to do
-- Sector-level difference in differences (Table 4).
+- Tables 1 to 4 exist as LaTeX floats in output/latex/ (scripts/48_latex_tables.py); copy to lfs-paper/tab_fig/.
 - Occupation split within IT-BPO at the country level (Figure 5).
 - Wage margin where wages exist (Brazil, Colombia, Ecuador, Peru, Uruguay
   implantation base, Bolivia).

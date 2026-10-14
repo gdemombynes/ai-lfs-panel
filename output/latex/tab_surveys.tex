@@ -1,0 +1,47 @@
+%!TEX root = ../../main.tex
+\begin{table}[htbp]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{4pt}
+\begin{threeparttable}
+\caption{Surveys, windows, sample sizes and occupation depth}
+\label{tab:surveys}
+\begin{tabular}{lllrrrrrrl}
+\toprule
+Country & Survey & Quarters & Employed & Min. & Cell & \% at 3+ & Occup. & \% cells & Tenure \\
+ &  & (number) & per quarter & age & digits & digits & in cells & under floor &  \\
+\midrule
+Argentina$^{a}$ & EPH & 2021Q1--2026Q1 (21) & 20\,700 & 10 & 2 & 0 & 40 & 62 & yes \\
+Bolivia$^{b}$ & ECE & 2021Q1--2025Q4 (20) & 27\,700 & 14 & 2 & 73 & 43 & 58 & no \\
+Brazil$^{c}$ & PNADC & 2021Q1--2026Q2 (22) & 202\,100 & 14 & 3 & 99 & 124 & 42 & yes \\
+Colombia$^{d}$ & GEIH & 2022Q1--2026Q2 (18) & 91\,000 & 15 & 3 & 100 & 130 & 57 & yes \\
+Ecuador & ENEMDU & 2021Q3--2026Q1 (19) & 41\,700 & 15 & 3 & 100 & 130 & 72 & yes \\
+Georgia$^{e}$ & LFS & 2021Q1--2025Q4 (20) & 6\,600 & 15 & 3 & 100 & 127 & 92 & no \\
+Mexico$^{f}$ & ENOE & 2021Q1--2026Q2 (22) & 186\,700 & 15 & 2 & 61 & 43 & 20 & first int. \\
+Peru$^{g}$ & EPEN & 2022Q1--2026Q2 (18) & 48\,400 & 14 & 3 & 95 & 117 & 70 & no \\
+Philippines$^{h}$ & LFS & 2021Q1--2025Q4 (19) & 122\,700 & 15 & 2 & 0 & 43 & 35 & no \\
+South Africa$^{i}$ & QLFS & 2022Q1--2026Q2 (18) & 15\,600 & 15 & 3 & 94 & 118 & 85 & yes \\
+Uruguay$^{j}$ & ECH & 2021Q3--2025Q4 (18) & 31\,100 & 14 & 3 & 100 & 126 & 73 & first int. \\
+\midrule
+India$^{k}$ & PLFS & 2021Q1--2025Q4 (20) & 71\,500 & 15 & 3 & 99 & 127 & 76 & no \\
+Nigeria$^{l}$ & NLFS & 2024Q1--2025Q2 (5) & 18\,900 & 15 & 3 & 98 & 130 & 86 & partial \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}[flushleft]
+\footnotesize
+\item \textit{Notes:} Quarters gives the first and last quarter in the panel and, in parentheses, the number of quarters. PNADC is Brazil's Pesquisa Nacional por Amostra de Domic\'ilios Cont\'inua. Employed per quarter is the unweighted count of employed persons in the harmonised file, rounded to hundreds. Cell digits is the ISCO-08 level of the analysis cells (three where at least 90 percent of employment resolves to three digits, else two); \% at 3+ digits is the employment-weighted share of workers whose occupation code resolves to three or more digits. Occupations in cells is the number of distinct ISCO-08 codes at that depth observed among employed persons aged 15 and over in any quarter (ISCO-08 has 130 minor and 43 sub-major groups); the number with at least one cell above the floor is the cluster count in Table~\ref{tab:country}. The share of cells under the 30-observation floor refers to the baseline year 2022. Tenure says whether the survey asks job tenure, which defines the new-hire share. India and Nigeria are outside the pooled estimates.
+\item $^{a}$ 31 urban agglomerations only; CNO 2017 crosswalk reliable at two digits.
+\item $^{b}$ COB 2009 follows ISCO in its first four digits; a quarter of codes stop at two.
+\item $^{c}$ Reweighted in August 2025 to the 2022 Census; one vintage kept.
+\item $^{d}$ Starts at the 2022 redesign, so no 2021 pre-period.
+\item $^{e}$ Small survey; 92 percent of three-digit cells fall under the floor.
+\item $^{f}$ SINCO crosswalk reliable at two digits; tenure asked in first-interview quarters only.
+\item $^{g}$ No tenure question; national file.
+\item $^{h}$ PSOC published at two digits; expanded rounds alternate with regular rounds; 2025Q3 missing.
+\item $^{i}$ SASCO mapped through ISCO-88; the employment status question changed in 2025Q3.
+\item $^{j}$ Person-months (weight divided by three); tenure for first interviews only.
+\item $^{k}$ Annex only: 2025 redesign; first visits only before 2025Q2; NCO-2004 codes in 2021H1.
+\item $^{l}$ Not in the estimates: no pre-period.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
